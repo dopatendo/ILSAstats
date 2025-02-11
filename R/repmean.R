@@ -859,12 +859,13 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
 
   ER <-  lapply(1:length(X),function(j){
 
-    wm = as.vector(colSums((X[[j]]*TRW),na.rm = TRUE)/colSums(TRW[!is.na(X[[j]]),],na.rm = TRUE))
+    wm = as.vector(colSums((X[[j]]*TRW),na.rm = TRUE)/colSums(TRW[!is.na(X[[j]]),,drop = FALSE],na.rm = TRUE))
 
     if(var%in%c('ML','unbiased')){
-      wv = colSums(TRW*(X[[j]]%*%t(rep(1,RE))-t(t(rep(1,length(X[[j]]))))%*%wm)**2,na.rm = TRUE)/(colSums(TRW[!is.na(X[[j]]),],na.rm = TRUE)-mod)
+      wv = colSums(TRW*(X[[j]]%*%t(rep(1,RE))-t(t(rep(1,length(X[[j]]))))%*%wm)**2,na.rm = TRUE)/(colSums(TRW[!is.na(X[[j]]),,drop = FALSE],na.rm = TRUE)-mod)
       return(cbind(wm,wv))
     }
+
 
     as.matrix(wm)
 
