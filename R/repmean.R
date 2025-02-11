@@ -232,10 +232,10 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
 
 
     out <- outp[[1]]
-    class(out) <- c(class(out),"repmean")
+    class(out) <- c("repmean", class(out))
 
     if(!"variable"%in%colnames(out)){
-      class(out) <- c(class(out),"repmean.single")
+      class(out) <- c("repmean.single", class(out))
     }
 
     return(out)
@@ -417,15 +417,15 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
 
   out <- lapply(out,function(i){
     outi <- i
-    class(outi) <- c(class(outi),"repmean")
+    class(outi) <- c("repmean", class(outi))
     if(!"variable"%in%colnames(outi)){
-      class(outi) <- c(class(outi),"repmean.single")
+      class(outi) <- c("repmean.single", class(outi))
     }
     outi
 
   })
 
-  class(out) <- c(class(out),"repmean","repmean.list")
+  class(out) <- c("repmean","repmean.list", class(out))
 
 
 
@@ -625,10 +625,10 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
 
 
     out <- outp[[1]]
-    class(out) <- c(class(out),"repmean")
+    class(out) <- c("repmean", class(out))
 
     if(!"variable"%in%colnames(out)){
-      class(out) <- c(class(out),"repmean.single")
+      class(out) <- c("repmean.single", class(out))
     }
 
     return(out)
@@ -810,15 +810,15 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
 
   out <- lapply(out,function(i){
     outi <- i
-    class(outi) <- c(class(outi),"repmean")
+    class(outi) <- c("repmean", class(outi))
     if(!"variable"%in%colnames(outi)){
-      class(outi) <- c(class(outi),"repmean.single")
+      class(outi) <- c("repmean.single",class(outi))
     }
     outi
 
   })
 
-  class(out) <- c(class(out),"repmean","repmean.list")
+  class(out) <- c("repmean","repmean.list", class(out))
 
 
 
