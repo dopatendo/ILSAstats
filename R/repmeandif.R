@@ -128,7 +128,7 @@ repmeandif <- function(x){
 
   out <- rbind.data.frame(mcom,mdiftot)
   rownames(out) <- NULL
-  class(out) <- c(class(out),"repmeandif")
+  class(out) <- c("repmeandif", class(out))
   out
 
 
