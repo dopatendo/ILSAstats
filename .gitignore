@@ -3,3 +3,7 @@
 .RData
 .Ruserdata
 ILSAstats.Rproj
+.Rbuildignore
+.DS_Store
+ztools/
+
