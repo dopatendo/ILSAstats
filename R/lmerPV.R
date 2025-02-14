@@ -166,9 +166,13 @@ lmerPV <- function(formula, data = NULL, weights = NULL,
   # colnames(coe) <- colnames(coei[[1]])
   if(is.null(CALL)){CALL <- match.call()}
 
+  names(rani) <- names(modi)
+
   return(structure(list(fixef = coe,
                         ranef = ran,
                         models = modi,
+                        fixefbyX = coei,
+                        ranefbymodel = rani,
                         call = CALL),
                    class = "lmerPV"))
 

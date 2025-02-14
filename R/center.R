@@ -11,7 +11,7 @@
 #' @param groupmean a numeric or character vector indicating the number or the
 #' the name of columns of \code{X} to which group-mean should be applied.
 #'
-#' @return a data frame or a list.
+#' @return a data frame, a list, or a vector.
 #'
 #' @example inst/examples/center_example.R
 #' @export
@@ -148,6 +148,50 @@ group.mean <- function(x, group, wt = NULL){
 }
 
 
+#' @rdname center
+#' @export
+getgroup.mean <- function(x, group, wt = NULL){
+
+  returnis(isnumvec,x)
+
+  # Checks ------------------------------------------------------------------
+  ncx <- ncol(x)
+  x <- cbind(x)
+
+
+
+
+  returnis(isvec,group)
+  returnisNULL(isnumvec,wt)
+
+
+  returnis2NULL(same.nrow.length,x = x, y = wt)
+  returnis2(same.nrow.length,x = x, y = group)
+
+  # Process -----------------------------------------------------------------
+
+
+  ugr <- unique(group)
+
+
+  i=1
+  for(i in 1:length(ugr)){
+    coord <- group%in%ugr[i]
+    xi <- x[coord,]
+    wti <- wt[coord]
+    x[coord,] <- .wtmean(x = xi, wt = wti)
+  }
+
+
+  # Output ------------------------------------------------------------------
+
+
+  if(is.null(ncx))
+    return(as.vector(x))
+
+
+  return(x)
+}
 
 .wtmean <- function(x, wt = NULL){
   x <- cbind(x)
