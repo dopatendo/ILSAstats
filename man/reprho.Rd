@@ -32,8 +32,10 @@ of a construct. If not \code{NULL}, this function estimates correlations only be
 of a second construct (distinct from \code{pv}).}
 
 \item{relatedpvs}{a logical value indicating if \code{pv} and \code{pv2} are drawn
-from the same model. If \code{TRUE} (default), a total of \eqn{n} estimations will be done,
-where \eqn{n} is the number of plausible values. If \code{FALSE}, a total of \eqn{n_1 \times n_2}
+from the same model, and have the same number of plausible values.
+If \code{TRUE} (default), a total of \eqn{n} estimations will be done,
+where \eqn{n} is the number of plausible values of each.
+If \code{FALSE}, a total of \eqn{n_1 \times n_2}
 estimations will be done, where \eqn{n_1} is the number of plausible values in \code{pv}
 and \eqn{n_2} is the number of plausible values in \code{pv2}.}
 

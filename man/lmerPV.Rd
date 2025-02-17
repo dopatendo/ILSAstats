@@ -13,6 +13,7 @@ lmerPV(
   grandmean = NULL,
   groupmean = NULL,
   group = NULL,
+  nullmodel = FALSE,
   ...
 )
 }
@@ -57,10 +58,12 @@ should be replaced by which plausible values variables. For more details
 check the examples.}
 
 \item{relatedpvs}{a logical value indicating if \code{pvs} are drawn
-from the same model. If \code{TRUE} (default), a total of \eqn{n} estimations will be done,
+from the same model, and have the same number of plausible values.
+If \code{TRUE} (default), a total of \eqn{n} estimations will be done,
 where \eqn{n} is the number of plausible values for each plausible value variable.
 If \code{FALSE}, a total of \eqn{n_1 \times n_2 \times n_...}
-estimations will be done, where \eqn{n_i} is the number of plausible values in each plausible value variable.}
+estimations will be done, where \eqn{n_i} is the number of plausible values
+in each plausible value variable.}
 
 \item{grandmean}{a character vector indicating the names of columns of
 \code{data} to which grand-mean should be applied.}
@@ -71,6 +74,8 @@ estimations will be done, where \eqn{n_i} is the number of plausible values in e
 \item{group}{a string specifying the variable name (within \code{df}) to be
 used for grouping. Categories in \code{group} are treated as independent, e.g.,
 countries.}
+
+\item{nullmodel}{a logical value indicating if null model should be estimated.}
 
 \item{...}{
   Arguments passed on to \code{\link[lme4:lmer]{lme4::lmer}}
@@ -117,7 +122,7 @@ countries.}
   }}
 }
 \value{
-a list with each model for each PV.
+a list.
 }
 \description{
 Fits a linear mixed-effects model using \link[lme4]{lmer} and plausible values.

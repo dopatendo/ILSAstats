@@ -21,13 +21,11 @@ replm(
 )
 }
 \arguments{
-\item{formula}{an object of class \code{"\link[stats]{formula}"} (or one that
-    can be coerced to that class): a symbolic description of the
-    model to be fitted.  The details of model specification are given
-    under \sQuote{Details}.}
+\item{formula}{an object of class "formula" (or one that can be coerced to that class):
+a symbolic description of the model to be fitted.}
 
 \item{pvs}{if plausible values are not used, this should be \code{NULL}.
-Otherwise it is a list indicating which variables from the \code{formula}
+Otherwise it is a list indicating which variables from \code{formula}
 should be replaced by which plausible values variables. For more details
 check the examples.}
 
@@ -75,7 +73,7 @@ to determine the replication method to use. Available options are:
 \code{"PISA"}, and \code{"TALIS"}.}
 }
 \value{
-a list with the standard errors and the total weights models.
+a list.
 }
 \description{
 Fits a linear model using \link[stats]{lm} for replicate weights.
@@ -143,7 +141,7 @@ replm(formula = Math ~ 1 + GENDER + Reading, # Reading1 now is "Reading"
 # Multiple regression - with more than UNrelated PV variables
 ## Named list, with element names matching formula variables
 pvs = list(Math = paste0("Math",1:3),
-           Reading = paste0("Reading",1:3)) 
+           Reading = paste0("Reading",1:3))
 pvs
 
 replm(formula = Math ~ 1 + GENDER + Reading, # Reading1 now is "Reading"
@@ -151,7 +149,7 @@ replm(formula = Math ~ 1 + GENDER + Reading, # Reading1 now is "Reading"
        repwt = RW, # Data frame of weights
        df = repdata2, # Data frame
        pvs = pvs, # Named list
-       relatedpvs = FALSE, # Unrealted PVs
+       relatedpvs = FALSE, # Unrelated PVs
        method = "ICILS") # the name of the method aka the study name
 
 
@@ -208,10 +206,10 @@ replm(formula = Math ~ 1 + GENDER + Reading, # Reading1 now is "Reading"
       group = "GROUP",
       method = "ICILS") # the name of the method aka the study name
 
-# Multiple regression - with more than UNrelated PV variables
+# Multiple regression - with UNrelated PV variables
 ## Named list, with element names matching formula variables
 pvs = list(Math = paste0("Math",1:3),
-           Reading = paste0("Reading",1:3)) 
+           Reading = paste0("Reading",1:3))
 pvs
 
 replm(formula = Math ~ 1 + GENDER + Reading, # Reading1 now is "Reading"
@@ -219,7 +217,7 @@ replm(formula = Math ~ 1 + GENDER + Reading, # Reading1 now is "Reading"
       repwt = RW, # Data frame of weights
       df = repdata2, # Data frame
       pvs = pvs, # Named list
-      relatedpvs = FALSE, # Unrealted PVs
+      relatedpvs = FALSE, # Unrelated PVs
       group = "GROUP",
       method = "ICILS") # the name of the method aka the study name
 }

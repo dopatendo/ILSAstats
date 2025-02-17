@@ -20,6 +20,7 @@
 #' \code{data} to which grand-mean should be applied.
 #' @param groupmean a character vector indicating the names of columns of
 #' \code{data} to which group-mean should be applied.
+#' @param nullmodel a logical value indicating if the null model should also be estimated.
 #'
 #' @return a list.
 #'
@@ -30,7 +31,8 @@
 
 lmerPV <- function(formula, data = NULL, weights = NULL,
                    pvs, relatedpvs = TRUE,
-                   grandmean = NULL, groupmean = NULL, group = NULL, ...){
+                   grandmean = NULL, groupmean = NULL, group = NULL,
+                   nullmodel = FALSE,...){
 
 
   # SUGGESTS
@@ -49,17 +51,42 @@ lmerPV <- function(formula, data = NULL, weights = NULL,
   WT <- weights
 
 
+  out <- .lmerPV(formula = formula,
+                 pvs = pvs,
+                 relatedpvs = relatedpvs,
+                 df = data,
+                 grandmean = grandmean,
+                 groupmean = groupmean,
+                 group = group,
+                 WT = WT, CALL = match.call(), ...)
+
+
+  if(!nullmodel){return(out)}
 
 
 
-  .lmerPV(formula = formula,
-          pvs = pvs,
-          relatedpvs = relatedpvs,
-          df = data,
-          grandmean = grandmean,
-          groupmean = groupmean,
-          group = group,
-          WT = WT, CALL = match.call(), ...)
+  rh <- paste0("+ (1|",names(out$models[[1]]@flist),")",collapse = " ")
+  lh <- deparse(NFO)
+  lh <- substr(lh,1,gregexpr("~",lh)[[1]])
+  ff <- as.formula(paste(lh,1,rh))
+
+
+  NM <- .lmerPV(formula = ff,
+                pvs = pvs,
+                relatedpvs = relatedpvs,
+                df = data,
+                grandmean = grandmean,
+                groupmean = groupmean,
+                group = group,
+                WT = WT, CALL = match.call(), ...)
+  out <- c(out,nullmodel = list(NM))
+  class(out) <- "lmerPV"
+  return(out)
+
+
+
+
+
 }
 
 .lmerPV <- function(formula, pvs, relatedpvs = TRUE,
