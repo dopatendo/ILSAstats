@@ -21,17 +21,17 @@ getgroup.mean(x, group, wt = NULL)
 \item{group}{a vector indicating the group for centering.}
 
 \item{grandmean}{a numeric or character vector indicating the number or the
-the name of columns of \code{X} to which grand-mean should be applied.}
+the names of columns of \code{X} to which grand-mean should be applied.}
 
 \item{groupmean}{a numeric or character vector indicating the number or the
-the name of columns of \code{X} to which group-mean should be applied.}
+the names of columns of \code{X} to which group-mean should be applied.}
 
 \item{wt}{a numeric vector of weights.}
 
 \item{x}{a vector, a matrix or a data frame.}
 }
 \value{
-a data frame, a list, or a vector.
+a data frame, or a vector.
 }
 \description{
 Centers a vector, a matrix or a data frame to the grand mean or the group mean.

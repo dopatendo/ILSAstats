@@ -52,7 +52,7 @@ lmerPV(
     then in order to compensate, the \code{\link[lme4]{sigma}} parameter will
     also need to have a relatively large magnitude.}
 
-\item{pvs}{a list indicating which variables from the \code{formula}
+\item{pvs}{a list indicating which variables from \code{formula}
 should be replaced by which plausible values variables. For more details
 check the examples.}
 
@@ -62,14 +62,15 @@ where \eqn{n} is the number of plausible values for each plausible value variabl
 If \code{FALSE}, a total of \eqn{n_1 \times n_2 \times n_...}
 estimations will be done, where \eqn{n_i} is the number of plausible values in each plausible value variable.}
 
-\item{grandmean}{a character vector indicating the name of columns of
+\item{grandmean}{a character vector indicating the names of columns of
 \code{data} to which grand-mean should be applied.}
 
-\item{groupmean}{a character vector indicating the name of columns of
+\item{groupmean}{a character vector indicating the names of columns of
 \code{data} to which group-mean should be applied.}
 
-\item{group}{a character value indicating the column which should be used to
-calculate groupmeans.}
+\item{group}{a string specifying the variable name (within \code{df}) to be
+used for grouping. Categories in \code{group} are treated as independent, e.g.,
+countries.}
 
 \item{...}{
   Arguments passed on to \code{\link[lme4:lmer]{lme4::lmer}}
@@ -119,7 +120,7 @@ calculate groupmeans.}
 a list with each model for each PV.
 }
 \description{
-Fits a linear mixed-effects model using \link[lme4]{lmer}.
+Fits a linear mixed-effects model using \link[lme4]{lmer} and plausible values.
 }
 \examples{
 # Null model - with PVs

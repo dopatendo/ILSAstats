@@ -1,27 +1,27 @@
 #' Linear Mixed-Models with Plausible Values
 #'
-#' Fits a linear mixed-effects model using \link[lme4]{lmer}.
+#' Fits a linear mixed-effects model using \link[lme4]{lmer} and plausible values.
 #'
 #' @inheritParams lme4::lmer
 #' @inheritParams replm
 #' @inheritParams center
 #' @inheritDotParams lme4::lmer
-#' @param pvs a list indicating which variables from the \code{formula}
+#' @param pvs a list indicating which variables from \code{formula}
 #' should be replaced by which plausible values variables. For more details
 #' check the examples.
 #' @param relatedpvs a logical value indicating if \code{pvs} are drawn
-#' from the same model. If \code{TRUE} (default), a total of \eqn{n} estimations will be done,
+#' from the same model, and have the same number of plausible values.
+#' If \code{TRUE} (default), a total of \eqn{n} estimations will be done,
 #' where \eqn{n} is the number of plausible values for each plausible value variable.
 #' If \code{FALSE}, a total of \eqn{n_1 \times n_2 \times n_...}
-#' estimations will be done, where \eqn{n_i} is the number of plausible values in each plausible value variable.
-#' @param group a character value indicating the column which should be used to
-#' calculate groupmeans.
-#' @param grandmean a character vector indicating the name of columns of
+#' estimations will be done, where \eqn{n_i} is the number of plausible values
+#' in each plausible value variable.
+#' @param grandmean a character vector indicating the names of columns of
 #' \code{data} to which grand-mean should be applied.
-#' @param groupmean a character vector indicating the name of columns of
+#' @param groupmean a character vector indicating the names of columns of
 #' \code{data} to which group-mean should be applied.
 #'
-#' @return a list with each model for each PV.
+#' @return a list.
 #'
 #' @example inst/examples/lmerPV_example.R
 #' @export

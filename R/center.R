@@ -7,11 +7,11 @@
 #' @param wt a numeric vector of weights.
 #' @param group a vector indicating the group for centering.
 #' @param grandmean a numeric or character vector indicating the number or the
-#' the name of columns of \code{X} to which grand-mean should be applied.
+#' the names of columns of \code{X} to which grand-mean should be applied.
 #' @param groupmean a numeric or character vector indicating the number or the
-#' the name of columns of \code{X} to which group-mean should be applied.
+#' the names of columns of \code{X} to which group-mean should be applied.
 #'
-#' @return a data frame, a list, or a vector.
+#' @return a data frame, or a vector.
 #'
 #' @example inst/examples/center_example.R
 #' @export

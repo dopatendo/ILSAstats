@@ -60,7 +60,7 @@ replm(formula = Math ~ 1 + GENDER + Reading, # Reading1 now is "Reading"
 # Multiple regression - with more than UNrelated PV variables
 ## Named list, with element names matching formula variables
 pvs = list(Math = paste0("Math",1:3),
-           Reading = paste0("Reading",1:3)) 
+           Reading = paste0("Reading",1:3))
 pvs
 
 replm(formula = Math ~ 1 + GENDER + Reading, # Reading1 now is "Reading"
@@ -68,7 +68,7 @@ replm(formula = Math ~ 1 + GENDER + Reading, # Reading1 now is "Reading"
        repwt = RW, # Data frame of weights
        df = repdata2, # Data frame
        pvs = pvs, # Named list
-       relatedpvs = FALSE, # Unrealted PVs
+       relatedpvs = FALSE, # Unrelated PVs
        method = "ICILS") # the name of the method aka the study name
 
 
@@ -125,10 +125,10 @@ replm(formula = Math ~ 1 + GENDER + Reading, # Reading1 now is "Reading"
       group = "GROUP",
       method = "ICILS") # the name of the method aka the study name
 
-# Multiple regression - with more than UNrelated PV variables
+# Multiple regression - with UNrelated PV variables
 ## Named list, with element names matching formula variables
 pvs = list(Math = paste0("Math",1:3),
-           Reading = paste0("Reading",1:3)) 
+           Reading = paste0("Reading",1:3))
 pvs
 
 replm(formula = Math ~ 1 + GENDER + Reading, # Reading1 now is "Reading"
@@ -136,6 +136,6 @@ replm(formula = Math ~ 1 + GENDER + Reading, # Reading1 now is "Reading"
       repwt = RW, # Data frame of weights
       df = repdata2, # Data frame
       pvs = pvs, # Named list
-      relatedpvs = FALSE, # Unrealted PVs
+      relatedpvs = FALSE, # Unrelated PVs
       group = "GROUP",
       method = "ICILS") # the name of the method aka the study name

@@ -4,8 +4,10 @@
 #'
 #' @inheritParams repmean
 #' @inheritParams stats::lm
+#' @param formula an object of class "formula" (or one that can be coerced to that class):
+#' a symbolic description of the model to be fitted.
 #' @param pvs if plausible values are not used, this should be \code{NULL}.
-#' Otherwise it is a list indicating which variables from the \code{formula}
+#' Otherwise it is a list indicating which variables from \code{formula}
 #' should be replaced by which plausible values variables. For more details
 #' check the examples.
 #' @param relatedpvs a logical value indicating if \code{pvs} are drawn
@@ -19,7 +21,7 @@
 #' converted to \code{summary.lm} or \code{summary.glm} objects and stripped from certain elements
 #' to reduce the size of the output object. Default is \code{TRUE}.
 #'
-#' @return a list with the standard errors and the total weights models.
+#' @return a list.
 #'
 #' @example inst/examples/replm_example.R
 #' @export
