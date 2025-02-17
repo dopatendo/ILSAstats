@@ -68,7 +68,7 @@ lmerPV <- function(formula, data = NULL, weights = NULL,
   rh <- paste0("+ (1|",names(out$models[[1]]@flist),")",collapse = " ")
   lh <- deparse1(formula,collapse = " ")
   lh <- substr(lh,1,gregexpr("~",lh)[[1]])
-  ff <- as.formula(paste(lh,1,rh))
+  ff <- stats::as.formula(paste(lh,1,rh))
 
 
   NM <- .lmerPV(formula = ff,
