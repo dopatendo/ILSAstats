@@ -2,6 +2,8 @@
 #'
 #'
 #' Estimates the mean difference for a single variable with replicate weights.
+#' For a detailed explanation on how the standard errors are estimated
+#' see \code{\link{repse}}.
 #'
 #'
 #' @param x a data frame produced by \code{\link{repmean}} for a single variable.
@@ -15,37 +17,37 @@
 
 
 repmeandif <- function(x){
-  
+
   returnis(isrep.mean,x)
-  
-  
+
+
   if(is.data.frame(x)){
     message("dfs and pvalues are experimental.")
     return(.repmeandif(x))
   }
-    
-  
+
+
   message("dfs and pvalues are experimental.")
   lapply(x,function(i){
     .repmeandif(i)
   })
-  
-  
-  
+
+
+
 }
 
 .repmeandif <- function(x){
-  
+
   returnis(isrep.meansingle,x)
-  
+
   # returnis(isrepmean,x)
-  
+
   # if(min(c('N','mean','se')%in%colnames(x))==0)
   #   stop('Invalid input for x.')
-  # 
+  #
   # if(!is.data.frame(x))
   #   stop('Invalid input for x.')
-  # 
+  #
   # if('variable'%in%colnames(x))
   #   if(lu(unlist(x$variable))>1)
   #     stop('Invalid input for x. Please use only one variable.')
@@ -124,7 +126,7 @@ repmeandif <- function(x){
   mcom$se <- comp
   mcom$tvalue <- mcom$dif/comp
 
-  
+
 
   out <- rbind.data.frame(mcom,mdiftot)
   rownames(out) <- NULL

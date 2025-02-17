@@ -65,6 +65,8 @@ a data frame.
 }
 \description{
 Estimates correlation coefficients using replicate weights.
+For a detailed explanation on how the standard errors are estimated
+see \code{\link{repse}}.
 }
 \examples{
 # Creation of replicate weights

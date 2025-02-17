@@ -14,6 +14,8 @@ a data frame or a list.
 }
 \description{
 Estimates the mean difference for a single variable with replicate weights.
+For a detailed explanation on how the standard errors are estimated
+see \code{\link{repse}}.
 }
 \examples{
 # Creation of replicate weights

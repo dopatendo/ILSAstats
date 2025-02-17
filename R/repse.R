@@ -14,7 +14,9 @@
 #' @param method a string indicating the name of the large-scale assessment
 #' to determine the replication method to use. Available options are:
 #' \code{"TIMSS"}, \code{"PIRLS"}, \code{"ICILS"}, \code{"ICCS"},
-#' \code{"PISA"}, and \code{"TALIS"}.
+#' \code{"PISA"}, and \code{"TALIS"}. Note that \code{"TIMSS"} and \code{"PIRLS"}
+#' refer to the method used from 2016 onwards.
+#' Their method has not yet been implemented for previous cycles.
 #' @param se a numeric vector with standard errors,
 #' used by \code{repsecomp()} to estimate a composite standard error.
 #' @param setup an optional list produced by \code{\link{repsetup}}.
@@ -22,7 +24,63 @@
 #'
 #' @return the standard error.
 #'
+#' @details
+#'
+#' The standard errors are calculated using a modifier \eqn{m}, for TIMSS
+#' and ICILS: \eqn{m = 0.5}; for ICILS and ICCS: \eqn{m = 1}; and for PISA and TALIS:
+#' \eqn{\frac{1}{R(1-0.5)^2}}. Depending on the statistic, one of the following
+#' formulas is used.
+#'
+#'
+#'
+#' The standard error not involving plausible values is calculated by:
+#'
+#' \deqn{\sqrt{m\times \sum_{r=1}^{R}(\varepsilon_r-\varepsilon_0)^2}.}
+#'
+#' The standard error involving plausibles values is calculated by:
+#'
+#' \deqn{\sqrt{\left[ \sum_{p=1}^{P} \left( m\times \sum_{r=1}^{R}(\varepsilon_{rp}-\varepsilon_{0p})^2 \right)  \dfrac{1}{P}\right]+  \left[ \left(1+ \dfrac{1}{P} \right) \dfrac{\sum_{p=1}^{P} (\varepsilon_{0p}-\overline{\varepsilon}_{0p})^{2}}{P-1} \right]}.}
+#'
+#' The standard error of the difference of
+#' two statistics (\eqn{a} and \eqn{b}) from independent samples is calculated by:
+#'
+#' \deqn{\sqrt{SE_a^{2}+SE_b^{2}}.}
+#'
+#'
+#' The standard error of the difference of
+#' two statistics (\eqn{a} and \eqn{b}) from dependent samples
+#' not involving plausible values
+#' is calculated by:
+#'
+#' \deqn{\sqrt{m\times \sum_{r=1}^R((a_r-b_r)-(a_0-b_0))^2}.}
+#'
+#' The standard error of the difference of
+#' two statistics (\eqn{a} and \eqn{b}) from dependent samples
+#' involving plausible values
+#' is calculated by:
+#'
+#' \deqn{\sqrt{\left[ \sum_{p=1}^{P} \left( m\times \sum_{r=1}^{R}((a_{rp}-b_{rp})-(a_{0p}-b_{0p}))^2 \right)  \dfrac{1}{P}\right]+  \left[ \left(1+ \dfrac{1}{P} \right) \dfrac{\sum_{p=1}^{P} \left((a_{0p}-b_{0p})- ( \overline{a}_{0p}-\overline{b}_{0p}) \right)^{2}}{P-1} \right]}.}
+#'
+#' The standard error of a composite estimate is calculated by:
+#'
+#' \deqn{\sqrt{\dfrac{\sum_{c=1}^CSE^2_{\varepsilon_c}}{C^{2}}}.}
+#'
+#' The standard error of the difference between an element (\eqn{a}) of the composite
+#' and the composite is calculated by:
+#'
+#' \deqn{\sqrt{\dfrac{\sum_{c=1}^CSE^2_{\varepsilon_c}}{C^{2}}+\left(\dfrac{(C-1)^2-1}{C^2}\right)SE^2_a}.}
+#'
+#'
+#'
+#' Where
+#' \eqn{\varepsilon} represents a statistic of interest,
+#' the subindex \eqn{0} indicates an estimate using the total weights,
+#' \eqn{r} indicates a replicate from a total of \eqn{R},
+#'  \eqn{p} indicates a plausible value from a total of \eqn{P},
+#'  and \eqn{c} indicates an element in a composite estimate from value a total of \eqn{C}.
+#'
 #' @example inst/examples/repse_example.R
+#'
 #'
 #' @name repse
 #'

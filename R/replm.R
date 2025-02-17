@@ -1,6 +1,8 @@
 #' Linear Models with Replicate Weights
 #'
 #' Fits a linear model using \link[stats]{lm} for replicate weights.
+#' For a detailed explanation on how the standard errors are estimated
+#' see \code{\link{repse}}.
 #'
 #' @inheritParams repmean
 #' @inheritParams stats::lm

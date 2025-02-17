@@ -2,7 +2,8 @@
 #'
 #' Estimates the mean, variance and standard deviation with replicate weights
 #' for a variable or a group of variables and for one or more
-#' populations.
+#' populations. For a detailed explanation on how the standard errors are estimated
+#' see \code{\link{repse}}.
 #'
 #' @param x a string vector specifying variable names (within \code{df}) for
 #' analysis.
@@ -36,6 +37,9 @@
 #'
 #'
 #' @return a data frame or a list.
+#'
+#'
+#'
 #'
 #' @example inst/examples/repmean_example.R
 #' @export

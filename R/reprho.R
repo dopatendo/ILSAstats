@@ -1,6 +1,8 @@
 #' Correlations with Replicate Weights
 #'
 #' Estimates correlation coefficients using replicate weights.
+#' For a detailed explanation on how the standard errors are estimated
+#' see \code{\link{repse}}.
 #'
 #' @param x a string vector specifying variable names (within \code{df}) for analysis.
 #' If \code{pv} is \code{NULL}, this function estimates correlations between all variables in the vector.

@@ -3,6 +3,8 @@
 #' Estimates quantiles with replicate weights
 #' for a variable or a group of variables and for one or more
 #' populations.
+#' For a detailed explanation on how the standard errors are estimated
+#' see \code{\link{repse}}.
 #'
 #' @param qtl a numeric vector indicating the desired quantiles (between 0 and 1).
 #' @inheritParams repmean

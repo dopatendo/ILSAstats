@@ -1,6 +1,8 @@
 #' Generalized Linear Models with Replicate Weights
 #'
 #' Fits a generalized linear model using \link[stats]{glm} for replicate weights.
+#' For a detailed explanation on how the standard errors are estimated
+#' see \code{\link{repse}}.
 #'
 #' @inheritParams repmean
 #' @inheritParams stats::glm

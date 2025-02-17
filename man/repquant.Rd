@@ -40,7 +40,9 @@ total weights.}
 \item{method}{a string indicating the name of the large-scale assessment
 to determine the replication method to use. Available options are:
 \code{"TIMSS"}, \code{"PIRLS"}, \code{"ICILS"}, \code{"ICCS"},
-\code{"PISA"}, and \code{"TALIS"}.}
+\code{"PISA"}, and \code{"TALIS"}. Note that \code{"TIMSS"} and \code{"PIRLS"}
+refer to the method used from 2016 onwards. For previous cycles their method
+is not yet implemented.}
 
 \item{group}{a string specifying the variable name (within \code{df}) to be
 used for grouping. Categories in \code{group} are treated as independent, e.g.,
@@ -64,6 +66,8 @@ a data frame or a list.
 Estimates quantiles with replicate weights
 for a variable or a group of variables and for one or more
 populations.
+For a detailed explanation on how the standard errors are estimated
+see \code{\link{repse}}.
 }
 \examples{
 

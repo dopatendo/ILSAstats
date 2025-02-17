@@ -3,6 +3,8 @@
 #' Estimates proportions using replicate weights
 #' for a variable or a group of plausible values variables and for one or more
 #' populations.
+#' For a detailed explanation on how the standard errors are estimated
+#' see \code{\link{repse}}.
 #'
 #' @inheritParams repmean
 #' @param categories a vector indicating all possible response categories.
