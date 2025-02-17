@@ -66,7 +66,7 @@ lmerPV <- function(formula, data = NULL, weights = NULL,
 
 
   rh <- paste0("+ (1|",names(out$models[[1]]@flist),")",collapse = " ")
-  lh <- deparse(NFO)
+  lh <- deparse1(formula,collapse = " ")
   lh <- substr(lh,1,gregexpr("~",lh)[[1]])
   ff <- as.formula(paste(lh,1,rh))
 
@@ -148,6 +148,7 @@ lmerPV <- function(formula, data = NULL, weights = NULL,
 
   coei <- vector("list",length(modi))
   rani <- vector("list",length(modi))
+
 
   for(i in 1:length(modi)){
     sumi <- summary(modi[[i]])

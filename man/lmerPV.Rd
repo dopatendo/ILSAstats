@@ -75,7 +75,7 @@ in each plausible value variable.}
 used for grouping. Categories in \code{group} are treated as independent, e.g.,
 countries.}
 
-\item{nullmodel}{a logical value indicating if null model should be estimated.}
+\item{nullmodel}{a logical value indicating if the null model should also be estimated.}
 
 \item{...}{
   Arguments passed on to \code{\link[lme4:lmer]{lme4::lmer}}
