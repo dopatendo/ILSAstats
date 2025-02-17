@@ -22,22 +22,22 @@
 #' @export
 #'
 
-repcreate <- function(setup = NULL,df,
+repcreate <- function(df,
                       wt,
                       jkzone,
                       jkrep,
                       repwtname,
                       reps = NULL,
                       method = c('TIMSS','PIRLS','ICILS','ICCS')){
-
-  if(!is.null(setup)){
-    if(setup$repwt.type!="df"){repwt <- setup$repwt}else{repwt <- get(setup$repwt)}
-    wt <- setup$wt
-    method <- setup$method
-    # group <- setup$group
-    # exclude <- setup$exclude
-    df <- get(setup$df)
-  }
+#
+#   if(!is.null(setup)){
+#     if(setup$repwt.type!="df"){repwt <- setup$repwt}else{repwt <- get(setup$repwt)}
+#     wt <- setup$wt
+#     method <- setup$method
+#     # group <- setup$group
+#     # exclude <- setup$exclude
+#     df <- get(setup$df)
+#   }
 
   frm <- formals(repcreate)
   returnis(ischavec, method)
