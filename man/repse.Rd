@@ -33,8 +33,8 @@ total weights. For scenarios without plausible values,
 to determine the replication method to use. Available options are:
 \code{"TIMSS"}, \code{"PIRLS"}, \code{"ICILS"}, \code{"ICCS"},
 \code{"PISA"}, and \code{"TALIS"}. Note that \code{"TIMSS"} and \code{"PIRLS"}
-refer to the method used from 2016 onwards. For previous cycles their method
-is not yet implemented.}
+refer to the method used from 2016 onwards.
+Their method has not yet been implemented for previous cycles.}
 
 \item{se}{a numeric vector with standard errors,
 used by \code{repsecomp()} to estimate a composite standard error.}
@@ -46,8 +46,8 @@ the standard error.
 Standard Error for Estimates with Replicate Weights
 }
 \details{
-The standard errors are calculated using a modifier \eqn{m}: for TIMSS
-and ICILS \eqn{m = 0.5}, for ICILS and ICCS \eqn{m = 1}, and for PISA and TALIS
+The standard errors are calculated using a modifier \eqn{m}, for TIMSS
+and ICILS: \eqn{m = 0.5}; for ICILS and ICCS: \eqn{m = 1}; and for PISA and TALIS:
 \eqn{\frac{1}{R(1-0.5)^2}}. Depending on the statistic, one of the following
 formulas is used.
 

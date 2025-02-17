@@ -40,8 +40,8 @@ total weights.}
 to determine the replication method to use. Available options are:
 \code{"TIMSS"}, \code{"PIRLS"}, \code{"ICILS"}, \code{"ICCS"},
 \code{"PISA"}, and \code{"TALIS"}. Note that \code{"TIMSS"} and \code{"PIRLS"}
-refer to the method used from 2016 onwards. For previous cycles their method
-is not yet implemented.}
+refer to the method used from 2016 onwards.
+Their method has not yet been implemented for previous cycles.}
 
 \item{var}{a string indicating the method to use for the variance:
 \code{"unbiased"} calculates the unbiased estimate (n-1); \code{"ML"}
