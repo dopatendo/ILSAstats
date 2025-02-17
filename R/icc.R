@@ -25,6 +25,8 @@ icc <- function(x, PV = FALSE, group, data, weights = NULL,...){
     stop(paste0("\nFor running icc, package 'lme4' is required.",
                 "\nPlease, install it."),call. = FALSE)
 
+  data <- untidy(data)
+
   icci <- vector("list",length(x))
   for(i in 1:length(x)){
 
