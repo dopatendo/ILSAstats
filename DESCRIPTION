@@ -1,7 +1,7 @@
 Package: ILSAstats
 Type: Package
 Title: Statistics for International Large-Scale Assessments (ILSA)
-Version: 0.3.104
+Version: 0.3.105
 Authors@R: c(person(given = "Andrés",
                     family = "Christiansen",
                     role = c("aut","cre"),
@@ -18,7 +18,7 @@ LazyData: true
 LazyDataCompression: xz
 RoxygenNote: 7.3.2
 Imports: 
-Suggests: wCorr, lme4
+Suggests: wCorr, lme4, MuMIn
 Depends: R (>= 3.5.0)
 License: GPL (>= 3)
 

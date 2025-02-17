@@ -38,6 +38,10 @@ lmerPV <- function(formula, data = NULL, weights = NULL,
     stop(paste0("\nFor running lmerPV, package 'lme4' is required.",
                 "\nPlease, install it."),call. = FALSE)
 
+  # SUGGESTS
+  if(!"MuMIn"%in%rownames(utils::installed.packages()))
+    stop(paste0("\nFor running lmerPV, package 'MuMIn' is required.",
+                "\nPlease, install it."),call. = FALSE)
 
 
 
@@ -168,11 +172,19 @@ lmerPV <- function(formula, data = NULL, weights = NULL,
 
   names(rani) <- names(modi)
 
+  # MM <- m5$models
+  r2 <- do.call(rbind,lapply(modi,MuMIn::r.squaredGLMM))
+  r2 <- rbind.data.frame(colMeans(r2),r2)
+  r2 <- cbind(c("Average",names(modi)),r2)
+  colnames(r2) <- c("Model","MarginalR2","ConditionalR2")
+  r2
+
   return(structure(list(fixef = coe,
                         ranef = ran,
                         models = modi,
                         fixefbyX = coei,
                         ranefbymodel = rani,
+                        pseudoR2 = r2,
                         call = CALL),
                    class = "lmerPV"))
 

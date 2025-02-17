@@ -4,6 +4,7 @@
 \alias{center}
 \alias{grand.mean}
 \alias{group.mean}
+\alias{getgroup.mean}
 \title{Centering}
 \usage{
 center(X, group = NULL, grandmean = NULL, groupmean = NULL, wt = NULL)
@@ -11,6 +12,8 @@ center(X, group = NULL, grandmean = NULL, groupmean = NULL, wt = NULL)
 grand.mean(x, wt = NULL)
 
 group.mean(x, group, wt = NULL)
+
+getgroup.mean(x, group, wt = NULL)
 }
 \arguments{
 \item{X}{a matrix or a data frame.}
@@ -28,7 +31,7 @@ the name of columns of \code{X} to which group-mean should be applied.}
 \item{x}{a vector, a matrix or a data frame.}
 }
 \value{
-a data frame or a list.
+a data frame, a list, or a vector.
 }
 \description{
 Centers a vector, a matrix or a data frame to the grand mean or the group mean.
