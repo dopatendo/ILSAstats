@@ -5,7 +5,6 @@
 \title{Creation of Replicate Weights}
 \usage{
 repcreate(
-  setup = NULL,
   df,
   wt,
   jkzone,
@@ -16,8 +15,6 @@ repcreate(
 )
 }
 \arguments{
-\item{setup}{an optional list produced by \code{\link{repsetup}}.}
-
 \item{df}{a data frame.}
 
 \item{wt}{a string specifying the name of the column (within \code{df}) with the

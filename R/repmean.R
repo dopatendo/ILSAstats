@@ -261,7 +261,7 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
     I <- bys[i]
 
     Xii <- as.data.frame(X)[df[,by]%in%I,]
-    RWii <- RW[df[,by]%in%I,]
+    RWii <- RW[df[,by]%in%I,,drop = FALSE]
     TWii <- TW[df[,by]%in%I]
     GRii <- GR[df[,by]%in%I]
     ZNii <- ZN[df[,by]%in%I]
@@ -280,7 +280,8 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
 
     outgi <- .repmean(X = Xii, RW = RWii,TW = TWii,
                           method = method,PV = PV,var = var,
-                          group = GRii,exclude = exclude,zones = ZNii,outrep = TRUE)
+                          group = GRii,
+                      exclude = exclude,zones = ZNii,outrep = TRUE)
 
     if(!is.null(ugr)){
       if(lu(GRii)!=length(ugr)){
@@ -346,8 +347,9 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
 
       }else{
         Difk <- lapply(1:length(G1),function(j){
+          # Difk <- lapply(1:27,function(j){
           lapply(1:length(G1[[1]]),function(i){
-            G1[[j]][[i]]-G2[[j]][[i]]
+            sw(G1[[j]][[i]]-G2[[j]][[i]])
           })
         })
 
@@ -429,7 +431,7 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
 
   })
 
-  class(out) <- c("repmean","repmean.list", class(out))
+  class(out) <- c("repmean.list","repmean", class(out))
 
 
 
@@ -866,7 +868,14 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
     wm = as.vector(colSums((X[[j]]*TRW),na.rm = TRUE)/colSums(TRW[!is.na(X[[j]]),,drop = FALSE],na.rm = TRUE))
 
     if(var%in%c('ML','unbiased')){
-      wv = colSums(TRW*(X[[j]]%*%t(rep(1,RE))-t(t(rep(1,length(X[[j]]))))%*%wm)**2,na.rm = TRUE)/(colSums(TRW[!is.na(X[[j]]),,drop = FALSE],na.rm = TRUE)-mod)
+
+      if(length(X[[j]])==1&&is.na(X[[j]])){
+        wv <- rep(NA,RE)
+      }else{
+        wv = colSums(TRW*(X[[j]]%*%t(rep(1,RE))-t(t(rep(1,length(X[[j]]))))%*%wm)**2,na.rm = TRUE)/(colSums(TRW[!is.na(X[[j]]),,drop = FALSE],na.rm = TRUE)-mod)
+      }
+
+
       return(cbind(wm,wv))
     }
 
