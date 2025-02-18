@@ -278,6 +278,12 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
     #          group =GRi,
     #          var = var)
 
+    # X = Xii
+    # RW = RWii
+    # TW = TWii
+    # group = GRii
+    # zones = ZNii
+
     outgi <- .repmean(X = Xii, RW = RWii,TW = TWii,
                           method = method,PV = PV,var = var,
                           group = GRii,
@@ -848,6 +854,10 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
   TRW <- cbind(TW,RW)
   RE <- ncol(TRW)
 
+  if(is.null(ncol(RW))){
+    RE <- 1+length(RW)
+  }
+
 
 
   mod <- ifelse(var=='unbiased',1,0)
@@ -865,11 +875,20 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
 
   ER <-  lapply(1:length(X),function(j){
 
-    wm = as.vector(colSums((X[[j]]*TRW),na.rm = TRUE)/colSums(TRW[!is.na(X[[j]]),,drop = FALSE],na.rm = TRUE))
+    if(length(X[[j]])==1){
+      wm <- rep(X[[j]],RE)
+    }else{
+
+      wm = as.vector(colSums((X[[j]]*TRW),na.rm = TRUE)/colSums(TRW[!is.na(X[[j]]),,drop = FALSE],na.rm = TRUE))
+      # wv = colSums(TRW*(X[[j]]%*%t(rep(1,RE))-t(t(rep(1,length(X[[j]]))))%*%wm)**2,na.rm = TRUE)/(colSums(TRW[!is.na(X[[j]]),,drop = FALSE],na.rm = TRUE)-mod)
+    }
+
+
 
     if(var%in%c('ML','unbiased')){
 
-      if(length(X[[j]])==1&&is.na(X[[j]])){
+      # if(length(X[[j]])==1&&is.na(X[[j]])){
+        if(length(X[[j]])==1){
         wv <- rep(NA,RE)
       }else{
         wv = colSums(TRW*(X[[j]]%*%t(rep(1,RE))-t(t(rep(1,length(X[[j]]))))%*%wm)**2,na.rm = TRUE)/(colSums(TRW[!is.na(X[[j]]),,drop = FALSE],na.rm = TRUE)-mod)
