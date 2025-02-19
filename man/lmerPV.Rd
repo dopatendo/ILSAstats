@@ -145,7 +145,7 @@ m1$fixef
 ## Random effects
 m1$ranef
 
-## Model for each PV
+## Models for each PV
 summary(m1$models)
 
 # Multiple regression
