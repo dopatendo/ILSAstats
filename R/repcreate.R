@@ -64,7 +64,7 @@ repcreate <- function(df,
     stop('jkzone not in data frame.')
 
   if(is.null(reps)){
-    reps <- max(df[,jkzone])
+    reps <- max(df[,jkzone],na.rm = TRUE)
   }
 
   ## reps

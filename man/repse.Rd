@@ -3,7 +3,8 @@
 \name{repse}
 \alias{repse}
 \alias{repsecomp}
-\title{Standard Error for Estimates with Replicate Weights}
+\alias{pvse}
+\title{Standard Error for Estimates with Replicate Weights and Plausible Values}
 \usage{
 repse(
   er,
@@ -13,6 +14,8 @@ repse(
 )
 
 repsecomp(se)
+
+pvse(PVse, PVe0, df = FALSE)
 }
 \arguments{
 \item{er}{a vector or a list containing any statistic of interest
@@ -38,12 +41,19 @@ Their method has not yet been implemented for previous cycles.}
 
 \item{se}{a numeric vector with standard errors,
 used by \code{repsecomp()} to estimate a composite standard error.}
+
+\item{PVse}{a numeric vector containing the standard errors of the estimates of each
+plausible value.}
+
+\item{PVe0}{a numeric vector containing the point estimates of each plausible value.}
+
+\item{df}{a logical value indicating if degrees should be calculated.}
 }
 \value{
 the standard error.
 }
 \description{
-Standard Error for Estimates with Replicate Weights
+Calculates the standard error given a vector or list of previous estimations.
 }
 \details{
 The standard errors are calculated using a modifier \eqn{m}, for TIMSS
@@ -57,9 +67,14 @@ The standard error not involving plausible values is calculated by:
 
 \deqn{\sqrt{m\times \sum_{r=1}^{R}(\varepsilon_r-\varepsilon_0)^2}.}
 
-The standard error involving plausibles values is calculated by:
+The standard error involving plausibles values and replicate weights is calculated by:
 
 \deqn{\sqrt{\left[ \sum_{p=1}^{P} \left( m\times \sum_{r=1}^{R}(\varepsilon_{rp}-\varepsilon_{0p})^2 \right)  \dfrac{1}{P}\right]+  \left[ \left(1+ \dfrac{1}{P} \right) \dfrac{\sum_{p=1}^{P} (\varepsilon_{0p}-\overline{\varepsilon}_{0p})^{2}}{P-1} \right]}.}
+
+The standard error involving plausibles values without replicate weights is calculated by:
+
+\deqn{\sqrt{  \dfrac{\sum_{p=1}^{P} SE^2_{\varepsilon_{0P}}}{P}+  \left[ \left(1+ \dfrac{1}{P} \right) \dfrac{\sum_{p=1}^{P} (\varepsilon_{0p}-\overline{\varepsilon}_{0p})^{2}}{P-1} \right]}.}
+
 
 The standard error of the difference of
 two statistics (\eqn{a} and \eqn{b}) from independent samples is calculated by:
