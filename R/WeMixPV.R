@@ -54,8 +54,8 @@ WeMixPV <- function(formula, data = NULL, weights = NULL,
   modi <- vector("list",length(nfo))
 
 
-    # ndf <- untidy(data)
-    ndf <- (data)
+    ndf <- untidy(data)
+    # ndf <- (data)
 
 
 
