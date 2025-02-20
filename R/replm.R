@@ -58,9 +58,9 @@ replm <- function(formula, pvs = NULL, relatedpvs = TRUE, quiet = FALSE,
   # Checks ----
   returnis(isformula,formula)
   returnis(isdf,df)
-  if(!isdfonly(df)){
-    df <- untidy(df)
-  }
+  # if(!isdfonly(df)){
+  #   df <- untidy(df)
+  # }
   returnis(ischaval,wt)
   returnisNULL(islist, pvs)
   # returnis(ischavec, method)
