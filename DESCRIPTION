@@ -1,7 +1,7 @@
 Package: ILSAstats
 Type: Package
 Title: Statistics for International Large-Scale Assessments (ILSA)
-Version: 0.3.6
+Version: 0.3.7
 Authors@R: c(person(given = "Andrés",
                     family = "Christiansen",
                     role = c("aut","cre"),
@@ -12,7 +12,7 @@ Authors@R: c(person(given = "Andrés",
                     person(given = "Pablo", family = "Torres",
                     role = c("ctb")))
 Maintainer: Andrés Christiansen <andres.christiansen@iea-hamburg.de>
-Description: Calculates ILSA statistics using replicate weights and plausible values.
+Description: Calculates point estimates and standard errors using replicate weights and plausible values for International Large-Scale Assessments (ILSA), including: means, proportions, quantiles, correlations, singlelevel regressions, and multilevel regressions.
 Encoding: UTF-8
 LazyData: true
 LazyDataCompression: xz

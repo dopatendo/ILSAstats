@@ -115,8 +115,6 @@ the subindex \eqn{0} indicates an estimate using the total weights,
  and \eqn{c} indicates an element in a composite estimate from value a total of \eqn{C}.
 }
 \examples{
-rm(list = ls())
-
 # Creation of replicate weights
 RW <- repcreate(df = repdata, # the data frame with all the information
                 wt = "wt", # the total weights column name
@@ -149,7 +147,7 @@ repmean(x = "item01",wt = "wt",repwt = RW,df = repdata, method = "ICILS")
 
 ## Mean with total weights
 E0 <- sapply(1:5,function(i){
-  stats::weighted.mean(x = repdata[,paste0("Math",i)], w = repdata$wt, 
+  stats::weighted.mean(x = repdata[,paste0("Math",i)], w = repdata$wt,
                        na.rm = TRUE)
 })
 E0

@@ -150,7 +150,7 @@ reprho <- function(x = NULL,pv = NULL, pv2 = NULL,relatedpvs = TRUE,
 
   # SUGGESTS
   if(!rho%in%"pearson")
-    if(!"wCorr"%in%rownames(utils::installed.packages()))
+    if(length(find.package("wCorr",quiet = T))==0)
       stop(paste0("\nFor running non-Pearson correlations, package 'wCorr' is required.",
                   "\nPlease, install it."),call. = FALSE)
 

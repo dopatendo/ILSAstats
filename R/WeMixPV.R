@@ -28,7 +28,7 @@ WeMixPV <- function(formula, data = NULL, weights = NULL,
 
 
   # SUGGESTS
-  if(!"WeMix"%in%rownames(utils::installed.packages()))
+  if(length(find.package("WeMix",quiet = T))==0)
     stop(paste0("\nFor running WeMixPV, package 'WeMix' is required.",
                 "\nPlease, install it."),call. = FALSE)
 

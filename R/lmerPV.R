@@ -36,12 +36,12 @@ lmerPV <- function(formula, data = NULL, weights = NULL,
 
 
   # SUGGESTS
-  if(!"lme4"%in%rownames(utils::installed.packages()))
+  if(length(find.package("lme4",quiet = T))==0)
     stop(paste0("\nFor running lmerPV, package 'lme4' is required.",
                 "\nPlease, install it."),call. = FALSE)
 
   # SUGGESTS
-  if(!"MuMIn"%in%rownames(utils::installed.packages()))
+  if(length(find.package("MuMIn",quiet = T))==0)
     stop(paste0("\nFor running lmerPV, package 'MuMIn' is required.",
                 "\nPlease, install it."),call. = FALSE)
 
@@ -97,11 +97,7 @@ lmerPV <- function(formula, data = NULL, weights = NULL,
                     # TESTtype = "CR1",
                     ...){
 
-  # # SUGGESTS
-  # if(TEST)
-  #   if(!"clubSandwich"%in%rownames(utils::installed.packages()))
-  #     stop(paste0("\nFor running lmerPV(TEST = TRUE), package 'clubSandwich' is required.",
-  #                 "\nPlease, install it."),call. = FALSE)
+
 
 
    if(relatedpvs){

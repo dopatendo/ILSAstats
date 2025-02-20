@@ -21,7 +21,7 @@
 icc <- function(x, PV = FALSE, group, data, weights = NULL,...){
 
   # SUGGESTS
-  if(!"lme4"%in%rownames(utils::installed.packages()))
+  if(length(find.package("lme4",quiet = T))==0)
     stop(paste0("\nFor running icc, package 'lme4' is required.",
                 "\nPlease, install it."),call. = FALSE)
 
