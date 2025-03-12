@@ -1,7 +1,7 @@
 Package: ILSAstats
 Type: Package
 Title: Statistics for International Large-Scale Assessments (ILSA)
-Version: 0.3.7
+Version: 0.3.702
 Authors@R: c(person(given = "Andrés",
                     family = "Christiansen",
                     role = c("aut","cre"),

@@ -344,7 +344,7 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
           c(mean(sapply(Difk,function(i) i[1])),
             .repse(er = lapply(Difk,function(i) i[-1]),
                    e0 = sapply(Difk,function(i) i[1]),
-                   method = 'ICILS'))
+                   method = method))
 
         })
         )
@@ -364,7 +364,7 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
           c(mean(sapply(Difk[[j]],function(i) i[1])),
             .repse(er = lapply(Difk[[j]],function(i) i[-1]),
                    e0 = sapply(Difk[[j]],function(i) i[1]),
-                   method = 'ICILS'))
+                   method = method))
 
         })
         )
@@ -738,7 +738,7 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
           c(mean(sapply(Difk,function(i) i[1])),
             .repse(er = lapply(Difk,function(i) i[-1]),
                    e0 = sapply(Difk,function(i) i[1]),
-                   method = 'ICILS'))
+                   method = method))
 
         })
         )
@@ -757,7 +757,7 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
           c(mean(sapply(Difk[[j]],function(i) i[1])),
             .repse(er = lapply(Difk[[j]],function(i) i[-1]),
                    e0 = sapply(Difk[[j]],function(i) i[1]),
-                   method = 'ICILS'))
+                   method = method))
 
         })
         )
