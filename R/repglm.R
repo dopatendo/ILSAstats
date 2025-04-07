@@ -218,7 +218,8 @@ repglm <- function(formula, family = stats::gaussian,
 
       if(summarize){strip <- TRUE}else{strip <- !j==0}
 
-      trlm <- try(.repglmX(nfo[[i]],dfj,TRWj,na.action = na.action, strip = strip),silent = TRUE)
+      trlm <- try(.repglmX(nfo[[i]],FM = family, DF = dfj,
+                           TRWj,na.action = na.action, strip = strip),silent = TRUE)
       if(!inherits(trlm,"try-error")){
         estm[[i]] <-trlm
         estm[[i]][[1]]$call <- match.call()
@@ -354,10 +355,10 @@ tr.glm <- function(FO, FM, DF, WT = NULL,NAC = getOption("na.action")){
 
 
 
-.repglmX <- function(formula, DF, WT,na.action = getOption("na.action"), strip = FALSE){
+.repglmX <- function(formula, FM, DF, WT,na.action = getOption("na.action"), strip = FALSE){
   out <- vector("list",ncol(WT))
   for(i in 1:ncol(WT)){
-    mod <- tr.lm(FO = formula, DF = DF, WT = WT[,i],NAC = na.action)
+    mod <- tr.glm(FO = formula, FM = FM, DF = DF, WT = WT[,i],NAC = na.action)
 
     if(strip){
       dfr <- mod$df.residual
