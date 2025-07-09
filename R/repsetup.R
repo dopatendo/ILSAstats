@@ -4,7 +4,11 @@
 #' weights.
 #'
 #' @inheritParams repmean
-#'
+#' @param study a string indicating the study name. For checking available studies use
+#' \code{ILSAinfo$weights}.
+#' @param year a numeric value indicating the study year. For checking available
+#' years use
+#' \code{ILSAinfo$weights}.
 #'
 #' @return a list to be used in other functions.
 #'
@@ -13,14 +17,14 @@
 #' @export
 
 repsetup <- function(repwt, wt, df,
-                     method = c("TIMSS", "PIRLS", "ICILS", "ICCS", "PISA","TALIS"),
+                     method,
                      group = NULL,
                      exclude = NULL){
 
 
-  frm <- formals(repsetup)
+
   returnis(ischavec, method)
-  method <- returnis(isinvec,x = method[1L],choices = frm$method)
+  method <- returnis(isinvec,x = method[1L],choices = ILSAmethods(repse = TRUE))
 
 
   if(!ischaval(repwt)){
@@ -41,6 +45,11 @@ repsetup <- function(repwt, wt, df,
 }
 
 
+
+
+
+
+
 #' @export
 print.repsetup <- function(x, ...){
 
@@ -59,6 +68,63 @@ print.repsetup <- function(x, ...){
   cat("\nexcluded groups = ",deparse(x$exclude),".",sep = "")
 }
 
+
+
+#' @rdname repsetup
+#' @export
+repsetupILSA <- function(study,
+                         year,
+                         repwt,
+                         df,
+                         group = NULL,
+                         exclude = NULL){
+
+
+  # Checks ----
+  returnis(ischaval,study)
+  returnis(isnumval,year)
+
+
+  # Process ----
+
+
+  x <- ILSAstats::ILSAinfo$weights
+  x <- x[(tolower(x$study)%in%tolower(study))&((x$year)%in%(year)),]
+
+  if(nrow(x)!=1){
+    stop("\nCombination of study and year not available.\nCheck available studies using ILSAinfo$weights.")
+  }
+
+
+
+  if(!ischaval(repwt)){
+    repwt <- deparse(substitute(repwt))
+    repwt.type <- "df"
+  }else{
+    repwt.type <- "character"
+  }
+
+
+
+  out <- list(repwt = repwt, wt = x$totalweight,
+              df = deparse(substitute(df)),
+              method = x$method, group = group,
+              exclude = exclude,
+              repwt.type = repwt.type)
+
+
+
+
+  # repsetup(repwt = repwt,
+  #          wt = x$totalweight,
+  #          df = df,
+  #          method = x$method,
+  #          group = group,
+  #          exclude = exclude)
+
+  structure(out,class = "repsetup")
+
+}
 
 
 

@@ -20,7 +20,7 @@
 repprop <- function(x,categories = NULL,
                     setup = NULL,
                      repwt,wt,df,
-                     method = c("TIMSS", "PIRLS", "ICILS", "ICCS", "PISA","TALIS"),
+                     method,
                      group = NULL, exclude = NULL){
 
 
@@ -34,9 +34,9 @@ repprop <- function(x,categories = NULL,
     df <- get(setup$df)
   }
 
-  frm <- formals(repprop)
+
   returnis(ischavec, method)
-  method <- returnis(isinvec,x = method[1L],choices = frm$method)
+  method <- returnis(isinvec,x = method[1L],choices = ILSAmethods(repse = TRUE))
 
   returnis(isdf,df)
   if(!isdfonly(df)){

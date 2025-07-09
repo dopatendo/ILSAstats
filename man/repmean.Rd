@@ -11,7 +11,7 @@ repmean(
   repwt,
   wt,
   df,
-  method = c("TIMSS", "PIRLS", "ICILS", "ICCS", "PISA", "TALIS"),
+  method,
   var = c("unbiased", "ML"),
   group = NULL,
   by = NULL,
@@ -36,12 +36,22 @@ total weights.}
 
 \item{df}{a data frame.}
 
-\item{method}{a string indicating the name of the large-scale assessment
-to determine the replication method to use. Available options are:
-\code{"TIMSS"}, \code{"PIRLS"}, \code{"ICILS"}, \code{"ICCS"},
-\code{"PISA"}, and \code{"TALIS"}. Note that \code{"TIMSS"} and \code{"PIRLS"}
-refer to the method used from 2016 onwards.
-Their method has not yet been implemented for previous cycles.}
+\item{method}{a string indicating the name of the replication method.
+Available options are:
+\code{"JK2-full"}, \code{"JK2-half"},
+\code{"FAY-0.5"},
+and \code{"JK2-half-1PV"}. \cr\cr
+Additionally, ILSA names can be used, defaulting into:
+\itemize{
+\item \code{"TIMSS"} or \code{"PIRLS"} for \code{"JK2-full"};
+\item \code{"ICILS"}, \code{"ICCS"}, or \code{"CIVED"} for \code{"JK2-half"};
+\item \code{"PISA"} or \code{"TALIS"} for \code{"FAY-0.5"};
+and \code{"oldTIMSS"} or \code{"oldPIRLS"} for \code{"JK2-half-1PV"}.
+}
+Note that \code{"oldTIMSS"} and \code{"oldPIRLS"}
+refer to the method used for TIMSS and PIRLS before 2015,
+where within imputation variance
+is estimated using only 1 plausible value.}
 
 \item{var}{a string indicating the method to use for the variance:
 \code{"unbiased"} calculates the unbiased estimate (n-1); \code{"ML"}

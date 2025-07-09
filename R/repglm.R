@@ -21,7 +21,7 @@ repglm <- function(formula, family = stats::gaussian,
                   df, wt, repwt,
                   group = NULL, exclude = NULL,
                   na.action = getOption("na.action"),
-                  method = c("TIMSS", "PIRLS", "ICILS", "ICCS", "PISA","TALIS")){
+                  method){
 
 
   # source("R/argchecks.R")
@@ -36,9 +36,9 @@ repglm <- function(formula, family = stats::gaussian,
     df <- get(setup$df)
   }
 
-  frm <- formals(repglm)
+
   returnis(ischavec, method)
-  method <- returnis(isinvec,x = method[1L],choices = frm$method)
+  method <- returnis(isinvec,x = method[1L],choices = ILSAmethods(repse = TRUE))
 
 
   # Checks ----
@@ -54,8 +54,7 @@ repglm <- function(formula, family = stats::gaussian,
   returnis(is.chavec.or.dfonly,repwt)
 
   # ## match option
-  # frm <- formals(replm)
-  # method <- returnis(isinvec,x = method[1L],choices = frm$method)
+
 
   ## Consistency of pvs
   if(!is.null(pvs)){

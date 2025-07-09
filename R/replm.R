@@ -35,7 +35,7 @@ replm <- function(formula, pvs = NULL, relatedpvs = TRUE, quiet = FALSE,
                   setup = NULL, df, wt, repwt,
                   group = NULL, exclude = NULL,
                   na.action = getOption("na.action"),
-                  method = c("TIMSS", "PIRLS", "ICILS", "ICCS", "PISA","TALIS")){
+                  method){
 
 
   # source("R/argchecks.R")
@@ -50,9 +50,9 @@ replm <- function(formula, pvs = NULL, relatedpvs = TRUE, quiet = FALSE,
     df <- get(setup$df)
   }
 
-  frm <- formals(replm)
+
   returnis(ischavec, method)
-  method <- returnis(isinvec,x = method[1L],choices = frm$method)
+  method <- returnis(isinvec,x = method[1L],choices = ILSAmethods(repse = TRUE))
 
 
   # Checks ----
@@ -68,8 +68,7 @@ replm <- function(formula, pvs = NULL, relatedpvs = TRUE, quiet = FALSE,
   returnis(is.chavec.or.dfonly,repwt)
 
   # ## match option
-  # frm <- formals(replm)
-  # method <- returnis(isinvec,x = method[1L],choices = frm$method)
+
 
   ## Consistency of pvs
   if(!is.null(pvs)){

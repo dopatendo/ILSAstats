@@ -6,12 +6,7 @@
 \alias{pvse}
 \title{Standard Error for Estimates with Replicate Weights and Plausible Values}
 \usage{
-repse(
-  er,
-  e0,
-  setup = NULL,
-  method = c("TIMSS", "PIRLS", "ICILS", "ICCS", "PISA", "TALIS")
-)
+repse(er, e0, setup = NULL, method)
 
 repsecomp(se)
 
@@ -32,12 +27,22 @@ total weights. For scenarios without plausible values,
 
 \item{setup}{an optional list produced by \code{\link{repsetup}}.}
 
-\item{method}{a string indicating the name of the large-scale assessment
-to determine the replication method to use. Available options are:
-\code{"TIMSS"}, \code{"PIRLS"}, \code{"ICILS"}, \code{"ICCS"},
-\code{"PISA"}, and \code{"TALIS"}. Note that \code{"TIMSS"} and \code{"PIRLS"}
-refer to the method used from 2016 onwards.
-Their method has not yet been implemented for previous cycles.}
+\item{method}{a string indicating the name of the replication method.
+Available options are:
+\code{"JK2-full"}, \code{"JK2-half"},
+\code{"FAY-0.5"},
+and \code{"JK2-half-1PV"}. \cr\cr
+Additionally, ILSA names can be used, defaulting into:
+\itemize{
+\item \code{"TIMSS"} or \code{"PIRLS"} for \code{"JK2-full"};
+\item \code{"ICILS"}, \code{"ICCS"}, or \code{"CIVED"} for \code{"JK2-half"};
+\item \code{"PISA"} or \code{"TALIS"} for \code{"FAY-0.5"};
+and \code{"oldTIMSS"} or \code{"oldPIRLS"} for \code{"JK2-half-1PV"}.
+}
+Note that \code{"oldTIMSS"} and \code{"oldPIRLS"}
+refer to the method used for TIMSS and PIRLS before 2015,
+where within imputation variance
+is estimated using only 1 plausible value.}
 
 \item{se}{a numeric vector with standard errors,
 used by \code{repsecomp()} to estimate a composite standard error.}
@@ -56,8 +61,8 @@ the standard error.
 Calculates the standard error given a vector or list of previous estimations.
 }
 \details{
-The standard errors are calculated using a modifier \eqn{m}, for TIMSS
-and ICILS: \eqn{m = 0.5}; for ICILS and ICCS: \eqn{m = 1}; and for PISA and TALIS:
+The standard errors are calculated using a modifier \eqn{m}, for JK2-full: \eqn{m = 0.5};
+for JK2-half: \eqn{m = 1}; and for FAY-0.5:
 \eqn{\frac{1}{R(1-0.5)^2}}. Depending on the statistic, one of the following
 formulas is used.
 

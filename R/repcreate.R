@@ -10,10 +10,28 @@
 #' replicate weights.
 #' @param reps an integer indicating the number of replications to be created.
 #' If \code{NULL} the maximum number of zones will be used.
-#' @param method a string indicating the name of the large-scale assessment
-#' to determine the replication method to use. Available options are:
-#' \code{"TIMSS"}, \code{"PIRLS"}, \code{"ICILS"},  and \code{"ICCS"}.
 #' @inheritParams repmean
+#' @param study a string indicating the study name. For checking available studies use
+#' \code{ILSAinfo$weights}.
+#' @param year a numeric value indicating the study year. For checking available
+#' years use
+#' \code{ILSAinfo$weights}.
+#' @param method a string indicating the name of the replication method.
+#' Available options are:
+#' \code{"JK2-full"}, \code{"JK2-half"},
+# #' \code{"FAY-0.5"},
+#' and \code{"JK2-half-1PV"}. \cr\cr
+#' Additionally, ILSA names can be used, defaulting into:
+#' \itemize{
+#' \item \code{"TIMSS"} or \code{"PIRLS"} for \code{"JK2-full"};
+#' \item \code{"ICILS"}, \code{"ICCS"}, or \code{"CIVED"} for \code{"JK2-half"};
+# #' \item \code{"PISA"} or \code{"TALIS"} for \code{"FAY-0.5"};
+#' and \code{"oldTIMSS"} or \code{"oldPIRLS"} for \code{"JK2-half-1PV"}.
+#' }
+#' Note that \code{"oldTIMSS"} and \code{"oldPIRLS"}
+#' refer to the method used for TIMSS and PIRLS before 2015,
+#' where within imputation variance
+#' is estimated using only 1 plausible value.
 #'
 #' @return a data frame.
 #'
@@ -26,9 +44,9 @@ repcreate <- function(df,
                       wt,
                       jkzone,
                       jkrep,
-                      repwtname,
+                      repwtname = "RWT",
                       reps = NULL,
-                      method = c('TIMSS','PIRLS','ICILS','ICCS')){
+                      method){
 #
 #   if(!is.null(setup)){
 #     if(setup$repwt.type!="df"){repwt <- setup$repwt}else{repwt <- get(setup$repwt)}
@@ -39,9 +57,9 @@ repcreate <- function(df,
 #     df <- get(setup$df)
 #   }
 
-  frm <- formals(repcreate)
+
   returnis(ischavec, method)
-  method <- returnis(isinvec,x = method[1L],choices = frm$method)
+  method <- returnis(isinvec,x = method[1L],choices = ILSAmethods(repse = FALSE))
 
 
   # source("R/argchecks.R")
@@ -97,13 +115,13 @@ repcreate <- function(df,
     stop('wt not in data frame.')
 
   ## method
-  if(!(is.character(method)&length(method)==1&is.atomic(method)))
-    stop('Invalid input for method.')
+  # if(!(is.character(method)&length(method)==1&is.atomic(method)))
+  #   stop('Invalid input for method.')
+  #
+  # if(min(method%in%c('TIMSS','PIRLS','ICILS','ICCS',"oldTIMSS","oldPIRLS"))==0)
+  #   stop('Invalid input for method')
 
-  if(min(method%in%c('TIMSS','PIRLS','ICILS','ICCS'))==0)
-    stop('Invalid input for method')
-
-  methf <- method[1]
+  # methf <- method[1]
 
   # ## method
   # if(!(is.character(method)&length(method)==1&is.atomic(method)))
@@ -117,13 +135,17 @@ repcreate <- function(df,
   #   stop('Invalid input for simple')
 
 
+  method <- tolower(method)
+
   # Process ----
 
-  if(method%in%c('TIMSS','PIRLS')){
+  if(method%in%c("jk2-full",'timss','pirls')){
     simple <- FALSE
   }
 
-  if(method%in%c('ICILS','ICCS')){
+  if(method%in%c("jk2-half","jk2-half-1pv",
+                 'icils','iccs',"cived",
+                 "oldtimss","oldpirls")){
     simple <- TRUE
   }
 
@@ -148,3 +170,44 @@ repcreate <- function(df,
 
   RWT
 }
+
+
+#' @rdname repcreate
+#' @export
+repcreateILSA <- function(study,
+                          year,
+                          df,
+                          repwtname = "RWT"){
+
+
+  # Checks ----
+  returnis(ischaval,study)
+  returnis(isnumval,year)
+
+
+  # Process ----
+
+
+  x <- ILSAstats::ILSAinfo$weights
+  x <- x[(tolower(x$study)%in%tolower(study))&((x$year)%in%(year)),]
+
+  if(nrow(x)!=1){
+    stop("\nCombination of study and year not available.\nCheck available studies using ILSAinfo$weights.")
+  }
+
+  repcreate(df = df,
+            repwtname = repwtname,
+            wt = x$totalweight,
+            jkzone = x$jkzones,
+            jkrep = x$jkreps,
+            method = x$method,
+            reps = x$reps)
+
+
+}
+
+
+
+
+
+

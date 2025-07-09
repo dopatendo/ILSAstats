@@ -13,12 +13,22 @@
 #' total weights. For scenarios without plausible values,
 #' \code{e0} should be a single value. For scenarios with plausible values,
 #' \code{e0} should be a vector of the same length as \code{er}.
-#' @param method a string indicating the name of the large-scale assessment
-#' to determine the replication method to use. Available options are:
-#' \code{"TIMSS"}, \code{"PIRLS"}, \code{"ICILS"}, \code{"ICCS"},
-#' \code{"PISA"}, and \code{"TALIS"}. Note that \code{"TIMSS"} and \code{"PIRLS"}
-#' refer to the method used from 2016 onwards.
-#' Their method has not yet been implemented for previous cycles.
+#' @param method a string indicating the name of the replication method.
+#' Available options are:
+#' \code{"JK2-full"}, \code{"JK2-half"},
+#' \code{"FAY-0.5"},
+#' and \code{"JK2-half-1PV"}. \cr\cr
+#' Additionally, ILSA names can be used, defaulting into:
+#' \itemize{
+#' \item \code{"TIMSS"} or \code{"PIRLS"} for \code{"JK2-full"};
+#' \item \code{"ICILS"}, \code{"ICCS"}, or \code{"CIVED"} for \code{"JK2-half"};
+#' \item \code{"PISA"} or \code{"TALIS"} for \code{"FAY-0.5"};
+#' and \code{"oldTIMSS"} or \code{"oldPIRLS"} for \code{"JK2-half-1PV"}.
+#' }
+#' Note that \code{"oldTIMSS"} and \code{"oldPIRLS"}
+#' refer to the method used for TIMSS and PIRLS before 2015,
+#' where within imputation variance
+#' is estimated using only 1 plausible value.
 #' @param se a numeric vector with standard errors,
 #' used by \code{repsecomp()} to estimate a composite standard error.
 #' @param setup an optional list produced by \code{\link{repsetup}}.
@@ -32,8 +42,8 @@
 #'
 #' @details
 #'
-#' The standard errors are calculated using a modifier \eqn{m}, for TIMSS
-#' and ICILS: \eqn{m = 0.5}; for ICILS and ICCS: \eqn{m = 1}; and for PISA and TALIS:
+#' The standard errors are calculated using a modifier \eqn{m}, for JK2-full: \eqn{m = 0.5};
+#' for JK2-half: \eqn{m = 1}; and for FAY-0.5:
 #' \eqn{\frac{1}{R(1-0.5)^2}}. Depending on the statistic, one of the following
 #' formulas is used.
 #'
@@ -100,8 +110,9 @@ NULL
 #' @rdname repse
 #' @export
 #'
-repse <- function(er,e0, setup = NULL,
-                  method = c("TIMSS","PIRLS","ICILS","ICCS","PISA","TALIS")){
+repse <- function(er,e0,
+                  setup = NULL,
+                  method){
 
 
   # Newchecks ----
@@ -120,9 +131,9 @@ repse <- function(er,e0, setup = NULL,
     # df <- get(setup$df)
   }
 
-  frm <- formals(repse)
+
   returnis(ischavec, method)
-  method <- returnis(isinvec,x = method[1L],choices = frm$method)
+  method <- returnis(isinvec,x = method[1L],choices = ILSAmethods(repse = TRUE))
 
 
   # Checks ----
@@ -162,11 +173,7 @@ repse <- function(er,e0, setup = NULL,
     stop(c("\nInvalid input for 'method'.",
            "\nIt should be a character vector."),call. = FALSE)
 
-  # if(min(method%in%c('TIMSS','PIRLS','ICILS','ICCS','PISA', 'TALIS'))!=1)
-  #   stop(c("\nInvalid input for 'method'.",
-  #          "\nIt should be a 'TIMSS','PIRLS','ICILS','ICCS', 'PISA', or 'TALIS'."),call. = FALSE)
-  #
-  # method <- match.arg(method,c('TIMSS','PIRLS','ICILS','ICCS','PISA','TALIS'))
+
 
   # is pv
 
@@ -190,15 +197,16 @@ repse <- function(er,e0, setup = NULL,
 
   method <- tolower(method)
 
-  if(method%in%c('timss','pirls')){
+
+  if(method%in%c("jk2-full",'timss','pirls')){
     mod <- 2
   }
 
-  if(method%in%c('icils','iccs')){
+  if(method%in%c("jk2-half","jk2-half-1pv",'icils','iccs',"cived","oldtimss","oldpirls")){
     mod <- 1
   }
 
-  if(method%in%c('pisa','talis')){
+  if(method%in%c("fay-0.5",'pisa','talis')){
     mod <- length(er)*((1-0.5)**2)
   }
 
@@ -212,9 +220,19 @@ repse <- function(er,e0, setup = NULL,
 
   ebar <- sum(e0)/P
 
-  t1 <- sum(sapply(1:P,function(x){
-    sum((er[[x]]-e0[x])**2)/mod
-  }))/P
+  if(method%in%c("jk2-half-1pv","oldtimss","oldpirls")){
+    t1 <- sum(sapply(1:1,function(x){
+      sum((er[[x]]-e0[x])**2)/mod
+    }))
+  }else{
+    t1 <- sum(sapply(1:P,function(x){
+      sum((er[[x]]-e0[x])**2)/mod
+    }))/P
+  }
+
+  # t1 <- sum(sapply(1:P,function(x){
+  #   sum((er[[x]]-e0[x])**2)/mod
+  # }))/P
   t2 <- sum((e0-sum(e0)/P)**2)/(P-1)
   t2 <- (1+1/P)*t2
 
@@ -255,7 +273,7 @@ repsecomp <- function(se){
 
 
 .repse <- function(er,e0,
-                  method = c('timss','pirls','icils','iccs','pisa','talis')){
+                  method){
 
 
   # Checks ----
@@ -279,17 +297,18 @@ repsecomp <- function(se){
   method <- tolower(method)
 
 
-  if(method%in%c('timss','pirls')){
+  if(method%in%c("jk2-full",'timss','pirls')){
     mod <- 2
   }
 
-  if(method%in%c('icils','iccs')){
+  if(method%in%c("jk2-half","jk2-half-1pv",'icils','iccs',"oldtimss","oldpirls")){
     mod <- 1
   }
 
-  if(method%in%c('pisa','talis')){
+  if(method%in%c("fay-0.5",'pisa','talis')){
     mod <- lg*((1-0.5)**2)
   }
+
 
   # Process & Output ----
 
@@ -301,9 +320,16 @@ repsecomp <- function(se){
 
   ebar <- sum(e0)/P
 
-  t1 <- sum(sapply(1:P,function(x){
-    sum((er[[x]]-e0[x])**2)/mod
-  }))/P
+  if(method%in%c("jk2-half-1pv","oldtimss","oldpirls")){
+    t1 <- sum(sapply(1:1,function(x){
+      sum((er[[x]]-e0[x])**2)/mod
+    }))
+  }else{
+    t1 <- sum(sapply(1:P,function(x){
+      sum((er[[x]]-e0[x])**2)/mod
+    }))/P
+  }
+
   t2 <- sum((e0-sum(e0)/P)**2)/(P-1)
   t2 <- (1+1/P)*t2
 

@@ -2,17 +2,12 @@
 % Please edit documentation in R/repcreate.R
 \name{repcreate}
 \alias{repcreate}
+\alias{repcreateILSA}
 \title{Creation of Replicate Weights}
 \usage{
-repcreate(
-  df,
-  wt,
-  jkzone,
-  jkrep,
-  repwtname,
-  reps = NULL,
-  method = c("TIMSS", "PIRLS", "ICILS", "ICCS")
-)
+repcreate(df, wt, jkzone, jkrep, repwtname = "RWT", reps = NULL, method)
+
+repcreateILSA(study, year, df, repwtname = "RWT")
 }
 \arguments{
 \item{df}{a data frame.}
@@ -32,9 +27,27 @@ replicate weights.}
 \item{reps}{an integer indicating the number of replications to be created.
 If \code{NULL} the maximum number of zones will be used.}
 
-\item{method}{a string indicating the name of the large-scale assessment
-to determine the replication method to use. Available options are:
-\code{"TIMSS"}, \code{"PIRLS"}, \code{"ICILS"},  and \code{"ICCS"}.}
+\item{method}{a string indicating the name of the replication method.
+Available options are:
+\code{"JK2-full"}, \code{"JK2-half"},
+and \code{"JK2-half-1PV"}. \cr\cr
+Additionally, ILSA names can be used, defaulting into:
+\itemize{
+\item \code{"TIMSS"} or \code{"PIRLS"} for \code{"JK2-full"};
+\item \code{"ICILS"}, \code{"ICCS"}, or \code{"CIVED"} for \code{"JK2-half"};
+and \code{"oldTIMSS"} or \code{"oldPIRLS"} for \code{"JK2-half-1PV"}.
+}
+Note that \code{"oldTIMSS"} and \code{"oldPIRLS"}
+refer to the method used for TIMSS and PIRLS before 2015,
+where within imputation variance
+is estimated using only 1 plausible value.}
+
+\item{study}{a string indicating the study name. For checking available studies use
+\code{ILSAinfo$weights}.}
+
+\item{year}{a numeric value indicating the study year. For checking available
+years use
+\code{ILSAinfo$weights}.}
 }
 \value{
 a data frame.

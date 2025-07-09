@@ -2,16 +2,12 @@
 % Please edit documentation in R/repsetup.R
 \name{repsetup}
 \alias{repsetup}
+\alias{repsetupILSA}
 \title{Setup for Analysis with Replicate Weights}
 \usage{
-repsetup(
-  repwt,
-  wt,
-  df,
-  method = c("TIMSS", "PIRLS", "ICILS", "ICCS", "PISA", "TALIS"),
-  group = NULL,
-  exclude = NULL
-)
+repsetup(repwt, wt, df, method, group = NULL, exclude = NULL)
+
+repsetupILSA(study, year, repwt, df, group = NULL, exclude = NULL)
 }
 \arguments{
 \item{repwt}{a string indicating the common names for the replicate weights
@@ -22,12 +18,22 @@ total weights.}
 
 \item{df}{a data frame.}
 
-\item{method}{a string indicating the name of the large-scale assessment
-to determine the replication method to use. Available options are:
-\code{"TIMSS"}, \code{"PIRLS"}, \code{"ICILS"}, \code{"ICCS"},
-\code{"PISA"}, and \code{"TALIS"}. Note that \code{"TIMSS"} and \code{"PIRLS"}
-refer to the method used from 2016 onwards.
-Their method has not yet been implemented for previous cycles.}
+\item{method}{a string indicating the name of the replication method.
+Available options are:
+\code{"JK2-full"}, \code{"JK2-half"},
+\code{"FAY-0.5"},
+and \code{"JK2-half-1PV"}. \cr\cr
+Additionally, ILSA names can be used, defaulting into:
+\itemize{
+\item \code{"TIMSS"} or \code{"PIRLS"} for \code{"JK2-full"};
+\item \code{"ICILS"}, \code{"ICCS"}, or \code{"CIVED"} for \code{"JK2-half"};
+\item \code{"PISA"} or \code{"TALIS"} for \code{"FAY-0.5"};
+and \code{"oldTIMSS"} or \code{"oldPIRLS"} for \code{"JK2-half-1PV"}.
+}
+Note that \code{"oldTIMSS"} and \code{"oldPIRLS"}
+refer to the method used for TIMSS and PIRLS before 2015,
+where within imputation variance
+is estimated using only 1 plausible value.}
 
 \item{group}{a string specifying the variable name (within \code{df}) to be
 used for grouping. Categories in \code{group} are treated as independent, e.g.,
@@ -36,6 +42,13 @@ countries.}
 \item{exclude}{a vector indicating which groups
 (in the same format as \code{group})
 should be excluded from the pooled and composite estimates.}
+
+\item{study}{a string indicating the study name. For checking available studies use
+\code{ILSAinfo$weights}.}
+
+\item{year}{a numeric value indicating the study year. For checking available
+years use
+\code{ILSAinfo$weights}.}
 }
 \value{
 a list to be used in other functions.

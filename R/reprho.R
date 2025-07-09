@@ -19,18 +19,11 @@
 #' If \code{FALSE}, a total of \eqn{n_1 \times n_2}
 #' estimations will be done, where \eqn{n_1} is the number of plausible values in \code{pv}
 #' and \eqn{n_2} is the number of plausible values in \code{pv2}.
-#' @param repwt a string indicating the common names for the replicate weights
-#' columns within \code{df}, or a data frame with the replicate weights.
-#' @param wt a string specifying the name of the column in \code{df} that contains the total weights.
-#' @param df a data frame.
 #' @param rho a string indicating the correlation coefficient to be computed:
 #' \code{"pearson"}, \code{"polychoric"}, or \code{"spearman"} (lower or uppercase).
-#' @param method a string indicating the name of the large-scale assessment to
-#' determine the replication method to use. Available options are:
-#' \code{"TIMSS"}, \code{"PIRLS"}, \code{"ICILS"}, \code{"ICCS"}, and \code{"PISA"}.
-#' @param group a string specifying the variable name (within \code{df}) to be used for grouping.
 #' @param exclude a vector indicating which groups (in the same format as \code{group})
 #' should be excluded from the estimation of pooled and composite estimates.
+# #' @param method Passed to [repse()] (default: `r eval(formals(repse)$method)`)
 #' @inheritParams repmean
 #'
 #' @return a data frame.
@@ -45,7 +38,7 @@ reprho <- function(x = NULL,pv = NULL, pv2 = NULL,relatedpvs = TRUE,
                    setup = NULL,
                    repwt, wt, df,
                    rho = c("pearson", "spearman", "polychoric"),
-                   method = c("TIMSS", "PIRLS", "ICILS", "ICCS", "PISA","TALIS"),
+                   method,
                    group = NULL,exclude = NULL){
 
 
@@ -60,9 +53,9 @@ reprho <- function(x = NULL,pv = NULL, pv2 = NULL,relatedpvs = TRUE,
     df <- get(setup$df)
   }
 
-  frm <- formals(reprho)
+
   returnis(ischavec, method)
-  method <- returnis(isinvec,x = method[1L],choices = frm$method)
+  method <- returnis(isinvec,x = method[1L],choices = ILSAmethods(repse = TRUE))
 
 
   # Checks -----

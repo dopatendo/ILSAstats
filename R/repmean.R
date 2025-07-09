@@ -47,7 +47,7 @@
 
 
 repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
-                    method = c("TIMSS", "PIRLS", "ICILS", "ICCS", "PISA","TALIS"),
+                    method,
                     var = c("unbiased","ML"), group = NULL, by = NULL,
                     exclude = NULL, zones = NULL){
 
@@ -61,15 +61,13 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
   }
 
   # returnis(ischavec, method)
-  # method <- returnis(isinvec,x = method[1L],choices = frm$method)
+  # method <- returnis(isinvec,x = method[1L],choices = ILSAmethods(repse = TRUE))
 
 
 
   # Checks ----
 
   frm <- formals(repmean)
-  # cal <- as.list(match.call())
-  # tot <- c(cal,frm[setdiff(names(frm),names(cal))])
 
 
 
@@ -92,7 +90,7 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
 
 
   ## match option
-  method <- returnis(isinvec,x = method[1L],choices = frm$method)
+  method <- returnis(isinvec,x = method[1L],choices = ILSAmethods(repse = TRUE))
   var <- returnis(isinvec,x = var[1L],choices = frm$var)
 
   ## Combinations
@@ -456,7 +454,7 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
 }
 
 .repmean0 <- function(x, PV = FALSE, repwt, wt, df,
-                    method = c("TIMSS", "PIRLS", "ICILS", "ICCS", "PISA"),
+                    method,
                     var = 0, group = NULL, by = NULL,
                     exclude = NULL, zones = NULL){
 
@@ -472,8 +470,7 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
   # Checks ----
 
   frm <- formals(repmean)
-  # cal <- as.list(match.call())
-  # tot <- c(cal,frm[setdiff(names(frm),names(cal))])
+
 
 
 
@@ -495,7 +492,7 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
 
 
   ## match option
-  method <- returnis(isinvec,x = method[1L],choices = frm$method)
+  method <- returnis(isinvec,x = method[1L],choices = ILSAmethods(repse = TRUE))
 
 
   ## Combinations

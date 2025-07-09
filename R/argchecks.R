@@ -8,33 +8,33 @@
 isformula <- function(x = NULL){
   if(is.null(x))
     return("It should be a formula.")
-  
+
   inherits(x,"formula")
-  
+
 }
 
 
 islist<- function(x = NULL){
   if(is.null(x))
     return("It should be a list.")
-  
+
   inherits(x,"list")
-  
+
 }
 
 
 isvec <- function(x = NULL){
   if(is.null(x))
     return("It should be a vector.")
-  
+
   is.vector(x)
-  
+
 }
 
 ischavec <- function(x = NULL){
 if(is.null(x))
   return("It should be a character vector.")
-  
+
   is.vector(x)&&is.character(x)
 
 }
@@ -42,25 +42,25 @@ if(is.null(x))
 ischaval <- function(x = NULL){
   if(is.null(x))
     return("It should be a string.")
-  
+
   is.vector(x)&&is.character(x)&&length(x)==1
-  
+
 }
 
 isrep.mean <- function(x = NULL){
   if(is.null(x))
     return("It should be an object produced by repmean().")
-  
+
   inherits(x,"repmean")
-  
+
 }
 
 isrep.meansingle <- function(x = NULL){
   if(is.null(x))
     return("It should be an object produced by repmean() for one variable.")
-  
+
   inherits(x,"repmean.single")
-  
+
 }
 
 
@@ -68,40 +68,40 @@ isrep.meansingle <- function(x = NULL){
 islova <- function(x = NULL){
   if(is.null(x))
     return("It should be a logical value.")
-  
+
   is.vector(x)&&is.logical(x)&&length(x)==1&&!is.na(x)
 }
 
 isdfonly <- function(x = NULL){
   if(is.null(x))
     return("Class should be only 'data.frame'.")
-  
+
   is.data.frame(x)&&length(class(x))==1
-  
+
 }
 
 isdf <- function(x = NULL){
   if(is.null(x))
     return("It should be a data frame.")
-  
+
   is.data.frame(x)
-  
+
 }
 
 isdf.or.mat <- function(x = NULL){
   if(is.null(x))
     return("It should be a matrix or data frame.")
-  
+
   is.data.frame(x)|is.matrix(x)
-  
+
 }
 
 is.chavec.or.dfonly <- function(x){
   if(is.null(x))
     return("It should be a character vector or a data frame.")
-  
+
   ischavec(x)|isdfonly(x)
-  
+
 }
 
 
@@ -111,20 +111,20 @@ isinvec <- function(x = NULL, choices){
   if(is.null(x))
     return(paste0("It should be one of the following values: ",
                   paste0(eval(choices),collapse = ", "),"."))
-  
+
   tr = try(pmatch(tolower(x),tolower(eval(choices)),
                   nomatch = FALSE),silent = TRUE)
   if(inherits(tr,"try-error")||tr==0)
     return(FALSE)
-  
-  
+
+
   eval(choices)[tr]
-  
+
 }
 
 
 returnis <- function(f, x, ...){
-  
+
   f <- match.fun(f)
   ev <- f(x = x, ...)
 
@@ -134,29 +134,29 @@ returnis <- function(f, x, ...){
                 gsub("\\[1L\\]","",deparse(substitute(x))),
                 "'.\n",f(x = NULL, ...)),call. = FALSE)
     }
-  
+
  ev
 
-  
-  
-  
-  
+
+
+
+
 }
 
 returnisNULL <- function(f, x, ...){
-  
+
   f <- match.fun(f)
   ev <- f(x = x, ...)
-  
+
   if(!is.null(x)&&isFALSE(ev)){
-    
+
     stop(paste0("\nInvalid input for '",
                 deparse(substitute(x)),"'.\n",
                 sub("be ","be NULL or ",f(x = NULL, ...))),call. = FALSE)
   }
-  
+
   ev
-  
+
 }
 
 
@@ -167,20 +167,28 @@ returnisNULL <- function(f, x, ...){
 isnumvec <- function(x = NULL){
   if(is.null(x))
     return("It should be a numeric vector.")
-  
+
   is.vector(x)&&is.numeric(x)
-  
+
 }
 
 isnumbet <- function(x = NULL, from = 0, to = 1){
   if(is.null(x))
     return(paste0("It should be between: ",from," and ",to,"."))
-  
+
   if(!all(x<=to&x>=from))
     return(FALSE)
-  
+
   x
-  
+
+}
+
+isnumval <- function(x = NULL){
+  if(is.null(x))
+    return("It should be numeric value.")
+
+  is.vector(x)&&is.numeric(x)&&length(x)==1
+
 }
 
 
@@ -192,22 +200,22 @@ same.nrow.length <- function(x = NULL, y = NULL, showEr = FALSE){
                    "' should match the number of rows of '",
                    gsub("\\[1L\\]","",x),
                    "'.\n"))
-  
-  
- 
-  
+
+
+
+
   nrow(x)==length(y)
 }
-  
+
 
 
 returnis2 <- function(f, x, y, ...){
-  
+
   f <- match.fun(f)
   ev <- f(x = x, y = y, ...)
-  
+
   if(isFALSE(ev)){
-    
+
     stop(paste0("\nInvalid input for '",
                 gsub("\\[1L\\]","",deparse(substitute(x))),
                 "' or '",
@@ -216,28 +224,28 @@ returnis2 <- function(f, x, y, ...){
                          y = deparse(substitute(y)),
                          showEr = TRUE, ...)),call. = FALSE)
   }
-  
+
   ev
 
 }
 
-  
+
 returnis2NULL <- function(f, x, y, ...){
-  
+
   f <- match.fun(f)
   ev <- f(x = x, y = y, ...)
-  
+
   if(!is.null(y)&&isFALSE(ev)){
-    
+
     stop(paste0("\nInvalid input for '",
                 deparse(substitute(y)),"'.\n",
                 sub("should ","should be NULL or ",f(x = deparse(substitute(x)),
                                           y = deparse(substitute(y)),
                                           showEr = TRUE, ...))),call. = FALSE)
   }
-  
+
   ev
-  
+
 }
 
 
@@ -248,8 +256,49 @@ isindf <- function(x = NULL, y = NULL, showEr = FALSE){
                   "' should be in ",
                   gsub("\\[1L\\]","",x),
                   "'.\n"))
-  
-  
+
+
   all(y%in%colnames(x))
-  
+
+}
+
+
+
+# NEW ---------------------------------------------------------------------
+
+# numeric vector, matrix or df
+isnumVMDF <- function(x = NULL){
+  if(is.null(x))
+    return("It should be a numeric vector, matrix or data frame.")
+
+  idf <- isdfonly(x)
+  imt <- inherits(x,"matrix")
+  ive <- isnumvec(x)
+
+  if(idf|imt)
+    return(all(apply(x,2,is.numeric)))
+
+  is.numeric(x)
+
+}
+
+
+# Others ------------------------------------------------------------------
+
+ILSAmethods <- function(repse = TRUE){
+
+  if(repse){
+    c("JK2-full","JK2-half","FAY-0.5","JK2-half-1PV",
+      "TIMSS","PIRLS",
+      "ICILS","ICCS",
+      "PISA","TALIS",
+      "oldTIMSS","oldPIRLS")
+  }else{
+    c("JK2-full","JK2-half","FAY-0.5","JK2-half-1PV",
+      "TIMSS","PIRLS",
+      "ICILS","ICCS",
+      # "PISA","TALIS",
+      "oldTIMSS","oldPIRLS")
+  }
+
 }
