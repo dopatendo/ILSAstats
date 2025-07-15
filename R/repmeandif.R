@@ -22,12 +22,12 @@ repmeandif <- function(x){
 
 
   if(is.data.frame(x)){
-    message("dfs and pvalues are experimental.")
+    # message("dfs and pvalues are experimental.")
     return(.repmeandif(x))
   }
 
 
-  message("dfs and pvalues are experimental.")
+  # message("dfs and pvalues are experimental.")
   lapply(x,function(i){
     .repmeandif(i)
   })
@@ -39,6 +39,8 @@ repmeandif <- function(x){
 .repmeandif <- function(x){
 
   returnis(isrep.meansingle,x)
+
+  goco = "Composite"%in%unique(c(x$group1,x$group2))
 
   # returnis(isrepmean,x)
 
@@ -55,18 +57,23 @@ repmeandif <- function(x){
 
   # zou <- x[!x[,1]%in%'ALL',]
   zou <- x
-  zou2 <- x[-2,]
+  zou2 <- x[!x$group%in%"Composite",]
+  zou3 <- x[!x$group%in%c("Pooled","Composite"),]
 
 
 
+  if(goco){
+    # composite
+    exc <- attr(x,'excluded')
+    # grs <- zou2[-1,]
+    grs <- zou3
+    grs <- grs[!grs$group%in%exc,]
+    grs <- grs[!is.na(grs$mean),]
+    mult <- ((nrow(grs))**2-1)/(nrow(grs)**2)
+    comp <- sqrt(x[2,'se']**2+mult*grs[,'se']**2)
+  }
 
-  # composite
-  exc <- attr(x,'excluded')
-  grs <- zou2[-1,]
-  grs <- grs[!grs$group%in%exc,]
-  grs <- grs[!is.na(grs$mean),]
-  mult <- ((nrow(grs))**2-1)/(nrow(grs)**2)
-  comp <- sqrt(x[2,'se']**2+mult*grs[,'se']**2)
+
 
   # non composite
 
@@ -118,17 +125,38 @@ repmeandif <- function(x){
 
   mdif <- cbind.data.frame(nam,mdif,pvalue = round(pv,5))
 
-  mdiftot <- mdif[mdif$group1!='Composite',]
-  mdifcom <- mdif[mdif$group1=='Composite',]
 
-  mcom <- mdifcom[mdifcom$group2%in%grs$group,]
+  if(goco){
+    mdiftot <- mdif[mdif$group1!='Composite',]
+    mdifcom <- mdif[mdif$group1=='Composite',]
 
-  mcom$se <- comp
-  mcom$tvalue <- mcom$dif/comp
+    # group 1
+
+    mcom <- mdifcom[mdifcom$group2%in%grs$group,]
+
+    mcom$se <- comp
+    mcom$tvalue <- mcom$dif/comp
+
+    out <- rbind.data.frame(mcom,mdiftot)
+
+    # group 2
+
+    ## remove non comparable
+
+    out = out[!((!out$group1%in%grs$group)&out$group2=='Composite'),]
+
+    ## add group2
+    out[out$group2=='Composite',"se"] <- comp
+    out[out$group2=='Composite',"tvalue"] <- mcom$dif/comp
+  }else{
+    out = mdif
+  }
 
 
 
-  out <- rbind.data.frame(mcom,mdiftot)
+
+
+
   rownames(out) <- NULL
   class(out) <- c("repmeandif", class(out))
   out

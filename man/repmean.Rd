@@ -16,6 +16,7 @@ repmean(
   group = NULL,
   by = NULL,
   exclude = NULL,
+  aggregates = c("pooled", "composite"),
   zones = NULL
 )
 }
@@ -46,7 +47,7 @@ Additionally, ILSA names can be used, defaulting into:
 \item \code{"TIMSS"} or \code{"PIRLS"} for \code{"JK2-full"};
 \item \code{"ICILS"}, \code{"ICCS"}, or \code{"CIVED"} for \code{"JK2-half"};
 \item \code{"PISA"} or \code{"TALIS"} for \code{"FAY-0.5"};
-and \code{"oldTIMSS"} or \code{"oldPIRLS"} for \code{"JK2-half-1PV"}.
+\item and \code{"oldTIMSS"} or \code{"oldPIRLS"} for \code{"JK2-half-1PV"}.
 }
 Note that \code{"oldTIMSS"} and \code{"oldPIRLS"}
 refer to the method used for TIMSS and PIRLS before 2015,
@@ -71,6 +72,10 @@ of PVs.}
 \item{exclude}{a vector indicating which groups
 (in the same format as \code{group})
 should be excluded from the pooled and composite estimates.}
+
+\item{aggregates}{a string vector indicating which aggregates should be
+included, options are \code{pooled} and \code{composite}, both options can be
+used at the same time. If \code{NULL} no aggregate will be estimated.}
 
 \item{zones}{a string specifying the name of the variable containing the
 replicate zones.

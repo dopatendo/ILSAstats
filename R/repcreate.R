@@ -70,7 +70,14 @@ repcreate <- function(df,
   ## df
   if(!is.data.frame(df))
     stop('df is not a data frame.')
-  df <- untidy(df)
+
+  if(!isdfonly(df)){
+
+
+    df <- df[,c(wt,jkrep,jkzone)]
+    df <- untidy(df)
+  }
+
 
 
   ## jkzone

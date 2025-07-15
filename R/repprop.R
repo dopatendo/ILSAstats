@@ -40,6 +40,14 @@ repprop <- function(x,categories = NULL,
 
   returnis(isdf,df)
   if(!isdfonly(df)){
+
+    if(ischavec(repwt)){
+      rena = repwt
+    }else{
+      rena = NULL
+    }
+
+    df <- df[,c(x,group,wt,rena)]
     df <- untidy(df)
   }
 

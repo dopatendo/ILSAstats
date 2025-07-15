@@ -2,6 +2,7 @@
 - ILSAinfo
 - CIVED
 - oldTIMSS, oldPIRLS
+- repmean composite
 
 
 # ILSAstats 0.3.8

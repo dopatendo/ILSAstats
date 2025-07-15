@@ -49,6 +49,14 @@ repquant <- function(x,qtl = c(0.05, 0.25, 0.75, 0.95),PV = FALSE,
   returnis(ischaval,wt)
   returnis(isdf,df)
   if(!isdfonly(df)){
+
+    if(ischavec(repwt)){
+      rena = repwt
+    }else{
+      rena = NULL
+    }
+
+    df <- df[,c(x,group,wt,bys,rena)]
     df <- untidy(df)
   }
   returnisNULL(ischaval, group)

@@ -39,9 +39,11 @@ reprho <- function(x = NULL,pv = NULL, pv2 = NULL,relatedpvs = TRUE,
                    repwt, wt, df,
                    rho = c("pearson", "spearman", "polychoric"),
                    method,
-                   group = NULL,exclude = NULL){
+                   group = NULL,exclude = NULL,
+                   aggregates = c("pooled","composite")){
 
 
+  frm <- formals(reprho)
 
 
   if(!is.null(setup)){
@@ -56,6 +58,7 @@ reprho <- function(x = NULL,pv = NULL, pv2 = NULL,relatedpvs = TRUE,
 
   returnis(ischavec, method)
   method <- returnis(isinvec,x = method[1L],choices = ILSAmethods(repse = TRUE))
+  aggregates <- returnisNULL(isinvecmul,x = aggregates, choices = frm$aggregates)
 
 
   # Checks -----
@@ -65,10 +68,22 @@ reprho <- function(x = NULL,pv = NULL, pv2 = NULL,relatedpvs = TRUE,
     stop(c("\nInvalid input for 'df'.",
            "\nIt should be a data frame."))
 
-  if(isdf(df))
-    if(length(class(df))>1){
-      df <- untidy(df)
+  # if(isdf(df))
+  #   if(length(class(df))>1){
+  #     df <- untidy(df)
+  #   }
+  #
+  if(!isdfonly(df)){
+
+    if(ischavec(repwt)){
+      rena = repwt
+    }else{
+      rena = NULL
     }
+
+    df <- df[,c(x,wt,pv,pv2,group,rena)]
+    df <- untidy(df)
+  }
 
 
   if(!is.null(pv2)&is.null(pv))
@@ -209,7 +224,8 @@ reprho <- function(x = NULL,pv = NULL, pv2 = NULL,relatedpvs = TRUE,
   ## 1 - Correlation of two variables, no PV ----
   if(case==1){
     out <- .reprhoXYG(X = X[,1],Y = X[,2],RW = RW,TW = TW, method = method,
-                      rho = rho,group = GR,exclude = exclude)
+                      rho = rho,group = GR,exclude = exclude,
+                      aggregates = aggregates)
 
     # w/ groups
     if(is.data.frame(out)){
@@ -238,7 +254,8 @@ reprho <- function(x = NULL,pv = NULL, pv2 = NULL,relatedpvs = TRUE,
 
       .reprhoXYG(X = X[,kom[1,i]],Y = X[,kom[2,i]],
                  RW = RW,TW = TW, method = method,
-                 rho = rho,group = GR,exclude = exclude)
+                 rho = rho,group = GR,exclude = exclude,
+                 aggregates = aggregates)
 
     })
 
@@ -277,7 +294,8 @@ reprho <- function(x = NULL,pv = NULL, pv2 = NULL,relatedpvs = TRUE,
     XX <- as.matrix(X)
 
     out <- .reprhoXYG(X = XX[,1],Y = PV,RW = RW,TW = TW, method = method,
-                      rho = rho,group = GR,exclude = exclude)
+                      rho = rho,group = GR,exclude = exclude,
+                      aggregates = aggregates)
 
     # w/ groups
     if(is.data.frame(out)){
@@ -297,7 +315,8 @@ reprho <- function(x = NULL,pv = NULL, pv2 = NULL,relatedpvs = TRUE,
     out <- lapply(1:ncol(X),function(i){
 
       .reprhoXYG(X = X[,i],Y = PV,RW = RW,TW = TW, method = method,
-                 rho = rho,group = GR,exclude = exclude)
+                 rho = rho,group = GR,exclude = exclude,
+                 aggregates = aggregates)
 
 
     })
@@ -335,7 +354,8 @@ reprho <- function(x = NULL,pv = NULL, pv2 = NULL,relatedpvs = TRUE,
 
   if(case==5){
     out <- .reprhoPVG(PV1 = PV, PV2 = PV2,related = relatedpvs, RW = RW,TW = TW, method = method,
-                      group = GR,exclude = exclude)
+                      group = GR,exclude = exclude,
+                      aggregates = aggregates)
 
     # w/ groups
     if(is.null(GR)){
@@ -437,8 +457,11 @@ reprho <- function(x = NULL,pv = NULL, pv2 = NULL,relatedpvs = TRUE,
 
 .reprhoXYG <- function(X,Y,RW,TW,method,rho = 'pearson',
                        group = NULL,exclude = NULL,
-                       PV1 = NULL,PV2 = NULL){
+                       PV1 = NULL,PV2 = NULL,
+                       aggregates = c("pooled","composite")){
 
+  gopo = "pooled"%in%aggregates
+  goco = "composite"%in%aggregates
 
 
   if(is.null(group)){
@@ -457,7 +480,7 @@ reprho <- function(x = NULL,pv = NULL, pv2 = NULL,relatedpvs = TRUE,
 
 
 
-  out <- do.call(rbind,lapply(0:length(ugr),function(i){
+  out <- do.call(rbind,lapply((abs(gopo-1)):length(ugr),function(i){
 
     if(i==0){
 
@@ -485,16 +508,61 @@ reprho <- function(x = NULL,pv = NULL, pv2 = NULL,relatedpvs = TRUE,
   )
 
 
-  notexc <- out[-1,][!ugr%in%exclude,]
+  # notexc <- out[-1,][!ugr%in%exclude,]
+  #
+  # comp <- c(mean(notexc[,1],na.rm = TRUE),.repsecomp(se = notexc[,2]),NA)
+  #
+  #
+  # out <- rbind(out[1,],comp,out[-1,])
+  # rownames(out) <- NULL
+  # colnames(out) <- c('rho','se','n')
+  #
+  # cbind.data.frame(group = c('Pooled','Composite',ugr),out)
 
-  comp <- c(mean(notexc[,1],na.rm = TRUE),.repsecomp(se = notexc[,2]),NA)
+  if(goco&gopo){
+    notexc <- out[-1,][!ugr%in%exclude,]
+
+    comp <- c(mean(notexc[,1],na.rm = TRUE),.repsecomp(se = notexc[,2]),NA)
 
 
-  out <- rbind(out[1,],comp,out[-1,])
-  rownames(out) <- NULL
-  colnames(out) <- c('rho','se','n')
+    out <- rbind(out[1,],comp,out[-1,])
+    rownames(out) <- NULL
+    colnames(out) <- c('rho','se','n')
 
-  cbind.data.frame(group = c('Pooled','Composite',ugr),out)
+    out = cbind.data.frame(group = c('Pooled','Composite',ugr),out)
+  }
+
+  if(goco&!gopo){
+    notexc <- out[!ugr%in%exclude,]
+
+    comp <- c(mean(notexc[,1],na.rm = TRUE),.repsecomp(se = notexc[,2]),NA)
+
+
+    out <- rbind(comp,out)
+    rownames(out) <- NULL
+    colnames(out) <- c('rho','se','n')
+
+    out = cbind.data.frame(group = c('Composite',ugr),out)
+  }
+
+  if(!goco&!gopo){
+
+    rownames(out) <- NULL
+    colnames(out) <- c('rho','se','n')
+
+    out = cbind.data.frame(group = ugr,out)
+  }
+
+
+  if(!goco&gopo){
+
+    rownames(out) <- NULL
+    colnames(out) <- c('rho','se','n')
+
+    out = cbind.data.frame(group = c("Pooled",ugr),out)
+  }
+
+  out
 }
 
 
@@ -593,7 +661,11 @@ reprho <- function(x = NULL,pv = NULL, pv2 = NULL,relatedpvs = TRUE,
 
 
 .reprhoPVG <- function(PV1, PV2, related = TRUE, RW,TW,method,rho = 'pearson',
-                       group = NULL,exclude = NULL){
+                       group = NULL,exclude = NULL,
+                       aggregates = c("pooled","composite")){
+
+  gopo = "pooled"%in%aggregates
+  goco = "composite"%in%aggregates
 
   if(is.null(group)){
     return((.reprhoPV(PV1 = PV1,PV2 = PV2, related = related,
@@ -612,7 +684,7 @@ reprho <- function(x = NULL,pv = NULL, pv2 = NULL,relatedpvs = TRUE,
 
 
 
-  out <- do.call(rbind,lapply(0:length(ugr),function(i){
+  out <- do.call(rbind,lapply((abs(gopo-1)):length(ugr),function(i){
 
     if(i==0){
 
@@ -640,17 +712,52 @@ reprho <- function(x = NULL,pv = NULL, pv2 = NULL,relatedpvs = TRUE,
   })
   )
 
+  if(goco&gopo){
+    notexc <- out[-1,][!ugr%in%exclude,]
 
-  notexc <- out[-1,][!ugr%in%exclude,]
-
-  comp <- c(mean(notexc[,1],na.rm = TRUE),.repsecomp(se = notexc[,2]),NA)
+    comp <- c(mean(notexc[,1],na.rm = TRUE),.repsecomp(se = notexc[,2]),NA)
 
 
-  out <- rbind(out[1,],comp,out[-1,])
-  rownames(out) <- NULL
-  colnames(out) <- c('rho','se','n')
+    out <- rbind(out[1,],comp,out[-1,])
+    rownames(out) <- NULL
+    colnames(out) <- c('rho','se','n')
 
-  cbind.data.frame(group = c('Pooled','Composite',ugr),out)
+    out = cbind.data.frame(group = c('Pooled','Composite',ugr),out)
+  }
+
+  if(goco&!gopo){
+    notexc <- out[!ugr%in%exclude,]
+
+    comp <- c(mean(notexc[,1],na.rm = TRUE),.repsecomp(se = notexc[,2]),NA)
+
+
+    out <- rbind(comp,out)
+    rownames(out) <- NULL
+    colnames(out) <- c('rho','se','n')
+
+    out = cbind.data.frame(group = c('Composite',ugr),out)
+  }
+
+  if(!goco&!gopo){
+
+    rownames(out) <- NULL
+    colnames(out) <- c('rho','se','n')
+
+    out = cbind.data.frame(group = ugr,out)
+  }
+
+
+  if(!goco&gopo){
+
+    rownames(out) <- NULL
+    colnames(out) <- c('rho','se','n')
+
+    out = cbind.data.frame(group = c("Pooled",ugr),out)
+  }
+
+  out
+
+
 }
 
 

@@ -122,6 +122,26 @@ isinvec <- function(x = NULL, choices){
 
 }
 
+isinvecmul <- function(x = NULL, choices){
+  if(is.null(x))
+    return(paste0("It should contain only the following values: ",
+                  paste0(eval(choices),collapse = ", "),"."))
+
+  tr = lapply(1:length(x),function(y){
+    try(pmatch(tolower(x[y]),tolower(eval(choices)),
+               nomatch = FALSE),silent = TRUE)
+  })
+
+
+  if(any(sapply(tr,function(x) inherits(x,"try-error")||x==0)))
+    return(FALSE)
+
+
+  tolower(x)
+
+}
+
+
 
 returnis <- function(f, x, ...){
 

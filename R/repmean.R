@@ -29,6 +29,9 @@
 #' @param exclude a vector indicating which groups
 #' (in the same format as \code{group})
 #' should be excluded from the pooled and composite estimates.
+#' @param aggregates a string vector indicating which aggregates should be
+#' included, options are \code{pooled} and \code{composite}, both options can be
+#' used at the same time. If \code{NULL} no aggregate will be estimated.
 #' @param zones a string specifying the name of the variable containing the
 #' replicate zones.
 #' Used for calculating the number of zones to be used by variable and group.
@@ -49,7 +52,9 @@
 repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
                     method,
                     var = c("unbiased","ML"), group = NULL, by = NULL,
-                    exclude = NULL, zones = NULL){
+                    exclude = NULL,
+                    aggregates = c("pooled","composite"),
+                    zones = NULL){
 
   if(!is.null(setup)){
     if(setup$repwt.type!="df"){repwt <- setup$repwt}else{repwt <- get(setup$repwt)}
@@ -57,6 +62,7 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
     method <- setup$method
     group <- setup$group
     exclude <- setup$exclude
+    # aggregates <- setup$aggregates
     df <- get(setup$df)
   }
 
@@ -72,12 +78,21 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
 
 
   ## class
+
   returnis(ischavec,x)
   returnis(islova,PV)
   returnis(is.chavec.or.dfonly,repwt)
   returnis(ischaval,wt)
   returnis(isdf,df)
   if(!isdfonly(df)){
+
+   if(ischavec(repwt)){
+     rena = repwt
+   }else{
+     rena = NULL
+   }
+
+    df <- df[,c(x,group,wt,by,zones,rena)]
     df <- untidy(df)
   }
   returnisNULL(ischaval, group)
@@ -92,6 +107,8 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
   ## match option
   method <- returnis(isinvec,x = method[1L],choices = ILSAmethods(repse = TRUE))
   var <- returnis(isinvec,x = var[1L],choices = frm$var)
+
+  aggregates <- returnisNULL(isinvecmul,x = aggregates, choices = frm$aggregates)
 
   ## Combinations
 
@@ -222,7 +239,8 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
 
   if(var!=0){
     outp <- .repmean(X = X, RW = RW,TW = TW,method = method,PV = PV,var = var,
-                     group = GR,exclude = exclude,zones = ZN,outrep = FALSE)
+                     group = GR,exclude = exclude,zones = ZN,outrep = FALSE,
+                     aggregates = aggregates)
   }else{
     outp <- NA
   }
@@ -247,7 +265,7 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
 
 # by ----
 
-  message("dfs and pvalues are experimental.")
+  # message("dfs and pvalues are experimental.")
   bys <- sort(omitna(unique(df[,by])))
 
   outg <- vector(mode = "list", length = length(bys))
@@ -285,7 +303,8 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
     outgi <- .repmean(X = Xii, RW = RWii,TW = TWii,
                           method = method,PV = PV,var = var,
                           group = GRii,
-                      exclude = exclude,zones = ZNii,outrep = TRUE)
+                      exclude = exclude,zones = ZNii,outrep = TRUE,
+                      aggregates = aggregates)
 
     if(!is.null(ugr)){
       if(lu(GRii)!=length(ugr)){
@@ -453,6 +472,9 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
 
 }
 
+
+# NEED TO BE MODIFIED WHEN repprop is modified for POOL
+
 .repmean0 <- function(x, PV = FALSE, repwt, wt, df,
                     method,
                     var = 0, group = NULL, by = NULL,
@@ -481,6 +503,14 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
   returnis(ischaval,wt)
   returnis(isdf,df)
   if(!isdfonly(df)){
+
+    if(ischavec(repwt)){
+      rena = repwt
+    }else{
+      rena = NULL
+    }
+
+    df <- df[,c(group,wt,by,zones,rena)]
     df <- untidy(df)
   }
   returnisNULL(ischaval, group)
@@ -622,7 +652,8 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
 
   if(var!=0){
     outp <- .repmean(X = X, RW = RW,TW = TW,method = method,PV = PV,var = var,
-                     group = GR,exclude = exclude,zones = ZN,outrep = FALSE)
+                     group = GR,
+                     exclude = exclude,zones = ZN,outrep = FALSE)
   }else{
     outp <- NA
   }
@@ -955,8 +986,13 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
 
 
 
-.repmeanG <- function(X, RW, TW,method,var = 'unbiased',group = NULL,exclude = NULL,
-                      zones = NULL,outrep = FALSE){
+.repmeanG <- function(X, RW, TW,method,var = 'unbiased',
+                      group = NULL,exclude = NULL,
+                      zones = NULL,outrep = FALSE,
+                      aggregates = c("pooled","composite")){
+
+  gopo = "pooled"%in%aggregates
+  goco = "composite"%in%aggregates
 
 
 
@@ -985,7 +1021,9 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
 
 
 
-outr <- lapply(0:length(ugr),function(i){
+
+
+outr <- lapply((abs(gopo-1)):length(ugr),function(i){
 
     # print(i)
 
@@ -1020,7 +1058,19 @@ oute <- do.call(rbind,lapply(outr,function(i) i[[1]]))
 
 
 
-  notexc <- oute[-1,][!ugr%in%exclude,]
+
+
+  # composite
+
+if(goco){
+
+  if(gopo){
+    notexc <- oute[-1,][!ugr%in%exclude,]
+  }else{
+    notexc <- oute[!ugr%in%exclude,]
+  }
+
+
 
   if(var%in%c('ML','unbiased')){
     comp <- c(colMeans(notexc[,c('mean','sd','var')],na.rm = TRUE),
@@ -1043,13 +1093,47 @@ oute <- do.call(rbind,lapply(outr,function(i) i[[1]]))
   }
 
 
+  if(gopo){
+    oute <- rbind(oute[1,],comp,oute[-1,])
+    rownames(oute) <- NULL
+
+    oute <- cbind.data.frame(group = c('Pooled','Composite',ugr),oute)
+  }else{
+    cln <- colnames(oute)
+    oute <- rbind(comp,oute)
+    colnames(oute) <- cln
+    rownames(oute) <- NULL
+
+    oute <- cbind.data.frame(group = c('Composite',ugr),oute)
+  }
+
+
+}else{
+
+  if(gopo){
+
+    rownames(oute) <- NULL
+
+    oute <- cbind.data.frame(group = c('Pooled',ugr),oute)
+  }else{
+
+    rownames(oute) <- NULL
+
+    oute <- cbind.data.frame(group = c(ugr),oute)
+  }
+
+}
 
 
 
-  oute <- rbind(oute[1,],comp,oute[-1,])
-  rownames(oute) <- NULL
 
-  oute <- cbind.data.frame(group = c('Pooled','Composite',ugr),oute)
+
+
+
+  # oute <- rbind(oute[1,],comp,oute[-1,])
+  # rownames(oute) <- NULL
+  #
+  # oute <- cbind.data.frame(group = c('Pooled','Composite',ugr),oute)
   attributes(oute)$excluded = exclude
 
   if(!outrep){
@@ -1057,7 +1141,13 @@ oute <- do.call(rbind,lapply(outr,function(i) i[[1]]))
   }
 
   outr <- lapply(outr,function(i) i[[-1]])
-  names(outr) <- c('Pooled',ugr)
+
+  if(gopo){
+    names(outr) <- c('Pooled',ugr)
+  }else{
+    names(outr) <- c(ugr)
+  }
+
   c(list(oute),list(outr))
 
 
@@ -1068,7 +1158,7 @@ oute <- do.call(rbind,lapply(outr,function(i) i[[1]]))
 
 .repmean <- function(X,RW,TW,method,PV = FALSE,var = 'unbiased',
                      group = NULL,exclude = NULL,zones = NULL,
-                     outrep = FALSE){
+                     outrep = FALSE,aggregates = c("pooled","composite")){
 
   if(PV|is.null(ncol(X))){
     outr <- .repmeanG(X = X,
@@ -1079,7 +1169,8 @@ oute <- do.call(rbind,lapply(outr,function(i) i[[1]]))
                      zones = zones,
                      group=group,
                      exclude=exclude,
-                     outrep = outrep)
+                     outrep = outrep,
+                     aggregates = aggregates)
     return(outr)
 
   }
@@ -1098,7 +1189,8 @@ list(  do.call(rbind,lapply(1:ncol(X),function(y){
                                                  zones = zones,
                                                  group=group,
                                                  exclude=exclude,
-                                                 outrep = FALSE))
+                                                 outrep = FALSE,
+                                                 aggregates = aggregates))
 
 })
 ))
