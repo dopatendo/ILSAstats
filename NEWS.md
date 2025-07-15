@@ -1,8 +1,7 @@
-# ILSAstats 0.3.9
-- ILSAinfo
-- CIVED
-- oldTIMSS, oldPIRLS
-- repmean composite
+# ILSAstats 0.4.0
+- Added `ILSAinfo()` with ILSA information, and pre-setups  with `repcreateILSA()` and `setupILSA()`.
+- Added support for CIVED, TIMSS and PIRLS pre 2015.
+- Added aggregate options to `repmean()` and `reprho()`.
 
 
 # ILSAstats 0.3.8

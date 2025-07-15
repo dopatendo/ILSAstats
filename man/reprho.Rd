@@ -78,7 +78,7 @@ countries.}
 should be excluded from the estimation of pooled and composite estimates.}
 
 \item{aggregates}{a string vector indicating which aggregates should be
-included, options are \code{pooled} and \code{composite}, both options can be
+included, options are \code{"pooled"} and \code{"composite"}, both options can be
 used at the same time. If \code{NULL} no aggregate will be estimated.}
 }
 \value{
