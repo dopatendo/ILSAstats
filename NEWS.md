@@ -1,4 +1,5 @@
 # ILSAstats 0.4.2
+- Added `leaguetables()`.
 - Fixed a bug in `repmean()` when `by` and `aggregates = NULL`.
 - Added `RLII` as method.
 - Fixed `CIVED` as method.
