@@ -1,3 +1,9 @@
+# ILSAstats 0.4.2
+- Fixed a bug in `repmean()` when `by` and `aggregates = NULL`.
+- Added `RLII` as method.
+- Fixed `CIVED` as method.
+
+
 # ILSAstats 0.4.1
 - Function `myfunc()` deleted. This function was added my mistake in 0.4.0.
 

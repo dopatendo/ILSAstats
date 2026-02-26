@@ -311,12 +311,14 @@ ILSAmethods <- function(repse = TRUE){
     c("JK2-full","JK2-half","FAY-0.5","JK2-half-1PV",
       "TIMSS","PIRLS",
       "ICILS","ICCS",
+      "CIVED","RLII",
       "PISA","TALIS",
       "oldTIMSS","oldPIRLS")
   }else{
     c("JK2-full","JK2-half","FAY-0.5","JK2-half-1PV",
       "TIMSS","PIRLS",
       "ICILS","ICCS",
+      "CIVED","RLII",
       # "PISA","TALIS",
       "oldTIMSS","oldPIRLS")
   }

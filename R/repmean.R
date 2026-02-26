@@ -282,23 +282,6 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
     GRii <- GR[df[,by]%in%I]
     ZNii <- ZN[df[,by]%in%I]
 
-    # dim(Xii)
-    # dim(RWii)
-    # length(TWii)
-    # length(GRii)
-    # length(ZNii)
-
-    # .repmean(X = Xii, RW = RWii,TW = TWii,
-    #          method = method,
-    #          PV = PV,
-    #          group =GRi,
-    #          var = var)
-
-    # X = Xii
-    # RW = RWii
-    # TW = TWii
-    # group = GRii
-    # zones = ZNii
 
     outgi <- .repmean(X = Xii, RW = RWii,TW = TWii,
                           method = method,PV = PV,var = var,
@@ -321,16 +304,41 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
         names(fixo) <- fixon
 
 
+        isagg <- c("pooled", "composite")%in%aggregates
+
+        if(all(isagg)){
+          outgi[[1]] <-  rbind(outgi[[1]][1:2,],merge(cbind.data.frame(group = c(ugr)),
+                                                      outgi[[1]],sort = TRUE,all.x=TRUE))
+        }
+
+        if(all(isagg==c(TRUE,FALSE))){
+          outgi[[1]] <-  rbind(outgi[[1]][1,],merge(cbind.data.frame(group = c(ugr)),
+                                                      outgi[[1]],sort = TRUE,all.x=TRUE))
+        }
 
 
-        outgi[[1]] <-  rbind(outgi[[1]][1:2,],merge(cbind.data.frame(group = c(ugr)),
+        if(all(isagg==c(FALSE,TRUE))){
+          outgi[[1]] <-  rbind(outgi[[1]][2,],merge(cbind.data.frame(group = c(ugr)),
                                                     outgi[[1]],sort = TRUE,all.x=TRUE))
+        }
+
+        if(all(isagg==c(FALSE,FALSE))){
+          outgi[[1]] <-  rbind(NULL,merge(cbind.data.frame(group = c(ugr)),
+                                                    outgi[[1]],sort = TRUE,all.x=TRUE))
+        }
+
+
 
         outgi[[1]][is.na(outgi[[1]][,'N']),'N'] <- 0
 
+        if(isagg[2]){
+          outgi[[2]] <-  c(outgi[[2]],fixo)[c('Pooled',ugr)]
+        }else{
+          outgi[[2]] <-  c(outgi[[2]],fixo)[c(ugr)]
+        }
 
 
-        outgi[[2]] <-  c(outgi[[2]],fixo)[c('Pooled',ugr)]
+
 
       }
     }
@@ -387,10 +395,35 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
         )
 
 
-        rbind(Difk[1,],
-              c(mean(Difk[-1,1][!ugr%in%exclude],na.rm = T),
-                .repsecomp(Difk[-1,2][!ugr%in%exclude])),
-              Difk[-1,])
+        isagg <- c("pooled", "composite")%in%aggregates
+
+        if(all(isagg)){
+          out <- rbind(Difk[1,],
+                       c(mean(Difk[-1,1][!ugr%in%exclude],na.rm = T),
+                         .repsecomp(Difk[-1,2][!ugr%in%exclude])),
+                       Difk[-1,])
+        }
+
+
+        if(all(isagg==c(TRUE,FALSE))){
+          out <- rbind(Difk[1,],
+                       # c(mean(Difk[-1,1][!ugr%in%exclude],na.rm = T),
+                       #   .repsecomp(Difk[-1,2][!ugr%in%exclude])),
+                       Difk[-1,])
+        }
+
+        if(all(isagg==c(FALSE,TRUE))){
+          out <- rbind(
+            c(mean(Difk[,1][!ugr%in%exclude],na.rm = T),
+              .repsecomp(Difk[,2][!ugr%in%exclude])),
+            Difk[,])
+        }
+
+        if(all(isagg==c(FALSE,FALSE))){
+          out <- rbind(Difk[,])
+        }
+
+        out
 
       }
 
@@ -478,7 +511,8 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
 .repmean0 <- function(x, PV = FALSE, repwt, wt, df,
                     method,
                     var = 0, group = NULL, by = NULL,
-                    exclude = NULL, zones = NULL){
+                    exclude = NULL, zones = NULL,
+                    aggregates = c("pooled","composite")){
 
   # if(!is.null(setup)){
   #   if(setup$repwt.type!="df"){repwt <- setup$repwt}else{repwt <- get(setup$repwt)}
@@ -728,14 +762,38 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
 
 
 
-        outgi[[1]] <-  rbind(outgi[[1]][1:2,],merge(cbind.data.frame(group = c(ugr)),
+        isagg <- c("pooled", "composite")%in%aggregates
+
+        if(all(isagg)){
+          outgi[[1]] <-  rbind(outgi[[1]][1:2,],merge(cbind.data.frame(group = c(ugr)),
+                                                      outgi[[1]],sort = TRUE,all.x=TRUE))
+        }
+
+        if(all(isagg==c(TRUE,FALSE))){
+          outgi[[1]] <-  rbind(outgi[[1]][1,],merge(cbind.data.frame(group = c(ugr)),
                                                     outgi[[1]],sort = TRUE,all.x=TRUE))
+        }
+
+
+        if(all(isagg==c(FALSE,TRUE))){
+          outgi[[1]] <-  rbind(outgi[[1]][2,],merge(cbind.data.frame(group = c(ugr)),
+                                                    outgi[[1]],sort = TRUE,all.x=TRUE))
+        }
+
+        if(all(isagg==c(FALSE,FALSE))){
+          outgi[[1]] <-  rbind(NULL,merge(cbind.data.frame(group = c(ugr)),
+                                          outgi[[1]],sort = TRUE,all.x=TRUE))
+        }
+
+
 
         outgi[[1]][is.na(outgi[[1]][,'N']),'N'] <- 0
 
-
-
-        outgi[[2]] <-  c(outgi[[2]],fixo)[c('Pooled',ugr)]
+        if(isagg[2]){
+          outgi[[2]] <-  c(outgi[[2]],fixo)[c('Pooled',ugr)]
+        }else{
+          outgi[[2]] <-  c(outgi[[2]],fixo)[c(ugr)]
+        }
 
       }
     }
@@ -791,10 +849,37 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
         )
 
 
-        rbind(Difk[1,],
-              c(mean(Difk[-1,1][!ugr%in%exclude],na.rm = T),
-                .repsecomp(Difk[-1,2][!ugr%in%exclude])),
-              Difk[-1,])
+        isagg <- c("pooled", "composite")%in%aggregates
+
+        if(all(isagg)){
+          out <- rbind(Difk[1,],
+                c(mean(Difk[-1,1][!ugr%in%exclude],na.rm = T),
+                  .repsecomp(Difk[-1,2][!ugr%in%exclude])),
+                Difk[-1,])
+        }
+
+
+        if(all(isagg==c(TRUE,FALSE))){
+          out <- rbind(Difk[1,],
+                       # c(mean(Difk[-1,1][!ugr%in%exclude],na.rm = T),
+                       #   .repsecomp(Difk[-1,2][!ugr%in%exclude])),
+                       Difk[-1,])
+        }
+
+        if(all(isagg==c(FALSE,TRUE))){
+          out <- rbind(
+                       c(mean(Difk[,1][!ugr%in%exclude],na.rm = T),
+                         .repsecomp(Difk[,2][!ugr%in%exclude])),
+                       Difk[,])
+        }
+
+        if(all(isagg==c(FALSE,FALSE))){
+          out <- rbind(Difk[,])
+        }
+
+        out
+
+
 
       }
 

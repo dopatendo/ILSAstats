@@ -121,25 +121,6 @@ repcreate <- function(df,
   if(min(wt%in%names(df))==0)
     stop('wt not in data frame.')
 
-  ## method
-  # if(!(is.character(method)&length(method)==1&is.atomic(method)))
-  #   stop('Invalid input for method.')
-  #
-  # if(min(method%in%c('TIMSS','PIRLS','ICILS','ICCS',"oldTIMSS","oldPIRLS"))==0)
-  #   stop('Invalid input for method')
-
-  # methf <- method[1]
-
-  # ## method
-  # if(!(is.character(method)&length(method)==1&is.atomic(method)))
-  #   stop('Invalid input for method.')
-  #
-  # if(!'JK2'%in%method)
-  #   stop('Invalid input for method.')
-  #
-  # ## simple
-  # if(!islova(simple))
-  #   stop('Invalid input for simple')
 
 
   method <- tolower(method)
@@ -151,7 +132,7 @@ repcreate <- function(df,
   }
 
   if(method%in%c("jk2-half","jk2-half-1pv",
-                 'icils','iccs',"cived",
+                 'icils','iccs',"cived","rlii",
                  "oldtimss","oldpirls")){
     simple <- TRUE
   }

@@ -87,7 +87,7 @@ Additionally, ILSA names can be used, defaulting into:
 \item \code{"TIMSS"} or \code{"PIRLS"} for \code{"JK2-full"};
 \item \code{"ICILS"}, \code{"ICCS"}, or \code{"CIVED"} for \code{"JK2-half"};
 \item \code{"PISA"} or \code{"TALIS"} for \code{"FAY-0.5"};
-\item and \code{"oldTIMSS"} or \code{"oldPIRLS"} for \code{"JK2-half-1PV"}.
+\item and \code{"oldTIMSS"}, \code{"oldPIRLS"}, or \code{"RLII"} for \code{"JK2-half-1PV"}.
 }
 Note that \code{"oldTIMSS"} and \code{"oldPIRLS"}
 refer to the method used for TIMSS and PIRLS before 2015,
