@@ -56,7 +56,7 @@ repquant <- function(x,qtl = c(0.05, 0.25, 0.75, 0.95),PV = FALSE,
       rena = NULL
     }
 
-    df <- df[,c(x,group,wt,bys,rena)]
+    df <- df[,c(x,group,wt,by,rena)]
     df <- untidy(df)
   }
   returnisNULL(ischaval, group)
