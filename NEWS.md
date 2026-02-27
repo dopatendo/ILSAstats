@@ -1,12 +1,12 @@
-# ILSAstats 0.4.2
+# ILSAstats 0.4.3
 - Added `leaguetables()`.
+- Fixed a bug in `repquant()`when using tibbles.
 - Fixed a bug in `repmean()` when `by` and `aggregates = NULL`.
 - Added `RLII` as method.
 - Fixed `CIVED` as method.
-
-
-# ILSAstats 0.4.1
 - Function `myfunc()` deleted. This function was added my mistake in 0.4.0.
+
+
 
 # ILSAstats 0.4.0
 - Added `ILSAinfo()` with ILSA information, and pre-setups  with `repcreateILSA()` and `setupILSA()`.

@@ -557,7 +557,7 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
 
   ## match option
   method <- returnis(isinvec,x = method[1L],choices = ILSAmethods(repse = TRUE))
-
+  aggregates <- returnisNULL(isinvecmul,x = aggregates, choices = frm$aggregates)
 
   ## Combinations
 
@@ -687,7 +687,8 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
   if(var!=0){
     outp <- .repmean(X = X, RW = RW,TW = TW,method = method,PV = PV,var = var,
                      group = GR,
-                     exclude = exclude,zones = ZN,outrep = FALSE)
+                     exclude = exclude,zones = ZN,outrep = FALSE,
+                     aggregates = aggregates)
   }else{
     outp <- NA
   }
