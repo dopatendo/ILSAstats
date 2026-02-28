@@ -525,7 +525,7 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
 
   # Checks ----
 
-  frm <- formals(repmean)
+  frm <- formals(.repmean0)
 
 
 
@@ -744,7 +744,8 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
 
     outgi <- .repmean(X = Xii, RW = RWii,TW = TWii,
                       method = method,PV = PV,var = var,
-                      group = GRii,exclude = exclude,zones = ZNii,outrep = TRUE)
+                      group = GRii,exclude = exclude,zones = ZNii,outrep = TRUE,
+                      aggregates = aggregates)
 
     if(!is.null(ugr)){
       if(lu(GRii)!=length(ugr)){
