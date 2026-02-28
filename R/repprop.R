@@ -17,7 +17,7 @@
 #' @export
 #'
 
-repprop2 <- function(x,categories = NULL,
+repprop <- function(x,categories = NULL,
                      setup = NULL,
                      repwt,wt,df,
                      method,
@@ -34,6 +34,10 @@ repprop2 <- function(x,categories = NULL,
     exclude <- setup$exclude
     df <- get(setup$df)
   }
+
+  frm <- formals(repprop)
+  frm$aggregates <- c("pooled", "composite")
+  aggregates <- returnisNULL(isinvecmul,x = aggregates, choices = frm$aggregates)
 
 
   returnis(ischavec, method)

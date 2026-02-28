@@ -13,7 +13,8 @@ repprop(
   df,
   method,
   group = NULL,
-  exclude = NULL
+  exclude = NULL,
+  aggregates = c("pooled", "composite")
 )
 }
 \arguments{
@@ -57,6 +58,10 @@ countries.}
 \item{exclude}{a vector indicating which groups
 (in the same format as \code{group})
 should be excluded from the pooled and composite estimates.}
+
+\item{aggregates}{a string vector indicating which aggregates should be
+included, options are \code{"pooled"} and \code{"composite"}, both options can be
+used at the same time. If \code{NULL} no aggregate will be estimated.}
 }
 \value{
 a list.

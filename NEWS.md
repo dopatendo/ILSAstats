@@ -1,4 +1,6 @@
 # ILSAstats 0.4.3
+- Added `repprop.table()`.
+- Added argument `aggregates` to `replm()`, and `repprop()`.
 - Added `leaguetables()`.
 - Fixed a bug in `repquant()`when using tibbles.
 - Fixed a bug in `repmean()` when `by` and `aggregates = NULL`.

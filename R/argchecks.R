@@ -55,6 +55,16 @@ isrep.mean <- function(x = NULL){
 
 }
 
+
+isrep.prop <- function(x = NULL){
+  if(is.null(x))
+    return("It should be an object produced by repprop().")
+
+  inherits(x,"repprop")
+
+}
+
+
 isrep.meansingle <- function(x = NULL){
   if(is.null(x))
     return("It should be an object produced by repmean() for one variable.")
