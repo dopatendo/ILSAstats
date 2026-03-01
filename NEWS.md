@@ -1,4 +1,6 @@
 # ILSAstats 0.4.3
+- Added `proflevels()`.
+- Added `proflevels.get()`.
 - Added `repprop.table()`.
 - Added argument `aggregates` to `replm()`, and `repprop()`.
 - Added `leaguetables()`.
