@@ -1,38 +1,27 @@
-#' ILSA's league tables
+#' ILSA's proficiency levels
 #'
-#' Estimates the mean score for all countries within a cycle of an ILSA.
+#' Estimates the proficiency levels for all countries within a cycle of an ILSA.
 #' Arguments \code{method}, \code{reps}, and \code{var}, are extracted from
 #' \code{\link{ILSAinfo}} and can be overridden by the user.
 #'
-#' @param study an optional character vector indicating the ILSA name, for a list of available
-#'  ILSA, check \code{\link{ILSAinfo}}. If \code{NULL}, the ILSA name will be determined
-#'  by the column names in the data frame.
-#' @param year a numeric vector indicating the ILSA name, for a list of available
-#'  cycles, check \code{\link{ILSAinfo}}.
-#' @param study an optional character vector indicating the subjects to be analyzed, for a list of available
-#'  subjects, check \code{\link{ILSAinfo}}.
-#' @param subject an optional character vector indicating the subject for a list of available
-#'  ILSA, check \code{\link{ILSAinfo}}.
-#' @inheritParams repmean
-#' @inheritParams repcreate
 #'
-#' @return a data frame.
+#' @inheritParams leaguetable
+#' @inheritParams repprop.table
+#'
+#' @return a data frame or a list.
 #'
 #' @examples
 #'
-#' leaguetable(df = timss99, year = 1999)
+#' proflevels(timss99,year = 1999,type = "long",subject = "math")
 #'
 #' @export
 #'
 
-
-leaguetable <- function(df,
-                        study = NULL,
-                        year,
-                        subject = NULL,
-                        method = NULL,
-                        reps = NULL,
-                        var = c("unbiased", "ML")){
+proflevels <- function(df,
+                       study = NULL, year, subject = NULL,
+                       method = NULL, reps = NULL,
+                       type = c("long","wide1","wide2"),
+                       separateSE = TRUE){
 
   # Argument checks ----
 
@@ -56,6 +45,9 @@ leaguetable <- function(df,
 
 
   ili <- merge(ILSAstats::ILSAinfo$pvs,ILSAstats::ILSAinfo$weights,all.x = TRUE)
+  ili <- merge(ili,ILSAstats::ILSAinfo$levels,all.x = TRUE)
+  # ili <- unique(ili[,!colnames(ili)%in%c("reps","year")])
+  ili <- stats::na.omit(ili)
   cdf <- colnames(df)
 
   ## 1 - df - check variables within df ----
@@ -70,7 +62,7 @@ leaguetable <- function(df,
   if(nrow(ili)==0)
     stop(paste0("\nInvalid input for 'df'.",
                 "\nVariables in do not match conditions of any study.",
-                "\nCheck needed variables in ILSAinfo$weights, and ILSAinfo$pvs"),
+                "\nCheck needed variables in ILSAinfo$weights, ILSAinfo$levels, and ILSAinfo$pvs"),
          call. = FALSE)
 
 
@@ -92,7 +84,7 @@ leaguetable <- function(df,
 
   }
 
-  ## 3 - year, numeric value and within ILSAinfo ----
+  # ## 3 - year, numeric value and within ILSAinfo ----
   returnis(isnumval,year)
   returnis(isinvec,x = year,choices = sort(unique(ili$year)))
 
@@ -129,10 +121,16 @@ leaguetable <- function(df,
 
 
 
-
   # Process -----------------------------------------------------------------
 
-  rwi <- repcreate(df = df,
+  levs <- df[,c(cou,unlist(c(ili[1,c("jkzones","jkreps","totalweight")]),
+                           use.names = FALSE))]
+  levs <- untidy(levs)
+
+  levs <- cbind.data.frame(levs,
+                           proflevels.get(df = df,study = study,combine = TRUE))
+
+  rwi <- repcreate(df = levs,
                    jkzone = ili$jkzones[1],
                    jkrep = ili$jkreps[1],
                    wt = ili$totalweight[1],
@@ -140,42 +138,67 @@ leaguetable <- function(df,
                    reps = reps,
                    method = method)
 
+  out <- vector("list",nrow(ili))
 
-  xx <- strsplit(ili$pvs,";")
+  for(i in 1:length(out)){
 
 
-  out <- vector("list",length(xx))
-  for(i in 1:length(xx)){
-    meai <- repmean(df = df,
-                    x = xx[[i]],
-                    PV = (length(xx[[i]])>1),
-                    setup = NULL,
-                    repwt = rwi,
-                    wt = ili$totalweight[i],
-                    method = method,
-                    var = var,
-                    group = cou,
-                    by = NULL,
-                    exclude = NULL,
-                    aggregates = NULL,
-                    zones = NULL)
-    # if(includeid){
-    meai <- cbind(study = ili$study[1],
-                  year = ili$year[1],
-                  subject = ili$subject[i],
-                  meai)
-    # }
+    xi <- paste0(strsplit(ili[i,"pvs"],";")[[1]],"_level")
+    ci <- 0:length(strsplit(ili[i,"cutoffs"],";")[[1]])
 
-    out[[i]] <- meai
-    rm(meai)
+    pri <- sm(repprop(x = xi,
+                      categories = ci,
+                      setup = NULL,
+                      repwt = rwi,
+                      wt = ili$totalweight[1],
+                      df = levs,
+                      method = method,
+                      group = cou,
+                      exclude = NULL,
+                      aggregates = NULL))
+    pri <- repprop.table(x = pri, type = type, separateSE = separateSE)
+
+    if(!type%in%"wide1"){
+      if(islist(pri)){
+
+        pri <- lapply(pri,function(j){
+
+          cana <- rep(strsplit(ili[i,"names"],";")[[1]],each = nrow(j)/length(ci))
+
+          nuca <- which(colnames(j)%in%"category")
+          jj <- cbind(j[,c(1:nuca)],
+                      level = cana,
+                      j[,c((nuca+1):ncol(j))])
+          colnames(jj)[nuca] <- c("category")
+          jj
+
+        })
+
+
+
+      }else{
+
+        cana <- rep(strsplit(ili[i,"names"],";")[[1]],each = nrow(pri)/length(ci))
+
+        nuca <- which(colnames(pri)%in%"category")
+        pri <- cbind(pri[,c(1:nuca)],
+                     level = cana,
+                     pri[,c((nuca+1):ncol(pri))])
+        colnames(pri)[nuca] <- c("category")
+
+
+      }
+    }
+
+    out[[i]] <- pri
+
 
   }
 
+  if(length(out)==1)
+    return(out[[1]])
 
-
-
-  # Output ------------------------------------------------------------------
-
-  do.call(rbind,out)
+  names(out) <- ili$subject
+  return(out)
 
 }
