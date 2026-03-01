@@ -1,7 +1,7 @@
 #' ILSA's proficiency levels
 #'
 #' Estimates the proficiency levels for all countries within a cycle of an ILSA.
-#' Arguments \code{method}, \code{reps}, and \code{var}, are extracted from
+#' Arguments \code{method}, and \code{reps}, are extracted from
 #' \code{\link{ILSAinfo}} and can be overridden by the user.
 #'
 #'

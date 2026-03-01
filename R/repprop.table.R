@@ -6,7 +6,7 @@
 #'
 #'
 #' @param x a list produced by \code{\link{repprop}}.
-#' @param type a charaacter value indicating the type of table to produce.
+#' @param type a character value indicating the type of table to produce.
 #' Options include: \code{"long"}, for a long table with a column with the proportions
 #' and another one for the standard error; \code{"wide1"} for a wide table where groups
 #' are distributed in lines; \code{"wide2"} for a wide table where groups are distributed in columns.
