@@ -25,6 +25,7 @@ proflevels <- function(df,
 
   # Argument checks ----
 
+  frm <- formals(repprop.table)
   returnis(ischavec, type)
   type <- returnis(isinvec,x = type[1L],choices = frm$type)
 
