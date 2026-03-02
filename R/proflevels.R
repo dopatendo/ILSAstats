@@ -21,7 +21,8 @@ proflevels <- function(df,
                        study = NULL, year, subject = NULL,
                        method = NULL, reps = NULL,
                        type = c("long","wide1","wide2"),
-                       separateSE = TRUE){
+                       separateSE = TRUE,
+                       fixdata = TRUE){
 
   # Argument checks ----
 
@@ -54,11 +55,18 @@ proflevels <- function(df,
   ili <- stats::na.omit(ili)
   cdf <- colnames(df)
 
+  # ## 3 - year, numeric value and within ILSAinfo ----
+  returnis(isnumval,year)
+  returnis(isinvec,x = year,choices = sort(unique(ili$year)))
+
+  ili <- ili[ili$year%in%year,]
+
+
   ## 1 - df - check variables within df ----
 
   ilic <- lapply(1:nrow(ili), function(i){
-    as.vector(unlist(lapply(ili[i,c("country","pvs","jkzones","jkreps","totalweight")],
-                            strsplit,split = ";")))
+    omitna(as.vector(unlist(lapply(ili[i,c("country","pvs","jkzones","jkreps","totalweight","extravars")],
+                                   strsplit,split = ";"))))
   })
 
   ili <- ili[sapply(ilic,function(i){all(i%in%cdf)}),]
@@ -88,11 +96,6 @@ proflevels <- function(df,
 
   }
 
-  # ## 3 - year, numeric value and within ILSAinfo ----
-  returnis(isnumval,year)
-  returnis(isinvec,x = year,choices = sort(unique(ili$year)))
-
-  ili <- ili[ili$year%in%year,]
 
 
   ## 4 - subject, character value and within ILSAinfo ----
@@ -121,6 +124,17 @@ proflevels <- function(df,
     cou <- "IDCNTRY_STR"
   }else{
     cou <- unique(ili$country)
+  }
+
+
+  # Fixdata -----------------------------------------------------------------
+
+
+
+  if(fixdata){
+    df <- .fixdata(df = df, study = ili$study[1],
+                   year = ili$year[1],
+                   specification = ili$study2[1])
   }
 
 

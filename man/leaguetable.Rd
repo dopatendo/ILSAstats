@@ -11,7 +11,8 @@ leaguetable(
   subject = NULL,
   method = NULL,
   reps = NULL,
-  var = c("unbiased", "ML")
+  var = c("unbiased", "ML"),
+  fixdata = TRUE
 )
 }
 \arguments{
@@ -49,6 +50,9 @@ If \code{NULL} the maximum number of zones will be used.}
 \item{var}{a string indicating the method to use for the variance:
 \code{"unbiased"} calculates the unbiased estimate (n-1); \code{"ML"}
 calculates the maximum likelihood estimate.}
+
+\item{fixdata}{a logical value indicating if data should be "fixed" to meet official criteria.
+For example, reducing the sample for certain countries in TIMSS 1995. Default is \code{TRUE}.}
 }
 \value{
 a data frame.

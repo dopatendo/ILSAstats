@@ -13,6 +13,8 @@
 #'  subjects, check \code{\link{ILSAinfo}}.
 #' @param subject an optional character vector indicating the subject for a list of available
 #'  ILSA, check \code{\link{ILSAinfo}}.
+#' @param fixdata a logical value indicating if data should be "fixed" to meet official criteria.
+#' For example, reducing the sample for certain countries in TIMSS 1995. Default is \code{TRUE}.
 #' @inheritParams repmean
 #' @inheritParams repcreate
 #'
@@ -32,7 +34,8 @@ leaguetable <- function(df,
                         subject = NULL,
                         method = NULL,
                         reps = NULL,
-                        var = c("unbiased", "ML")){
+                        var = c("unbiased", "ML"),
+                        fixdata = TRUE){
 
   # Argument checks ----
 
@@ -44,25 +47,34 @@ leaguetable <- function(df,
   # 6 - reps
   # 7 - var - passes through repmean
 
-  # df = df
-  # study = "TIMSS"
-  # year = 1999
-  # var = "ML"
-  # subject = "math"
-  # group = NULL
-  # reps = NULL
-  # method = NULL
+  df = aa
+  study = "TIMSS"
+  year = 1995
+  var = "ML"
+  subject = NULL
+  group = NULL
+  reps = NULL
+  method = NULL
 
 
 
   ili <- merge(ILSAstats::ILSAinfo$pvs,ILSAstats::ILSAinfo$weights,all.x = TRUE)
+  ili$extravars[ili$extravars%in%"-"] <- NA
   cdf <- colnames(df)
+
+  ## 3 - year, numeric value and within ILSAinfo ----
+  returnis(isnumval,year)
+  returnis(isinvec,x = year,choices = sort(unique(ili$year)))
+
+  ili <- ili[ili$year%in%year,]
+
 
   ## 1 - df - check variables within df ----
 
   ilic <- lapply(1:nrow(ili), function(i){
-    as.vector(unlist(lapply(ili[i,c("country","pvs","jkzones","jkreps","totalweight")],
-                            strsplit,split = ";")))
+    omitna(as.vector(unlist(lapply(ili[i,c("country","pvs","jkzones","jkreps",
+                                           "totalweight","extravars")],
+                                           strsplit,split = ";"))))
   })
 
   ili <- ili[sapply(ilic,function(i){all(i%in%cdf)}),]
@@ -72,6 +84,8 @@ leaguetable <- function(df,
                 "\nVariables in do not match conditions of any study.",
                 "\nCheck needed variables in ILSAinfo$weights, and ILSAinfo$pvs"),
          call. = FALSE)
+
+
 
 
 
@@ -92,11 +106,6 @@ leaguetable <- function(df,
 
   }
 
-  ## 3 - year, numeric value and within ILSAinfo ----
-  returnis(isnumval,year)
-  returnis(isinvec,x = year,choices = sort(unique(ili$year)))
-
-  ili <- ili[ili$year%in%year,]
 
 
   ## 4 - subject, character value and within ILSAinfo ----
@@ -126,6 +135,43 @@ leaguetable <- function(df,
   }else{
     cou <- unique(ili$country)
   }
+
+
+
+
+
+# Fixdata -----------------------------------------------------------------
+
+
+
+  # if(!isdfonly(df)){
+  #
+  #
+  #
+  #   df <- df[,c(unlist(strsplit(ili$pvs,";")),
+  #               ili$jkzones[1],
+  #               ili$jkreps[1],
+  #               ili$totalweight[1],
+  #               cou)]
+  #   df <- untidy(df)
+  # }
+  #
+
+  kolumns <- c(unlist(strsplit(ili$pvs,";")),
+               ili$jkzones[1],
+               ili$jkreps[1],
+               ili$totalweight[1],
+               cou)
+
+  # if(fixdata){
+    df <- .fixdata(df = df,
+                   study = ili$study[1],
+                   year = ili$year[1],
+                   specification = ili$study2[1],
+                   columns = kolumns,
+                   fixN = fixdata)
+  # }
+
 
 
 
@@ -177,5 +223,106 @@ leaguetable <- function(df,
   # Output ------------------------------------------------------------------
 
   do.call(rbind,out)
+
+}
+
+
+
+.fixdata <- function(df, study, year, specification,fixN,columns){
+
+  study <- toupper(study)
+  specification <- toupper(specification)
+
+  tofix <- cbind.data.frame(study = "TIMSS", year = c(1995), specification = c("G4","G8"))
+
+  tofix <- tofix[tofix$study%in%study&tofix$year%in%year&tofix$specification%in%specification,]
+
+  if((!fixN)|nrow(tofix)==0){
+
+    if(!isdfonly(df)){
+      df <- df[,kolumns]
+      df <- untidy(df)
+    }
+
+
+    return(df)
+
+  }
+
+
+
+
+  if(study=="TIMSS"&year==1995&specification=="G4"){
+
+    dati <- df[,c(kolumns,"IDCNTRY","IDGRADER","IDGRADE")]
+    # dati <- aa[,c(kolumns,"IDCNTRY","IDGRADER","IDGRADE")]
+    if(!isdfonly(dati)){
+      # dati <- dati[,kolumns]
+      dati <- untidy(dati)
+    }
+
+
+    # Slovenia (ID 705) G4, IDGRADER==1, 3rd
+    # Australia (ID 36) G4, IDGRADE==4, 4th
+
+    excou <- c("Slovenia","Australia")
+    excou <- c(705,36)
+
+    v1 <- c("IDGRADER","IDGRADE")
+    g1 <- c(1,4)
+
+
+    d1 <- dati[!dati$IDCNTRY%in%excou,]
+    d1 <- d1[d1$IDGRADER%in%2,]
+
+    d2 <- vector("list",length(excou))
+    for(w in 1:length(excou)){
+      d2w <- dati[dati$IDCNTRY%in%excou[w],]
+      d2[[w]] <- d2w[d2w[,v1[w],drop = TRUE]%in%g1[w],]
+    }
+
+    d2 <- do.call(rbind,d2)
+    dati <- rbind(d1,d2)
+    return(dati)
+
+  }
+
+  if(study=="TIMSS"&year==1995&specification=="G8"){
+
+    dati <- df[,c(kolumns,"IDCNTRY","IDGRADER","IDGRADE")]
+    if(!isdfonly(dati)){
+      # dati <- dati[,kolumns]
+      dati <- untidy(dati)
+    }
+
+
+    # Sweden (ID 752) G8, IDGRADER==3, 8th
+    # Slovenia (ID 705) G8, IDGRADER==1, 7th
+    # Colombia (ID 170) G8, IDGRADER==1, 7th
+    # Australia (ID 36) G8, IDGRADE==8, 8th
+
+    excou <- c("Sweden","Slovenia","Colombia","Australia")
+    excou <- c(752,705,170,36)
+
+    v1 <- c("IDGRADER","IDGRADER","IDGRADER","IDGRADE")
+    g1 <- c(3,1,1,8)
+
+
+    d1 <- dati[!dati$IDCNTRY%in%excou,]
+    d1 <- d1[d1$IDGRADER%in%2,]
+
+    d2 <- vector("list",length(excou))
+    for(w in 1:length(excou)){
+      d2w <- dati[dati$IDCNTRY%in%excou[w],]
+      d2[[w]] <- d2w[d2w[,v1[w],drop = TRUE]%in%g1[w],]
+    }
+
+    d2 <- do.call(rbind,d2)
+    dati <- rbind(d1,d2)
+    return(dati)
+
+
+
+  }
 
 }
