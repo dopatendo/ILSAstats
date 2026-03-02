@@ -46,10 +46,10 @@ leaguetable <- function(df,
   # 5 - method
   # 6 - reps
   # 7 - var - passes through repmean
-
+  #
   # df = aa
-  # study = "TIMSS"
-  # year = 1995
+  # study = "cived"
+  # year = 1999
   # var = "ML"
   # subject = NULL
   # group = NULL
@@ -240,7 +240,7 @@ leaguetable <- function(df,
   if((!fixN)|nrow(tofix)==0){
 
     if(!isdfonly(df)){
-      df <- df[,kolumns]
+      df <- df[,columns]
       df <- untidy(df)
     }
 
@@ -254,7 +254,7 @@ leaguetable <- function(df,
 
   if(study=="TIMSS"&year==1995&specification=="G4"){
 
-    dati <- df[,c(kolumns,"IDCNTRY","IDGRADER","IDGRADE")]
+    dati <- df[,c(columns,"IDCNTRY","IDGRADER","IDGRADE")]
     # dati <- aa[,c(kolumns,"IDCNTRY","IDGRADER","IDGRADE")]
     if(!isdfonly(dati)){
       # dati <- dati[,kolumns]
@@ -289,7 +289,7 @@ leaguetable <- function(df,
 
   if(study=="TIMSS"&year==1995&specification=="G8"){
 
-    dati <- df[,c(kolumns,"IDCNTRY","IDGRADER","IDGRADE")]
+    dati <- df[,c(columns,"IDCNTRY","IDGRADER","IDGRADE")]
     if(!isdfonly(dati)){
       # dati <- dati[,kolumns]
       dati <- untidy(dati)
