@@ -25,6 +25,9 @@ proflevels <- function(df,
 
   # Argument checks ----
 
+  returnis(ischavec, type)
+  type <- returnis(isinvec,x = type[1L],choices = frm$type)
+
   # 1 - df
   # 2 - study
   # 3 - year
