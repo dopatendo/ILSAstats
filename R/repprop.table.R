@@ -41,6 +41,7 @@ repprop.table <- function(x,
   # Process -----
 
   xxi <- x[-length(x)]
+  xxi <- x
   xx <- do.call(rbind,lapply(xxi,function(i){
     i[,intersect(colnames(i),c("group","prop","se"))]
   }))
@@ -49,7 +50,7 @@ repprop.table <- function(x,
     xx <- cbind.data.frame(group = "Pooled",xx)
   }
 
-  xx$category <- rep(x$categories,each = nrow(x[[1]]))
+  xx$category <- rep(attributes(x)$categories,each = nrow(x[[1]]))
   xx <- xx[,c("group","category","prop","se")]
   rownames(xx) <- NULL
 
@@ -83,7 +84,7 @@ repprop.table <- function(x,
 
     w1 <- stats::reshape(xx,direction = "wide",idvar = "group",timevar = "category")
 
-    w2 <- cbind.data.frame(category = rep(x$categories,each = 2),
+    w2 <- cbind.data.frame(category = rep(attributes(x)$categories,each = 2),
                            statistic = c("prop","se"),
                            t(w1[,-1]))
     colnames(w2)[-(1:2)] <- w1$group

@@ -239,9 +239,13 @@ repprop <- function(x,categories = NULL,
     i
   })
 
-  out$categories <- psb
+
+
+  # out$categories <- psb
 
   class(out) <- c("repprop", class(out))
+
+  attributes(out)$categories <- psb
 
   out
 
@@ -694,7 +698,9 @@ repprop <- function(x,categories = NULL,
 #' @export
 print.repprop <- function(x, ...){
 
-  print(unclass(x)[-length(x)])
+  attributes(x)$categories <- NULL
+
+  print(unclass(x))
 
 }
 
