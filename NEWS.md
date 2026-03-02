@@ -1,4 +1,5 @@
 # ILSAstats 0.4.3
+- Improved efficiency of `repcreate()`.
 - Added `proflevels()`.
 - Added `proflevels.get()`.
 - Added `repprop.table()`.

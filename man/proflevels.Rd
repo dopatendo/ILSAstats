@@ -47,7 +47,7 @@ is estimated using only 1 plausible value.}
 \item{reps}{an integer indicating the number of replications to be created.
 If \code{NULL} the maximum number of zones will be used.}
 
-\item{type}{a charaacter value indicating the type of table to produce.
+\item{type}{a character value indicating the type of table to produce.
 Options include: \code{"long"}, for a long table with a column with the proportions
 and another one for the standard error; \code{"wide1"} for a wide table where groups
 are distributed in lines; \code{"wide2"} for a wide table where groups are distributed in columns.}
@@ -60,7 +60,7 @@ a data frame or a list.
 }
 \description{
 Estimates the proficiency levels for all countries within a cycle of an ILSA.
-Arguments \code{method}, \code{reps}, and \code{var}, are extracted from
+Arguments \code{method}, and \code{reps}, are extracted from
 \code{\link{ILSAinfo}} and can be overridden by the user.
 }
 \examples{
