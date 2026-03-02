@@ -47,14 +47,14 @@ leaguetable <- function(df,
   # 6 - reps
   # 7 - var - passes through repmean
 
-  df = aa
-  study = "TIMSS"
-  year = 1995
-  var = "ML"
-  subject = NULL
-  group = NULL
-  reps = NULL
-  method = NULL
+  # df = aa
+  # study = "TIMSS"
+  # year = 1995
+  # var = "ML"
+  # subject = NULL
+  # group = NULL
+  # reps = NULL
+  # method = NULL
 
 
 
