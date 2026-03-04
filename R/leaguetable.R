@@ -34,7 +34,6 @@ leaguetable <- function(df,
                         subject = NULL,
                         method = NULL,
                         reps = NULL,
-                        var = c("unbiased", "ML"),
                         fixdata = TRUE){
 
   # Argument checks ----
@@ -197,11 +196,11 @@ leaguetable <- function(df,
     meai <- .repmean0(df = df,
                     x = xx[[i]],
                     PV = (length(xx[[i]])>1),
-                    setup = NULL,
+                    # setup = NULL,
                     repwt = rwi,
                     wt = ili$totalweight[i],
                     method = method,
-                    var = var,
+                    var = -1,
                     group = cou,
                     by = NULL,
                     exclude = NULL,
@@ -209,6 +208,7 @@ leaguetable <- function(df,
                     zones = NULL)
     # if(includeid){
     meai <- cbind(study = ili$study[1],
+                  study2 = ili$study2[1],
                   year = ili$year[1],
                   subject = ili$subject[i],
                   meai)
