@@ -81,8 +81,10 @@ repsetupILSA <- function(study,
 
 
   # Checks ----
+  # returnis(isval,year);year <- as.numeric(year)
   returnis(ischaval,study)
-  returnis(isnumval,year)
+  # returnis(isnumval,year)
+  returnis(ischaeqnum,year)
 
 
   # Process ----

@@ -63,7 +63,9 @@ leaguetable <- function(df,
   cdf <- colnames(df)
 
   ## 3 - year, numeric value and within ILSAinfo ----
-  returnis(isnumval,year)
+  # returnis(isval,year);year <- as.numeric(year)
+  # returnis(isnumval,year)
+  returnis(ischaeqnum,year)
   returnis(isinvec,x = year,choices = sort(unique(ili$year)))
 
   ili <- ili[ili$year%in%year,]

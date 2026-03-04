@@ -221,6 +221,30 @@ isnumval <- function(x = NULL){
 
 }
 
+isval <- function(x = NULL){
+  if(is.null(x))
+    return("It should be a vector of length 1.")
+
+  is.vector(x)&&length(x)==1
+
+}
+
+
+ischaeqnum <- function(x = NULL){
+  if(is.null(x))
+    return("It should be a vector of length 1 containing a number.")
+
+  if(!(is.vector(x)&&length(x)==1))
+    return(FALSE)
+
+  if(!(as.character(sw(as.numeric(x)))%in%as.character(x)))
+    return(FALSE)
+
+  TRUE
+
+
+}
+
 
 # Compare sizes -----------------------------------------------------------
 

@@ -1,4 +1,5 @@
 # ILSAstats 0.4.3
+- Argument `year` now accepts characters.
 - Improved efficiency of `repcreate()`.
 - Added `proflevels()`.
 - Added `proflevels.get()`.
