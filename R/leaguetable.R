@@ -194,7 +194,7 @@ leaguetable <- function(df,
 
   out <- vector("list",length(xx))
   for(i in 1:length(xx)){
-    meai <- repmean(df = df,
+    meai <- .repmean0(df = df,
                     x = xx[[i]],
                     PV = (length(xx[[i]])>1),
                     setup = NULL,
