@@ -41,7 +41,7 @@ if(is.null(x))
 
 ischaval <- function(x = NULL){
   if(is.null(x))
-    return("It should be a string.")
+    return("It should be a string of length 1.")
 
   is.vector(x)&&is.character(x)&&length(x)==1
 
@@ -131,6 +131,8 @@ isinvec <- function(x = NULL, choices){
   eval(choices)[tr]
 
 }
+
+
 
 isinvecmul <- function(x = NULL, choices){
   if(is.null(x))

@@ -23,7 +23,7 @@ proflevels <- function(df,
                        method = NULL, reps = NULL,
                        type = c("long","wide1","wide2"),
                        separateSE = TRUE,
-                       fixdata = TRUE){
+                       fixN = TRUE){
 
   # Argument checks ----
 
@@ -137,7 +137,7 @@ proflevels <- function(df,
   if(fixdata){
     df <- .fixdata(df = df, study = ili$study[1],
                    year = ili$year[1],
-                   specification = ili$study2[1])
+                   specification = ili$study2[1],fixN = fixN)
   }
 
 
