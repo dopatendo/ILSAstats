@@ -162,7 +162,7 @@ leaguetable <- function(df,
   if(evars[1]%in%"-"){
     evars <- NULL
   }
-  if(is.na(evars)){
+  if(is.na(evars[1])){
     evars <- NULL
   }
 
