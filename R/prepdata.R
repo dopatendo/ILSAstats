@@ -29,7 +29,7 @@
 
 
 
-prepdata <- function(df,
+prepdata2 <- function(df,
                      study = NULL,
                      year = NULL,
                      specification = NULL,
@@ -109,15 +109,25 @@ prepdata <- function(df,
 
   ## 6 - specification ----
   study2 <- specification
-  returnisNULL(ischaval,study2)
-  returnisNULL(isinvec,x = specification,choices = sort(unique(ili$study2)))
+
+
+
+
 
   if(!is.null(study2)){
+
+    # specification = "-"
+    returnisNULL(ischaval,specification)
+    returnisNULL(isinvec,x = specification,choices = sort(unique(ili$study2)))
+
     study2 <- toupper(study2)
     ili <- ili[ili$study2%in%study2,]
 
   }else{
-    specification <- (ili$study2)
+
+    # specification = NULL
+    returnisNULL(ischaval,specification)
+    specification <- unique(ili$study2)
     returnis(ischaval,specification)
   }
 
@@ -128,7 +138,7 @@ prepdata <- function(df,
   .fixdata(df = df,
            study = study,
            year = year,
-           specification = study2,
+           specification = study2[1],
            fixN = fixN,
            columns = columns)
 }
