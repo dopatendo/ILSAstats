@@ -158,11 +158,19 @@ leaguetable <- function(df,
   # }
   #
 
+  evars <- strsplit(ili$extravars[1],";")[[1]]
+  if(evars[1]%in%"-"){
+    evars <- NULL
+  }
+  if(is.na(evars)){
+    evars <- NULL
+  }
+
   kolumns <- c(unlist(strsplit(ili$pvs,";")),
                ili$jkzones[1],
                ili$jkreps[1],
                ili$totalweight[1],
-               strsplit(ili$extravars[1],";")[[1]],
+               evars,
                cou)
 
   # if(fixdata){
