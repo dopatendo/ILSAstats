@@ -13,7 +13,7 @@
 #'  subjects, check \code{\link{ILSAinfo}}.
 #' @param subject an optional character vector indicating the subject for a list of available
 #'  ILSA, check \code{\link{ILSAinfo}}.
-#' @param fixdata a logical value indicating if data should be "fixed" to meet official criteria.
+#' @param fixN a logical value indicating if data should be "fixed" to meet official criteria.
 #' For example, reducing the sample for certain countries in TIMSS 1995. Default is \code{TRUE}.
 #' @inheritParams repmean
 #' @inheritParams repcreate
@@ -170,7 +170,7 @@ leaguetable <- function(df,
                    year = ili$year[1],
                    specification = ili$study2[1],
                    columns = kolumns,
-                   fixN = fixdata)
+                   fixN = fixN)
   # }
 
 
@@ -230,101 +230,3 @@ leaguetable <- function(df,
 
 
 
-.fixdata <- function(df, study, year, specification,fixN,columns){
-
-  study <- toupper(study)
-  specification <- toupper(specification)
-
-  tofix <- cbind.data.frame(study = "TIMSS", year = c(1995), specification = c("G4","G8"))
-
-  tofix <- tofix[tofix$study%in%study&tofix$year%in%year&tofix$specification%in%specification,]
-
-  if((!fixN)|nrow(tofix)==0){
-
-    if(!isdfonly(df)){
-      df <- df[,columns]
-      df <- untidy(df)
-    }
-
-
-    return(df)
-
-  }
-
-
-
-
-  if(study=="TIMSS"&year==1995&specification=="G4"){
-
-    dati <- df[,c(columns,"IDCNTRY","IDGRADER","IDGRADE")]
-    # dati <- aa[,c(kolumns,"IDCNTRY","IDGRADER","IDGRADE")]
-    if(!isdfonly(dati)){
-      # dati <- dati[,kolumns]
-      dati <- untidy(dati)
-    }
-
-
-    # Slovenia (ID 705) G4, IDGRADER==1, 3rd
-    # Australia (ID 36) G4, IDGRADE==4, 4th
-
-    excou <- c("Slovenia","Australia")
-    excou <- c(705,36)
-
-    v1 <- c("IDGRADER","IDGRADE")
-    g1 <- c(1,4)
-
-
-    d1 <- dati[!dati$IDCNTRY%in%excou,]
-    d1 <- d1[d1$IDGRADER%in%2,]
-
-    d2 <- vector("list",length(excou))
-    for(w in 1:length(excou)){
-      d2w <- dati[dati$IDCNTRY%in%excou[w],]
-      d2[[w]] <- d2w[d2w[,v1[w],drop = TRUE]%in%g1[w],]
-    }
-
-    d2 <- do.call(rbind,d2)
-    dati <- rbind(d1,d2)
-    return(dati)
-
-  }
-
-  if(study=="TIMSS"&year==1995&specification=="G8"){
-
-    dati <- df[,c(columns,"IDCNTRY","IDGRADER","IDGRADE")]
-    if(!isdfonly(dati)){
-      # dati <- dati[,kolumns]
-      dati <- untidy(dati)
-    }
-
-
-    # Sweden (ID 752) G8, IDGRADER==3, 8th
-    # Slovenia (ID 705) G8, IDGRADER==1, 7th
-    # Colombia (ID 170) G8, IDGRADER==1, 7th
-    # Australia (ID 36) G8, IDGRADE==8, 8th
-
-    excou <- c("Sweden","Slovenia","Colombia","Australia")
-    excou <- c(752,705,170,36)
-
-    v1 <- c("IDGRADER","IDGRADER","IDGRADER","IDGRADE")
-    g1 <- c(3,1,1,8)
-
-
-    d1 <- dati[!dati$IDCNTRY%in%excou,]
-    d1 <- d1[d1$IDGRADER%in%2,]
-
-    d2 <- vector("list",length(excou))
-    for(w in 1:length(excou)){
-      d2w <- dati[dati$IDCNTRY%in%excou[w],]
-      d2[[w]] <- d2w[d2w[,v1[w],drop = TRUE]%in%g1[w],]
-    }
-
-    d2 <- do.call(rbind,d2)
-    dati <- rbind(d1,d2)
-    return(dati)
-
-
-
-  }
-
-}

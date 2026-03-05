@@ -46,7 +46,7 @@ is estimated using only 1 plausible value.}
 \item{reps}{an integer indicating the number of replications to be created.
 If \code{NULL} the maximum number of zones will be used.}
 
-\item{fixdata}{a logical value indicating if data should be "fixed" to meet official criteria.
+\item{fixN}{a logical value indicating if data should be "fixed" to meet official criteria.
 For example, reducing the sample for certain countries in TIMSS 1995. Default is \code{TRUE}.}
 }
 \value{

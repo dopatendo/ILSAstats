@@ -55,9 +55,6 @@ are distributed in lines; \code{"wide2"} for a wide table where groups are distr
 
 \item{separateSE}{a logical value indicating if standard errors should be separated from
 proportions, each as an element from a list. Only works for wide tables. Default is \code{TRUE}.}
-
-\item{fixdata}{a logical value indicating if data should be "fixed" to meet official criteria.
-For example, reducing the sample for certain countries in TIMSS 1995. Default is \code{TRUE}.}
 }
 \value{
 a data frame or a list.

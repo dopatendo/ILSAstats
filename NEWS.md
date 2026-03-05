@@ -1,4 +1,6 @@
 # ILSAstats 0.4.3
+- Added `prepdata()`.
+- `untidy()` converts missings to NAs.
 - Argument `year` now accepts characters.
 - Improved efficiency of `repcreate()`.
 - Added `proflevels()`.

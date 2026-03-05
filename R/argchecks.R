@@ -151,7 +151,24 @@ isinvecmul <- function(x = NULL, choices){
 
 }
 
+isinvecmulExact <- function(x = NULL, choices){
+  if(is.null(x))
+    return(paste0("It should contain only the following values: ",
+                  paste0(eval(choices),collapse = ", "),"."))
 
+  tr = lapply(1:length(x),function(y){
+    try(pmatch((x[y]),(eval(choices)),
+               nomatch = FALSE),silent = TRUE)
+  })
+
+
+  if(any(sapply(tr,function(x) inherits(x,"try-error")||x==0)))
+    return(FALSE)
+
+
+  (x)
+
+}
 
 returnis <- function(f, x, ...){
 
