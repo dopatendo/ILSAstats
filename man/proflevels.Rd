@@ -65,6 +65,7 @@ Arguments \code{method}, and \code{reps}, are extracted from
 \code{\link{ILSAinfo}} and can be overridden by the user.
 }
 \examples{
+data(timss99)
 
 proflevels(timss99,year = 1999,type = "long",subject = "math")
 

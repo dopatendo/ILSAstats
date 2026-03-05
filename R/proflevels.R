@@ -11,6 +11,7 @@
 #' @return a data frame or a list.
 #'
 #' @examples
+#' data(timss99)
 #'
 #' proflevels(timss99,year = 1999,type = "long",subject = "math")
 #'

@@ -37,9 +37,11 @@ transforms data into simple data frames converting missing values to NAs.
 }
 \examples{
 
+data(timss99)
+
 head(timss99)
 
-newdata <- prepdata(df = timss99, year = 1999,columns = paste0("BSMMAT0",1:5))
+newdata <- prepdata(df = timss99, columns = paste0("BSMMAT0",1:5),fixN = FALSE)
 
 head(newdata)
 

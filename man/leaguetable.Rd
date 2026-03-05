@@ -11,7 +11,7 @@ leaguetable(
   subject = NULL,
   method = NULL,
   reps = NULL,
-  fixdata = TRUE
+  fixN = TRUE
 )
 }
 \arguments{
@@ -58,7 +58,7 @@ Arguments \code{method}, \code{reps}, and \code{var}, are extracted from
 \code{\link{ILSAinfo}} and can be overridden by the user.
 }
 \examples{
-
+data(timss99)
 leaguetable(df = timss99, year = 1999)
 
 }

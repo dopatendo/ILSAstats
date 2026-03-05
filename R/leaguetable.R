@@ -21,7 +21,7 @@
 #' @return a data frame.
 #'
 #' @examples
-#'
+#' data(timss99)
 #' leaguetable(df = timss99, year = 1999)
 #'
 #' @export
@@ -34,7 +34,7 @@ leaguetable <- function(df,
                         subject = NULL,
                         method = NULL,
                         reps = NULL,
-                        fixdata = TRUE){
+                        fixN = TRUE){
 
   # Argument checks ----
 

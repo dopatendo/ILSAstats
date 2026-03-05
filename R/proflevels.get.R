@@ -11,6 +11,8 @@
 #'
 #' @examples
 #'
+#' data(timss99)
+#'
 #' proflevels.get(timss99, subject = "math")
 #'
 #' @export

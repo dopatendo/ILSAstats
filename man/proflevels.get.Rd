@@ -26,6 +26,8 @@ Converts ILSA scores into proficiency levels.
 }
 \examples{
 
+data(timss99)
+
 proflevels.get(timss99, subject = "math")
 
 }
