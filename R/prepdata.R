@@ -29,7 +29,7 @@
 
 
 
-prepdata2 <- function(df,
+prepdata <- function(df,
                      study = NULL,
                      year = NULL,
                      specification = NULL,
