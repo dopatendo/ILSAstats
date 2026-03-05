@@ -170,7 +170,7 @@ isinvecmulExact <- function(x = NULL, choices){
 
 }
 
-returnis <- function(f, x, ...){
+returnisOLD <- function(f, x, ...){
 
   f <- match.fun(f)
   ev <- f(x = x, ...)
@@ -189,6 +189,36 @@ returnis <- function(f, x, ...){
 
 
 }
+
+
+returnis <- function(f, x, ...){
+
+  if(is.null(x)){
+
+    stop(paste0("\nInvalid input for '",
+                gsub("\\[1L\\]","",deparse(substitute(x))),
+                "'.\n",f(x = NULL, ...)),call. = FALSE)
+  }
+
+
+  f <- match.fun(f)
+  ev <- f(x = x, ...)
+
+  if(isFALSE(ev)){
+
+    stop(paste0("\nInvalid input for '",
+                gsub("\\[1L\\]","",deparse(substitute(x))),
+                "'.\n",f(x = NULL, ...)),call. = FALSE)
+  }
+
+  ev
+
+
+
+
+
+}
+
 
 returnisNULL <- function(f, x, ...){
 

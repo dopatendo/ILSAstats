@@ -7,7 +7,7 @@
 prepdata(
   df,
   study = NULL,
-  year,
+  year = NULL,
   specification = NULL,
   fixN = TRUE,
   columns = NULL

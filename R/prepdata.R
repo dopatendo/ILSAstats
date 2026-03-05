@@ -15,7 +15,7 @@
 #'
 #' head(timss99)
 #'
-#' newdata <- prepdata(df = timss99, year = 1999,columns = paste0("BSMMAT0",1:5))
+#' newdata <- prepdata(df = timss99, columns = paste0("BSMMAT0",1:5),fixN = FALSE)
 #'
 #' head(newdata)
 #'
@@ -29,10 +29,28 @@
 
 prepdata <- function(df,
                      study = NULL,
-                     year,
+                     year = NULL,
                      specification = NULL,
                      fixN = TRUE,
                      columns = NULL){
+
+  # Just select columns if fixN = FALSE
+  ## 5 - fixN
+  returnis(islova,fixN)
+
+  ## 4 - columns
+
+  cdf <- colnames(df)
+  returnisNULL(isinvecmulExact, x = columns, choices = cdf)
+  if(is.null(columns)){columns <- cdf}
+
+  if(!fixN){
+    xx <- df[,columns,drop = FALSE]
+    xx <- untidy(xx,mistoNAs = TRUE)
+
+    return(xx)
+  }
+
 
   # Argument checks ----
 
@@ -44,7 +62,7 @@ prepdata <- function(df,
 
   ili <- merge(ILSAstats::ILSAinfo$pvs,ILSAstats::ILSAinfo$weights,all.x = TRUE)
   ili$extravars[ili$extravars%in%"-"] <- NA
-  cdf <- colnames(df)
+
 
   ## 1 - year, numeric value and within ILSAinfo ----
   returnis(ischaeqnum,year)
@@ -83,15 +101,8 @@ prepdata <- function(df,
 
   }
 
-  ## 4 - columns in cdf ----
-  if(!is.null(columns)){
-    returnisNULL(isinvecmulExact,columns,choices = cdf)
-  }else{
-    columns <- cdf
-  }
 
-  ## 5 - fixN
-  returnis(islova,fixN)
+
 
 
   ## 6 - specification ----
@@ -211,9 +222,6 @@ prepdata <- function(df,
   }
 
 }
-
-
-
 
 
 

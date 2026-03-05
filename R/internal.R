@@ -37,10 +37,10 @@ omitna <- function(x){
 untidy <- function(x, mistoNAs = TRUE){
 
   if(is.data.frame(x)|is.matrix(x))
-    return(.untidy2(x, mistoNAs = mistoNAs))
+    return(.untidy(x, mistoNAs = mistoNAs))
 
   lapply(x,function(i){
-    .untidy2(i,mistoNAs = mistoNAs)
+    .untidy(i,mistoNAs = mistoNAs)
   })
 
 }
