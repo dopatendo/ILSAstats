@@ -162,6 +162,7 @@ leaguetable <- function(df,
                ili$jkzones[1],
                ili$jkreps[1],
                ili$totalweight[1],
+               strsplit(ili$extravars[1],";")[[1]],
                cou)
 
   # if(fixdata){

@@ -194,7 +194,10 @@ prepdata <- function(df,
     for(w in 1:length(excou)){
       iscou <- dati$IDCNTRY%in%excou[w]
       iscas <- !dati[,v1[w],drop = TRUE]%in%g1[w]
-      dati <- dati[-which(iscou&iscas),]
+      if(sum(iscou&iscas)>0){
+        dati <- dati[-which(iscou&iscas),]
+      }
+
     }
 
     dati <- dati[,columns]
@@ -226,7 +229,10 @@ prepdata <- function(df,
     for(w in 1:length(excou)){
       iscou <- dati$IDCNTRY%in%excou[w]
       iscas <- !dati[,v1[w],drop = TRUE]%in%g1[w]
-      dati <- dati[-which(iscou&iscas),]
+      if(sum(iscou&iscas)>0){
+        dati <- dati[-which(iscou&iscas),]
+      }
+
     }
 
     dati <- dati[,columns]
