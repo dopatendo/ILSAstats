@@ -17,6 +17,7 @@
 #' For example, reducing the sample for certain countries in TIMSS 1995. Default is \code{TRUE}.
 #' @inheritParams repmean
 #' @inheritParams repcreate
+#' @inheritParams prepdata
 #'
 #' @return a data frame.
 #'
@@ -152,7 +153,7 @@ leaguetable <- function(df,
     returnisNULL(isinvec,x = specification,choices = sort(unique(ili$study2)))
 
     study2 <- toupper(study2)
-    ili <- ili[ili$study2%in%study2,]
+    ili <- ili[toupper(ili$study2)%in%study2,]
 
   }else{
 
