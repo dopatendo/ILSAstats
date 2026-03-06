@@ -9,6 +9,7 @@ leaguetable(
   study = NULL,
   year,
   subject = NULL,
+  specification = NULL,
   method = NULL,
   reps = NULL,
   fixN = TRUE
