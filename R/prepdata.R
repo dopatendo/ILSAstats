@@ -191,6 +191,13 @@ prepdata <- function(df,
     g1 <- c(1,4)
 
 
+    isnotcou <- !dati$IDCNTRY%in%excou
+    isnotgra <- !dati$IDGRADER%in%2
+    whisnot <- which(isnotcou&isnotgra)
+
+    dati <- dati[-whisnot,]
+
+
     for(w in 1:length(excou)){
       iscou <- dati$IDCNTRY%in%excou[w]
       iscas <- !dati[,v1[w],drop = TRUE]%in%g1[w]
@@ -226,6 +233,13 @@ prepdata <- function(df,
     g1 <- c(3,1,1,8)
 
 
+    isnotcou <- !dati$IDCNTRY%in%excou
+    isnotgra <- !dati$IDGRADER%in%2
+    whisnot <- which(isnotcou&isnotgra)
+
+    dati <- dati[-whisnot,]
+
+
     for(w in 1:length(excou)){
       iscou <- dati$IDCNTRY%in%excou[w]
       iscas <- !dati[,v1[w],drop = TRUE]%in%g1[w]
@@ -243,7 +257,6 @@ prepdata <- function(df,
   }
 
 }
-
 
 
 
