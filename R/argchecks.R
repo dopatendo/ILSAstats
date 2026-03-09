@@ -52,7 +52,7 @@ ispath <- function(x = NULL){
   if(is.null(x))
     return("Path does not exist.")
 
-  file.exists(x)
+  all(file.exists(x))
 
 }
 
