@@ -47,6 +47,18 @@ ischaval <- function(x = NULL){
 
 }
 
+
+ispath <- function(x = NULL){
+  if(is.null(x))
+    return("Path does not exist.")
+
+  file.exists(x)
+
+}
+
+
+
+
 isrep.mean <- function(x = NULL){
   if(is.null(x))
     return("It should be an object produced by repmean().")
