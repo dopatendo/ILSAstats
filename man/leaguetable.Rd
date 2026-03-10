@@ -27,9 +27,6 @@ cycles, check \code{\link{ILSAinfo}}.}
 \item{subject}{an optional character vector indicating the subject for a list of available
 ILSA, check \code{\link{ILSAinfo}}.}
 
-\item{specification}{a character value indicating extra specification like grade
-(e.g., \code{"G8"} for TIMSS) or subject (e.g., \code{"Math"} for TIMSSADVANCED).}
-
 \item{method}{a string indicating the name of the replication method.
 Available options are:
 \code{"JK2-full"}, \code{"JK2-half"},

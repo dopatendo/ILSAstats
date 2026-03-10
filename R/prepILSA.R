@@ -29,7 +29,7 @@
 
 
 
-prepILSA2 <- function(df,
+prepILSA <- function(df,
                      study = NULL,
                      year = NULL,
                      specification = NULL,
