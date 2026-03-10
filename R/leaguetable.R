@@ -17,7 +17,7 @@
 #' For example, reducing the sample for certain countries in TIMSS 1995. Default is \code{TRUE}.
 #' @inheritParams repmean
 #' @inheritParams repcreate
-#' @inheritParams prepdata
+#' @inheritParams prepILSA
 #'
 #' @return a data frame.
 #'

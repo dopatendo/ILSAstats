@@ -17,7 +17,7 @@
 #'
 #' head(timss99)
 #'
-#' newdata <- prepdata(df = timss99, columns = paste0("BSMMAT0",1:5),fixN = FALSE)
+#' newdata <- prepILSA(df = timss99, columns = paste0("BSMMAT0",1:5),fixN = FALSE)
 #'
 #' head(newdata)
 #'
@@ -29,7 +29,7 @@
 
 
 
-prepdata <- function(df,
+prepILSA <- function(df,
                      study = NULL,
                      year = NULL,
                      specification = NULL,
@@ -129,6 +129,7 @@ prepdata <- function(df,
     returnisNULL(ischaval,specification)
     specification <- unique(ili$study2)
     returnis(ischaval,specification)
+    study2 <- specification
   }
 
 
