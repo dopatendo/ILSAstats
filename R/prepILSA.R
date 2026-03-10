@@ -29,7 +29,7 @@
 
 
 
-prepILSA <- function(df,
+prepILSA2 <- function(df,
                      study = NULL,
                      year = NULL,
                      specification = NULL,
@@ -151,7 +151,9 @@ prepILSA <- function(df,
   study <- toupper(study)
   specification <- toupper(specification)
 
-  tofix <- cbind.data.frame(study = "TIMSS", year = c(1995), specification = c("G4","G8"))
+  tofix <- cbind.data.frame(study = c("TIMSS","TIMSS","CIVED"),
+                            year = c(1995,1995,1999),
+                            specification = c("G4","G8","G8"))
 
   tofix <- tofix[tofix$study%in%study&tofix$year%in%year&tofix$specification%in%specification,]
 
@@ -170,7 +172,46 @@ prepILSA <- function(df,
   }
 
 
+  if(study=="CIVED"&year==1999&specification=="G8"){
 
+    dati <- df[,unique(c(columns,"IDCNTRY","ITLANG")), drop = FALSE]
+    # dati <- aa[,c(kolumns,"IDCNTRY","IDGRADER","IDGRADE")]
+    if(!isdfonly(dati)){
+      # dati <- dati[,kolumns]
+      dati <- untidy(dati)
+    }
+
+
+    # Slovenia (ID 705) G4, IDGRADER==1, 3rd
+    # Australia (ID 36) G4, IDGRADE==4, 4th
+
+    excou <- c("Switzerland")
+    excou <- c(756)
+
+    v1 <- c("ITLANG")
+    g1 <- c(1)
+
+
+    # isnotcou <- !dati$IDCNTRY%in%excou
+    # isnotgra <- !dati$IDGRADER%in%2
+    # whisnot <- which(isnotcou&isnotgra)
+    #
+    # dati <- dati[-whisnot,]
+    #
+
+    for(w in 1:length(excou)){
+      iscou <- dati$IDCNTRY%in%excou[w]
+      iscas <- !dati[,v1[w],drop = TRUE]%in%g1[w]
+      if(sum(iscou&iscas)>0){
+        dati <- dati[-which(iscou&iscas),]
+      }
+
+    }
+
+    dati <- dati[,columns]
+    return(dati)
+
+  }
 
   if(study=="TIMSS"&year==1995&specification=="G4"){
 
