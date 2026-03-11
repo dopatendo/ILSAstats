@@ -1,4 +1,5 @@
 # ILSAstats 0.4.3
+- Added `repmeanCI()`.
 - Added `prepdata()`.
 - `untidy()` converts missings to NAs.
 - Argument `year` now accepts characters.

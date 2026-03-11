@@ -15,9 +15,12 @@
 #'  ILSA, check \code{\link{ILSAinfo}}.
 #' @param fixN a logical value indicating if data should be "fixed" to meet official criteria.
 #' For example, reducing the sample for certain countries in TIMSS 1995. Default is \code{TRUE}.
+#' @param addCI a logical value indicating if confidence intervals should be added.
+#' Defaults is \code{TRUE}.
 #' @inheritParams repmean
 #' @inheritParams repcreate
 #' @inheritParams prepILSA
+#' @inheritParams repmeanCI
 #'
 #' @return a data frame.
 #'
@@ -34,6 +37,8 @@ leaguetable <- function(df,
                         year,
                         subject = NULL,
                         specification = NULL,
+                        addCI = TRUE,
+                        alpha = 0.05,
                         method = NULL,
                         reps = NULL,
                         fixN = TRUE){
@@ -245,6 +250,10 @@ leaguetable <- function(df,
                     exclude = NULL,
                     aggregates = NULL,
                     zones = NULL)
+    if(addCI){
+      meai <- repmeanCI(x = meai, alpha = alpha, add = TRUE)
+    }
+
     # if(includeid){
     meai <- cbind(study = ili$study[1],
                   study2 = ili$study2[1],
