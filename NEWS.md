@@ -1,4 +1,5 @@
 # ILSAstats 0.4.4
+- Added support for LaNA.
 - Added `repmeanCI()`.
 - Added `prepdata()`.
 - `untidy()` converts missings to NAs.
