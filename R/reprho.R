@@ -277,9 +277,11 @@ reprho <- function(x = NULL,pv = NULL, pv2 = NULL,relatedpvs = TRUE,
       # wo/ groups
       out <- do.call(rbind,lapply(1:length(out),function(i){
 
-        cbind.data.frame(x[kom[1,i]],
+        outi <- cbind.data.frame(x[kom[1,i]],
                          x[kom[2,i]],
                          t(out[[i]]))
+        colnames(outi) <- paste0("V",1:ncol(outi))
+        outi
 
 
       }))
@@ -416,6 +418,8 @@ reprho <- function(x = NULL,pv = NULL, pv2 = NULL,relatedpvs = TRUE,
 
 .reprhoXY <- function(X,Y,RW,TW,method,rho = 'pearson'){
 
+
+
   # Y can be a matrix of PV
 
   TRW <- cbind(TW,RW)
@@ -429,7 +433,7 @@ reprho <- function(x = NULL,pv = NULL, pv2 = NULL,relatedpvs = TRUE,
   N <- nrow(XY)
 
   if(N==0){
-    return(rep(NA,RE))
+    return(rep(NA,3))
   }
 
 
@@ -636,7 +640,7 @@ reprho <- function(x = NULL,pv = NULL, pv2 = NULL,relatedpvs = TRUE,
 
 
     if(N==0){
-      return(rep(NA,RE))
+      return(rep(NA,3))
     }
 
     # print(i)
