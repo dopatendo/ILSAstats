@@ -74,7 +74,7 @@ Available options are:
 and \code{"JK2-half-1PV"}. \cr\cr
 Additionally, ILSA names can be used, defaulting into:
 \itemize{
-\item \code{"TIMSS"} or \code{"PIRLS"} for \code{"JK2-full"};
+\item \code{"TIMSS"},  \code{"PIRLS"}, or \code{"LANA"} for \code{"JK2-full"};
 \item \code{"ICILS"}, \code{"ICCS"}, or \code{"CIVED"} for \code{"JK2-half"};
 \item \code{"PISA"} or \code{"TALIS"} for \code{"FAY-0.5"};
 \item and \code{"oldTIMSS"}, \code{"oldPIRLS"}, or \code{"RLII"} for \code{"JK2-half-1PV"}.

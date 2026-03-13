@@ -16,22 +16,6 @@
 #' @param year a numeric value indicating the study year. For checking available
 #' years use
 #' \code{ILSAinfo$weights}.
-#' @param method a string indicating the name of the replication method.
-#' Available options are:
-#' \code{"JK2-full"}, \code{"JK2-half"},
-# #' \code{"FAY-0.5"},
-#' and \code{"JK2-half-1PV"}. \cr\cr
-#' Additionally, ILSA names can be used, defaulting into:
-#' \itemize{
-#' \item \code{"TIMSS"} or \code{"PIRLS"} for \code{"JK2-full"};
-#' \item \code{"ICILS"}, \code{"ICCS"}, or \code{"CIVED"} for \code{"JK2-half"};
-# #' \item \code{"PISA"} or \code{"TALIS"} for \code{"FAY-0.5"};
-#' and \code{"oldTIMSS"} or \code{"oldPIRLS"} for \code{"JK2-half-1PV"}.
-#' }
-#' Note that \code{"oldTIMSS"} and \code{"oldPIRLS"}
-#' refer to the method used for TIMSS and PIRLS before 2015,
-#' where within imputation variance
-#' is estimated using only 1 plausible value.
 #'
 #' @return a data frame.
 #'
@@ -118,7 +102,7 @@ repcreate <- function(df,
 
   # Process ----
 
-  if(method%in%c("jk2-full",'timss','pirls')){
+  if(method%in%c("jk2-full",'timss','pirls','lana')){
     simple <- FALSE
   }
 
@@ -302,7 +286,7 @@ repcreateOLD <- function(df,
 
   # Process ----
 
-  if(method%in%c("jk2-full",'timss','pirls')){
+  if(method%in%c("jk2-full",'timss','pirls','lana')){
     simple <- FALSE
   }
 

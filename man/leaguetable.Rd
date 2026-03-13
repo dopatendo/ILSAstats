@@ -10,6 +10,8 @@ leaguetable(
   year,
   subject = NULL,
   specification = NULL,
+  addCI = TRUE,
+  alpha = 0.05,
   method = NULL,
   reps = NULL,
   fixN = TRUE
@@ -30,6 +32,11 @@ ILSA, check \code{\link{ILSAinfo}}.}
 \item{specification}{a character value indicating extra specification like grade
 (e.g., \code{"G8"} for TIMSS) or subject (e.g., \code{"Math"} for TIMSSADVANCED).}
 
+\item{addCI}{a logical value indicating if confidence intervals should be added.
+Defaults is \code{TRUE}.}
+
+\item{alpha}{a numeric value indicating confidence level.}
+
 \item{method}{a string indicating the name of the replication method.
 Available options are:
 \code{"JK2-full"}, \code{"JK2-half"},
@@ -37,7 +44,7 @@ Available options are:
 and \code{"JK2-half-1PV"}. \cr\cr
 Additionally, ILSA names can be used, defaulting into:
 \itemize{
-\item \code{"TIMSS"} or \code{"PIRLS"} for \code{"JK2-full"};
+\item \code{"TIMSS"},  \code{"PIRLS"}, or \code{"LANA"} for \code{"JK2-full"};
 \item \code{"ICILS"}, \code{"ICCS"}, or \code{"CIVED"} for \code{"JK2-half"};
 \item \code{"PISA"} or \code{"TALIS"} for \code{"FAY-0.5"};
 \item and \code{"oldTIMSS"}, \code{"oldPIRLS"}, or \code{"RLII"} for \code{"JK2-half-1PV"}.
