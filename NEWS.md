@@ -17,7 +17,6 @@
 - Function `myfunc()` deleted. This function was added my mistake in 0.4.0.
 
 
-
 # ILSAstats 0.4.0
 - Added `ILSAinfo()` with ILSA information, and pre-setups  with `repcreateILSA()` and `setupILSA()`.
 - Added support for CIVED, TIMSS and PIRLS pre 2015.
