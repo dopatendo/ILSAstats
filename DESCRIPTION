@@ -1,7 +1,7 @@
 Package: ILSAstats
 Type: Package
 Title: Statistics for International Large-Scale Assessments (ILSA)
-Version: 0.4.3
+Version: 0.4.4
 Authors@R: c(person(given = "Andrés",
                     family = "Christiansen",
                     role = c("aut","cre"),
@@ -14,6 +14,7 @@ Description: Calculates point estimates and standard errors using replicate weig
 Encoding: UTF-8
 LazyData: true
 LazyDataCompression: xz
+BuildResaveData: best
 RoxygenNote: 7.3.3
 Imports: 
 Suggests: wCorr, lme4, MuMIn, WeMix
