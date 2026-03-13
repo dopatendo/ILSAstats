@@ -17,9 +17,10 @@
 #' For example, reducing the sample for certain countries in TIMSS 1995. Default is \code{TRUE}.
 #' @param addCI a logical value indicating if confidence intervals should be added.
 #' Defaults is \code{TRUE}.
+#' @param specification a character value indicating extra specification like grade
+#' (e.g., \code{"G8"} for TIMSS) or subject (e.g., \code{"Math"} for TIMSSADVANCED).
 #' @inheritParams repmean
 #' @inheritParams repcreate
-#' @inheritParams prepILSA
 #' @inheritParams repmeanCI
 #'
 #' @return a data frame.

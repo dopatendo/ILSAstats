@@ -80,6 +80,9 @@ repprop <- function(x,categories = NULL,
            "\n",
            paste(paste0(indf[!indf%in%colnames(df)],collapse = ', '),"not found in 'df'")))
 
+  if(length(x)==1&&all(is.na(df[,x,drop=TRUE])))
+    stop("\nInvalid input for 'x'.\nVariable is empty.")
+
 
   if(length(x)>1)
     message("More than one variable provided. 'x' treated as PVs.")

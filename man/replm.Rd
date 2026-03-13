@@ -17,7 +17,8 @@ replm(
   group = NULL,
   exclude = NULL,
   na.action = getOption("na.action"),
-  method
+  method,
+  aggregates = c("pooled", "composite")
 )
 }
 \arguments{
@@ -83,6 +84,10 @@ Note that \code{"oldTIMSS"} and \code{"oldPIRLS"}
 refer to the method used for TIMSS and PIRLS before 2015,
 where within imputation variance
 is estimated using only 1 plausible value.}
+
+\item{aggregates}{a string vector indicating which aggregates should be
+included, options are \code{"pooled"} and \code{"composite"}, both options can be
+used at the same time. If \code{NULL} no aggregate will be estimated.}
 }
 \value{
 a list.

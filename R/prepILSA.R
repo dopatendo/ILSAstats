@@ -5,8 +5,6 @@
 #' transforms data into simple data frames converting missing values to NAs.
 #'
 #' @inheritParams leaguetable
-#' @param specification a character value indicating extra specification like grade
-#' (e.g., \code{"G8"} for TIMSS) or subject (e.g., \code{"Math"} for TIMSSADVANCED).
 #' @param columns a character vector indicating which columns should be selected.
 #' If \code{NULL}, all columns will be selected.
 #'

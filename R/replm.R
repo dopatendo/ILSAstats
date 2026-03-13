@@ -32,11 +32,14 @@
 
 replm <- function(formula, pvs = NULL, relatedpvs = TRUE, quiet = FALSE,
                    summarize = TRUE,
-                  setup = NULL, df, wt, repwt,
-                  group = NULL, exclude = NULL,
-                  na.action = getOption("na.action"),
-                  method){
+                   setup = NULL, df, wt, repwt,
+                   group = NULL, exclude = NULL,
+                   na.action = getOption("na.action"),
+                   method,
+                   aggregates = c("pooled", "composite")){
 
+
+  frm <- formals(replm)
 
   # source("R/argchecks.R")
   # source("R/internal.R")
@@ -54,6 +57,7 @@ replm <- function(formula, pvs = NULL, relatedpvs = TRUE, quiet = FALSE,
   returnis(ischavec, method)
   method <- returnis(isinvec,x = method[1L],choices = ILSAmethods(repse = TRUE))
 
+  aggregates <- returnisNULL(isinvecmul,x = aggregates, choices = frm$aggregates)
 
   # Checks ----
   returnis(isformula,formula)
@@ -201,9 +205,19 @@ replm <- function(formula, pvs = NULL, relatedpvs = TRUE, quiet = FALSE,
   # Estimation --------------------------------------------------------------
 
 
-  estmG <- vector("list",length(UGR)+1)
+  # estmG <- vector("list",length(UGR)+1)
 
-  for(j in 0:length(UGR)){
+  if("pooled"%in%aggregates|is.null(UGR)){
+    ming <- 0
+    estmG <- vector("list",length(UGR)+1)
+  }else{
+    ming <- 1
+    estmG <- vector("list",length(UGR))
+  }
+
+
+
+  for(j in ming:length(UGR)){
 
     if(j==0){
       if(is.null(group)){
@@ -242,7 +256,13 @@ replm <- function(formula, pvs = NULL, relatedpvs = TRUE, quiet = FALSE,
       }
 
     }
-    estmG[[j+1]] <- estm
+
+    if(ming==0){
+      estmG[[j+1]] <- estm
+    }else{
+      estmG[[j]] <- estm
+    }
+
 
   }
 
@@ -253,8 +273,12 @@ replm <- function(formula, pvs = NULL, relatedpvs = TRUE, quiet = FALSE,
   # }
 
 
+  # incrn <- sum(c("pooled","composite")%in%aggregates)+1
+  # # normally I would need coef+errors, + pooled and composite
 
-  outj <- vector("list",length(estmG)+3)
+  incrN1 <- "composite"%in%aggregates+2
+
+  outj <- vector("list",length(estmG)+incrN1)
 
   for(k in 1:length(estmG)){
     estm <- estmG[[k]]
@@ -299,14 +323,14 @@ replm <- function(formula, pvs = NULL, relatedpvs = TRUE, quiet = FALSE,
       # Output
       nmodels <- sum(sapply(estm,length))
       if(length(estm)==1){
-        outj[[k+3]] <- (structure(list(repmodel = ster, totalmodel = estm[[1]][[1]],
-                                       nmodels = nmodels),class = "replm"))
+        outj[[k+incrN1]] <- (structure(list(repmodel = ster, totalmodel = estm[[1]][[1]],
+                                            nmodels = nmodels),class = "replm"))
       }else{
         estm <- lapply(estm,function(i) i[[1]])
         names(estm) <- paste0("totalmodel",1:length(estm))
 
-        outj[[k+3]] <- structure(c(list(repmodel = ster), estm,
-                                   nmodels = nmodels),class = "replm.pv")
+        outj[[k+incrN1]] <- structure(c(list(repmodel = ster), estm,
+                                        nmodels = nmodels),class = "replm.pv")
       }
     }
 
@@ -316,15 +340,25 @@ replm <- function(formula, pvs = NULL, relatedpvs = TRUE, quiet = FALSE,
 
   # Output --------------------------------------------------------------
 
-  if(length(outj)==4)
-    return(outj[[4]])
+  if(incrN1==3){
+    incrN2 <- 4
+  }else{
+    incrN2 <- 3
+  }
 
+  if(length(outj)==incrN2)
+    return(outj[[incrN2]])
+
+
+  noutj <- c("Composite","Coefficients","StdErrors","Pooled")
+  noutj <- noutj[tolower(noutj)%in%c(aggregates,c("stderrors","coefficients"))]
 
   # aa = outj
-  names(outj) <- c("Composite","Coefficients","StdErrors","Pooled",UGR)
+  # names(outj) <- c("Composite","Coefficients","StdErrors","Pooled",UGR)
+  names(outj) <- c(noutj,UGR)
 
 
-  coes <- lapply(outj[setdiff(names(outj[-(1:4)]),exclude)],function(i) i[[1]][,1:2])
+  coes <- lapply(outj[setdiff(names(outj[-(1:length(noutj))]),exclude)],function(i) i[[1]][,1:2])
   coena <- unique(unlist(lapply(coes,rownames)))
   coes <- lapply(coes,function(i){
 
@@ -344,13 +378,17 @@ replm <- function(formula, pvs = NULL, relatedpvs = TRUE, quiet = FALSE,
 
   ster <- do.call(rbind,lapply(coes,function(i) i[,2]))
   coes <- do.call(rbind,lapply(coes,function(i) i[,1]))
-  outj[[2]] <- coes
-  outj[[3]] <- ster
-  ster <- cbind(Estimate = colMeans(coes,na.rm = TRUE),
-                "Std. Error" = apply(ster,2,.repsecomp),
-                "t value" = NA)
-  ster[,3] <- ster[,1]/ster[,2]
-  outj[[1]] <- ster
+  outj[["composite"%in%aggregates+1]] <- coes
+  outj[["composite"%in%aggregates+2]] <- ster
+
+  if("composite"%in%aggregates){
+    ster <- cbind(Estimate = colMeans(coes,na.rm = TRUE),
+                  "Std. Error" = apply(ster,2,.repsecomp),
+                  "t value" = NA)
+    ster[,3] <- ster[,1]/ster[,2]
+    outj[[1]] <- ster
+  }
+
 
 
   return(structure(outj,class = "replm.group"))
@@ -452,27 +490,36 @@ print.replm.pv <- function(x, ...){
 
 #' @export
 print.replm.group <- function(x, ...){
-  cat(paste0(sum(unlist(lapply(x[-(1:3)],function(i) i$nmodels))),
-             " models were estimated.\n"))
-  cat(paste0(rep("-",getOption("width")),collapse = ""),
-      "\nComposite coefficients:\n")
-  # print(x[[2]]$call)
-  # cat("\nCoefficients:\n")
-  print(cbind(round(x[[1]][,1:2,drop = FALSE],4),round(x[[1]][,3,drop = FALSE],3)))
+
+  if(names(x)[1]=="Composite"){
+    cat(paste0(sum(unlist(lapply(x[-(1:3)],function(i) i$nmodels))),
+               " models were estimated.\n"))
+    cat(paste0(rep("-",getOption("width")),collapse = ""),
+        "\nComposite coefficients:\n")
+    print(cbind(round(x[[1]][,1:2,drop = FALSE],4),round(x[[1]][,3,drop = FALSE],3)))
+  }else{
+    cat(paste0(sum(unlist(lapply(x[-(1:2)],function(i) i$nmodels))),
+               " models were estimated.\n"))
+  }
+
+  wierr <- which(names(x)%in%"StdErrors"[1])
+  wicoe <- which(names(x)%in%"Coefficients"[1])
+
+
+
   cat(paste0(rep("-",getOption("width")),collapse = ""),
       "\n\nCall:\n")
 
-  print(x[[4]][[2]]$call)
+  print(x[[wierr+1]][[2]]$call)
   cat("\nCoefficients and standard errors by group:\n")
-  coepr <- do.call(cbind,lapply(1:ncol(x[[2]]),function(i){
-    out <- paste0(format(round(x[[2]][,i],3)),
-                  " (",format(round(x[[3]][,i],2)),")")
-    out[is.na(x[[2]][,i])] <- NA
+  coepr <- do.call(cbind,lapply(1:ncol(x[[wicoe]]),function(i){
+    out <- paste0(format(round(x[[wicoe]][,i],3)),
+                  " (",format(round(x[[wierr]][,i],2)),")")
+    out[is.na(x[[wicoe]][,i])] <- NA
     out
   }))
-  colnames(coepr) <- colnames(x[[2]])
-  rownames(coepr) <- rownames(x[[2]])
+  colnames(coepr) <- colnames(x[[wicoe]])
+  rownames(coepr) <- rownames(x[[wicoe]])
   print(as.table(coepr))
 
 }
-

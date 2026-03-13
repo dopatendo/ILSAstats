@@ -14,6 +14,8 @@ prepILSA(
 )
 }
 \arguments{
+\item{df}{a data frame.}
+
 \item{study}{an optional character vector indicating the subjects to be analyzed, for a list of available
 subjects, check \code{\link{ILSAinfo}}.}
 

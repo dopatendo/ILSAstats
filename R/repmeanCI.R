@@ -46,7 +46,7 @@ repmeanCI <- function(x, alpha = 0.05, add = TRUE){
 
 .repmeanCI <- function(x, alpha = 0.05, add = TRUE){
 
-  M <- qnorm(1-alpha/2)
+  M <- stats::qnorm(1-alpha/2)
   up <- x$mean+M*x$se
   do <- x$mean-M*x$se
 

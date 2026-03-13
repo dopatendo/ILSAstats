@@ -18,12 +18,25 @@
 #' @export
 #'
 
+
+
 proflevels <- function(df,
                        study = NULL, year, subject = NULL,
                        method = NULL, reps = NULL,
                        type = c("long","wide1","wide2"),
                        separateSE = TRUE,
                        fixN = TRUE){
+
+
+  # df = ILSAstats::timss99
+  # study = NULL
+  # year = 1999
+  # subject = NULL
+  # method = NULL
+  # reps = NULL
+  # type = c("long")
+  # separateSE = TRUE
+  # fixN = TRUE
 
   # Argument checks ----
 
@@ -68,8 +81,9 @@ proflevels <- function(df,
   ## 1 - df - check variables within df ----
 
   ilic <- lapply(1:nrow(ili), function(i){
-    omitna(as.vector(unlist(lapply(ili[i,c("country","pvs","jkzones","jkreps","totalweight","extravars")],
+    x <- omitna(as.vector(unlist(lapply(ili[i,c("country","pvs","jkzones","jkreps","totalweight","extravars")],
                                    strsplit,split = ";"))))
+    setdiff(x,"-")
   })
 
   ili <- ili[sapply(ilic,function(i){all(i%in%cdf)}),]
@@ -134,7 +148,7 @@ proflevels <- function(df,
 
 
 
-  if(fixdata){
+  if(fixN){
     df <- .fixdata(df = df, study = ili$study[1],
                    year = ili$year[1],
                    specification = ili$study2[1],fixN = fixN)
