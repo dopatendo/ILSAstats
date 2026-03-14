@@ -1,7 +1,7 @@
 Package: ILSAstats
 Type: Package
 Title: Statistics for International Large-Scale Assessments (ILSA)
-Version: 0.4.4
+Version: 0.4.5
 Authors@R: c(person(given = "Andrés",
                     family = "Christiansen",
                     role = c("aut","cre"),
@@ -21,8 +21,6 @@ Suggests:
     lme4,
     MuMIn,
     WeMix,
-    knitr,
-    rmarkdown
+    knitr
 Depends: R (>= 3.5.0)
 License: GPL (>= 3)
-VignetteBuilder: knitr
