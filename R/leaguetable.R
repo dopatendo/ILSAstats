@@ -9,8 +9,6 @@
 #'  by the column names in the data frame.
 #' @param year a numeric vector indicating the ILSA name, for a list of available
 #'  cycles, check \code{\link{ILSAinfo}}.
-#' @param study an optional character vector indicating the subjects to be analyzed, for a list of available
-#'  subjects, check \code{\link{ILSAinfo}}.
 #' @param subject an optional character vector indicating the subject for a list of available
 #'  ILSA, check \code{\link{ILSAinfo}}.
 #' @param fixN a logical value indicating if data should be "fixed" to meet official criteria.

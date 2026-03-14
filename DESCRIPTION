@@ -16,9 +16,13 @@ LazyData: true
 LazyDataCompression: xz
 BuildResaveData: best
 RoxygenNote: 7.3.3
-Imports: 
-Suggests: wCorr, lme4, MuMIn, WeMix
+Suggests: 
+    wCorr,
+    lme4,
+    MuMIn,
+    WeMix,
+    knitr,
+    rmarkdown
 Depends: R (>= 3.5.0)
 License: GPL (>= 3)
-
-
+VignetteBuilder: knitr
