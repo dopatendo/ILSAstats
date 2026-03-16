@@ -409,7 +409,11 @@ reprho <- function(x = NULL,pv = NULL, pv2 = NULL,relatedpvs = TRUE,
 
   })
 
+
+  class(out) <- c("reprho", class(out))
+
   out
+
 
 
 
@@ -798,4 +802,19 @@ reprho <- function(x = NULL,pv = NULL, pv2 = NULL,relatedpvs = TRUE,
 
 }
 
+
+#' @export
+print.reprho <- function(x, ...){
+
+  dec = 5
+
+  class(x) <- setdiff(class(x),c("reprho"))
+
+
+    print(maxdec(x, dec = dec))
+
+
+
+
+}
 

@@ -411,7 +411,9 @@ ILSAmethods <- function(repse = TRUE){
       "LANA",
       "oldTIMSS","oldPIRLS")
   }else{
-    c("JK2-full","JK2-half","FAY-0.5","JK2-half-1PV",
+    c("JK2-full","JK2-half",
+      # "FAY-0.5",
+      "JK2-half-1PV",
       "TIMSS","PIRLS",
       "ICILS","ICCS",
       "CIVED","RLII",

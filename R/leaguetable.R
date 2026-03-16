@@ -271,7 +271,10 @@ leaguetable <- function(df,
 
   # Output ------------------------------------------------------------------
 
-  do.call(rbind,out)
+  out <- do.call(rbind,out)
+  class(out) <- c("leaguetable",class(out))
+
+  return(out)
 
 }
 

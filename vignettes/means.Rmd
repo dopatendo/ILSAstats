@@ -1,0 +1,177 @@
+---
+title: "Means"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Means}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+# knitr::opts_chunk$set(
+#   collapse = TRUE,
+#   comment = "#>"
+# )
+```
+
+```{r setup, echo=FALSE}
+library(ILSAstats)
+```
+
+We can estimate the arithmetic mean of any variable using the function `repmean()`, as any other "rep" function of `ILSAstats`, we need to specify the data (`df`), the total weights (`wt`), the replicate weights (`repwt`), and the method (`method`).
+
+Besides these basic options, other arguments can be used:
+
+- `x`: a string with the name of the variable (or variables) to be used in the analysis.
+- `PV`: a logical value indicating if `x` are plausible values or not. If `FALSE` the statistics of each variable will be computed independently. If `TRUE` all variables in `x` will be treated as plausible values of the same construct, and all their statistics will be combined. 
+- `var`: a string of length 1 indicating the type of variance to be estimated. Options are `"unbiased"` or `"ML"`.
+- `group`: a string containing the name of the variable that contains the groups of countries. If used all statistics will be estimated separately for each group, and groups will be treated as **independent** from each other, e.g., countries.
+- `by`: a string containing the name of a second grouping variable. If used, all statistics will be estimated separately for each category, and categories will be treated as **non-independent** from each other, e.g., boys and girls.
+- `exclude`: a string containing which groups should be excluded from aggregate estimations.
+- `aggregates`: a string containing the aggregate statistics that should be estimated. Options include: `"pooled"` for also estimating all groups (without exclusions) as a single group; and `"composite"` for averaging all the estimations for each single group (without exclusions).
+
+
+## Weights and setup
+
+For `repmean()`, first we need to create the replicate weights. Using the included `repdata` data, and using the `"LANA"` method:
+
+
+
+```{r}
+RW <- repcreate(df = repdata,
+                 wt = "wt",
+                 jkzone = "jkzones",
+                 jkrep = "jkrep",
+                 method = "LANA")
+```
+
+To make it easier to specify some arguments, it is advised that we create also a `"repsetup"` object. We will create three setups for this example: one without groups, one with groups and without exclusions, and one with groups and exclusions (excluding group 2):
+
+```{r}
+# No groups
+STNG <- repsetup(repwt = RW, wt = "wt", df = repdata, method = "LANA")
+
+# With groups
+STGR <- repsetup(repwt = RW, wt = "wt", df = repdata, method = "LANA",
+                 group = "GROUP")
+
+# With groups and exclusions
+STGE <- repsetup(repwt = RW, wt = "wt", df = repdata, method = "LANA",
+                 group = "GROUP", exclude = "GR2")
+
+```
+
+## Single variable
+
+For example, if we want to estimate the mean of variable `"SES"`, we can use either of the setups to get the overall or group results:
+
+```{r}
+# No groups
+repmean(x = "SES", setup = STNG)
+
+# With groups
+repmean(x = "SES", setup = STGR)
+
+# With groups and exclusions
+repmean(x = "SES", setup = STGE)
+```
+
+We can notice that using no groups we would get the same results for the pooled estimates if we use groups and no exclusions. But, when we exclude group 2, the pooled and the composite estimate changes.
+
+## Multiple variables
+
+We can also estimate multiple variables at once, for example `"SES"` and `"Math1"`:
+
+
+```{r}
+# No groups
+repmean(x = c("SES","Math1"), setup = STNG)
+
+# With groups
+repmean(x = c("SES","Math1"), setup = STGR)
+```
+
+## Plausible values
+
+When treating with plausible values, we need to specify the names of all plausible values of a construct, and use the argument `"PV"` so all estimates will be combined (if not all variables will be estimated separately). For example, for estimating the mean achievement in math for this sample we would use:
+
+```{r}
+# No groups
+repmean(x = paste0("Math",1:5), PV = TRUE, setup = STNG)
+
+# With groups
+repmean(x = paste0("Math",1:5), PV = TRUE, setup = STGR)
+```
+
+## Aggregates
+
+When using groups we can always omit the pooled and composite calculations if we need to, by default both estimates will be calculated.
+
+```{r}
+# Default
+repmean(x = paste0("Math",1:5), PV = TRUE, setup = STGR)
+
+# Only pooled
+repmean(x = paste0("Math",1:5), PV = TRUE, setup = STGR, aggregates = "pooled")
+
+# Only composite
+repmean(x = paste0("Math",1:5), PV = TRUE, setup = STGR, aggregates = "composite")
+
+# No aggregates
+repmean(x = paste0("Math",1:5), PV = TRUE, setup = STGR, aggregates = NULL)
+```
+
+## Difference between non-independent groups
+
+For estimating the mean of not-independent groups, we can use the argument `by`. For example,
+for estimating the mean achievement in math between `GENDER==0` and `GENDER==1`, we can:
+
+```{r}
+repmean(x = paste0("Math",1:5), PV = TRUE, setup = STNG,by = "GENDER")
+```
+
+This will provide us with the overall statistics, the statistics for each category within `GENDER`, and statistics of the difference between means between all categories.
+
+Of course, we can also estimate this using groups:
+
+```{r}
+repmean(x = paste0("Math",1:5), PV = TRUE, setup = STGR, aggregates = NULL,
+        by = "GENDER")
+```
+
+## Difference between independent groups
+
+For estimating the mean of independent groups, we can use the argument `repmeandif()`. The only argument of this function will be an object produced by `repmean` (using or not using `by`):
+
+```{r}
+m1 <- repmean(x = paste0("Math",1:5), PV = TRUE, setup = STGR, aggregates = NULL,
+        by = NULL)
+
+m2 <- repmean(x = paste0("Math",1:5), PV = TRUE, setup = STGR, aggregates = NULL,
+        by = "GENDER")
+
+
+```
+
+```{r}
+repmeandif(m1)
+
+repmeandif(m2)
+```
+
+## Confidence intervals
+
+Some ILSAs use confidence intervals instead of point estimates for means. For adding confidence intervals to an object produced by `repmean()`, we can use `repmeanCI()`, selecting a confidence level (by default it is 0.05):
+
+
+```{r}
+repmeanCI(m1, alpha = 0.05)
+
+repmeanCI(m2, alpha = 0.05)
+```
+
+We can also not add the confidence intervals, just obtain them separately:
+
+```{r}
+repmeanCI(m1, alpha = 0.05, add = FALSE)
+```

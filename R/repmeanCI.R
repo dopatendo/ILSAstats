@@ -84,9 +84,25 @@ repmeanCI <- function(x, alpha = 0.05, add = TRUE){
 #' @export
 print.repmeanCI <- function(x, ...){
 
+  dec = 5
+
   class(x) <- setdiff(class(x),c("repmeanCI","repmeanCI.list"))
 
-  print(x)
+  # print(x)
+
+  if(inherits(x,"list")){
+
+
+    print(    lapply(x,function(i){
+
+      maxdec(i, dec = dec)
+
+    }))
+
+  }else{
+    print(maxdec(x, dec = dec))
+  }
+
 
 }
 

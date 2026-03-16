@@ -21,6 +21,8 @@ Suggests:
     lme4,
     MuMIn,
     WeMix,
-    knitr
+    knitr,
+    rmarkdown
 Depends: R (>= 3.5.0)
 License: GPL (>= 3)
+VignetteBuilder: knitr

@@ -7,7 +7,6 @@
 repquant(
   x,
   qtl = c(0.05, 0.25, 0.75, 0.95),
-  PV = FALSE,
   setup = NULL,
   repwt,
   wt,
@@ -23,9 +22,6 @@ repquant(
 analysis.}
 
 \item{qtl}{a numeric vector indicating the desired quantiles (between 0 and 1).}
-
-\item{PV}{a logical value indicating if the variables in \code{x} are
-plausible values.}
 
 \item{setup}{an optional list produced by \code{\link{repsetup}}.}
 

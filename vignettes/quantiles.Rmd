@@ -1,0 +1,91 @@
+---
+title: "Quantiles"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Quantiles}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+# knitr::opts_chunk$set(
+#   collapse = TRUE,
+#   comment = "#>"
+# )
+```
+
+```{r setup, echo=FALSE}
+library(ILSAstats)
+```
+
+
+We can estimate the quantiles of any variable using the function `repquant()`, as any other "rep" function of `ILSAstats`, we need to specify the data (`df`), the total weights (`wt`), the replicate weights (`repwt`), and the method (`method`).
+
+Besides these basic options, other arguments can be used:
+
+- `x`: a string with the name of the variable (or variables) to be used in the analysis. If multiple variables are specified, they will be treated as plausible values.
+- `qtl`: a numeric vector indicating the desired quantiles (between 0 and 1).
+- `group`: a string containing the name of the variable that contains the groups of countries. If used all statistics will be estimated separately for each group.
+- `by`: a string containing the name of a second grouping variable. If used, all statistics will be estimated separately for each category, and categories will be treated as **non-independent** from each other, e.g., boys and girls.
+- `exclude`: a string containing which groups should be excluded from aggregate estimations.
+
+## Weights and setup
+
+For `repquant()`, first we need to create the replicate weights. Using the included `repdata` data, and using the `"LANA"` method:
+  
+  
+  
+```{r}
+RW <- repcreate(df = repdata,
+                wt = "wt",
+                jkzone = "jkzones",
+                jkrep = "jkrep",
+                method = "LANA")
+```
+
+To make it easier to specify some arguments, it is advised that we create also a `"repsetup"` object. We will create three setups for this example: one without groups, one with groups and without exclusions, and one with groups and exclusions (excluding group 2):
+  
+```{r}
+# No groups
+STNG <- repsetup(repwt = RW, wt = "wt", df = repdata, method = "LANA")
+
+# With groups
+STGR <- repsetup(repwt = RW, wt = "wt", df = repdata, method = "LANA",
+                 group = "GROUP")
+
+# With groups and exclusions
+STGE <- repsetup(repwt = RW, wt = "wt", df = repdata, method = "LANA",
+                 group = "GROUP", exclude = "GR2")
+
+```
+
+## Single variable
+
+For example, if we want to estimate the quantiles of variable `"SES"`, we can use either of the setups to get the overall or group results:
+  
+```{r}
+# No groups
+repquant(x = "SES", setup = STNG, qtl = c(.25, .50, .75))
+
+# With groups
+repquant(x = "SES", setup = STGR, qtl = c(.25, .50, .75))
+
+# With groups and exclusions
+repquant(x = "SES", setup = STGE, qtl = c(.25, .50, .75))
+```
+
+We can notice that using no groups we would get the same results for the pooled estimates if we use groups and no exclusions. But, when we exclude group 2, the pooled and the composite estimate changes.
+
+## Plausible values
+
+When treating with plausible values, we need to specify the names of all plausible values of a construct, and use the argument `"PV"` so all estimates will be combined (if not all variables will be estimated separately). For example, for estimating the mean achievement in math for this sample we would use:
+  
+```{r}
+# No groups
+repquant(x = paste0("Math",1:5), setup = STNG, qtl = c(.25, .50, .75))
+
+# With groups
+repquant(x = paste0("Math",1:5), setup = STGR, qtl = c(.25, .50, .75))
+```
+
+

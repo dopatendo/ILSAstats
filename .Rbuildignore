@@ -5,3 +5,6 @@
 .DS_Store
 ztools/
 
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

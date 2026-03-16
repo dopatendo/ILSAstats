@@ -1,17 +1,17 @@
 ---
-title: "Creating replicate weights"
+title: "Replicate weights"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Creating replicate weights}
+  %\VignetteIndexEntry{Replicate weights}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+# knitr::opts_chunk$set(
+#   collapse = TRUE,
+#   comment = "#>"
+# )
 ```
 
 ```{r setup,echo=FALSE}
@@ -34,10 +34,10 @@ For the number of replications, we use the argument `reps`, that is `NULL` by de
 
 More importantly, we need to decide on the method. All methods are available for all ILSAs, so you are able to use the official one or experiment with other. For creating replicate weights, 4 methods are implemented, you can use the method name or the ILSA names:
 
-- "JK-full", corresponds to "TIMSS", "PIRLS" and "LANA".
-- "JK-half", corresponds to "ICILS", "ICCS", and "CIVED".
-- "JK2-half-1PV", corresponds to "oldTIMSS", "oldPIRLS", and "RLII" (for TIMSS and PIRLS conducted before 2015).
-- "FAY-0.5", corresponds to "PISA" and "TALIS".
+- `"JK-full"`, corresponds to `"TIMSS"`, `"PIRLS"` and `"LANA"`.
+- `"JK-half"`, corresponds to `"ICILS"`, `"ICCS"`, and `"CIVED"`.
+- `"JK2-half-1PV"`, corresponds to `"oldTIMSS"`, `"oldPIRLS"`, and `"RLII"` (for TIMSS and PIRLS conducted before 2015).
+- `"FAY-0.5"`, corresponds to `"PISA"` and `"TALIS"`.
 
 
 Our data corresponds to TIMSS 1999, so we are advised to use either the old method of TIMSS to replicate results (`"oldTIMSS"`), or the new method of TIMSS to compare it to new results (`"TIMSS"`).
@@ -46,7 +46,6 @@ Our data corresponds to TIMSS 1999, so we are advised to use either the old meth
 
 So, now knowing our options we can use `timss99` data and `repcreate()` for creating the replicate weights:
 ```{r}
-
 RW1 <- repcreate(df = timss99,
                 jkzone = "JKZONE",
                 jkrep = "JKREP",
@@ -76,7 +75,6 @@ So this information already contains the name of the method, the jackknife zones
 
 So, for our TIMSS 1999 case, we would need to specify the name of the study, the cycle and the data:
 ```{r}
-
 RW2 <- repcreateILSA(study = "TIMSS",year = 1999,df = timss99)
 
 ```

@@ -1286,5 +1286,28 @@ list(  do.call(rbind,lapply(1:ncol(X),function(y){
 }
 
 
+#' @export
+print.repmean <- function(x, ...){
+
+  dec = 5
+
+  class(x) <- setdiff(class(x),c("repmean","repmean.list"))
+
+  if(inherits(x,"list")){
+
+
+    print(    lapply(x,function(i){
+
+      maxdec(i, dec = dec)
+
+    }))
+
+  }else{
+    print(maxdec(x, dec = dec))
+  }
+
+
+
+}
 
 

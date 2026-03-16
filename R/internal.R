@@ -63,3 +63,37 @@ untidy <- function(x, mistoNAs = TRUE){
 }
 
 
+maxdec <- function(x, dec = 5){
+  out <- do.call(cbind.data.frame,lapply(x,function(i){
+
+    if(!is.numeric(i))
+      return(i)
+
+    round(i, digits = dec)
+
+
+  }))
+
+  class(out) <- class(x)
+
+  return(out)
+
+}
+
+addcolumn <- function(df, xname, after, x = NA){
+
+  cdf <- colnames(df)
+
+  af <- which(cdf%in%after)
+
+  out <- cbind.data.frame(df[,1:af,drop = FALSE],
+                          x,
+                          df[,((af+1):ncol(df)),drop = FALSE])
+  colnames(out)[af+1] <- xname
+
+  class(out) <- class(df)
+
+  out
+
+
+}

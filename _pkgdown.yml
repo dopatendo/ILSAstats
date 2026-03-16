@@ -1,0 +1,23 @@
+url: ~
+template:
+  bootstrap: 5
+  light-switch: true
+articles:
+- title: Articles
+  navbar: ~
+  contents:
+  - repweights
+  - setup
+  - means
+  - proportions
+  - quantiles
+  - correlations
+  - leaguetables
+on:
+  push:
+    branches: documentation # Only run when pushing to this branch
+  pull_request:
+    branches: documentation
+  workflow_dispatch:                 # Optional: adds a manual "Run" button
+
+

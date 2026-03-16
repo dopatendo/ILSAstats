@@ -18,6 +18,13 @@
 
 repmeandif <- function(x){
 
+  if(inherits(x,"leaguetable")){
+
+    return(.LTdif(x))
+
+  }
+
+
   returnis(isrep.mean,x)
 
 
@@ -28,9 +35,13 @@ repmeandif <- function(x){
 
 
   # message("dfs and pvalues are experimental.")
-  lapply(x,function(i){
+  out <- lapply(x,function(i){
     .repmeandif(i)
   })
+
+  class(out) <- c("repmeandif.list","repmeandif",class(out))
+
+  out
 
 
 
@@ -165,3 +176,47 @@ repmeandif <- function(x){
 }
 
 
+
+.LTdif <- function(x){
+  spl <- split(x,f = x$subject)
+
+  out <- do.call(rbind,lapply(spl,function(i){
+
+    i2 <- i[,-(1:4)]
+    class(i2) <- c("repmean.single","repmean","data.frame")
+
+    sw(cbind.data.frame(i[,1:4],.repmeandif(i2)))
+
+
+  }))
+  rownames(out) <- NULL
+
+  class(out) <- c("repmeandif", class(out))
+
+  out
+}
+
+
+#' @export
+print.repmeandif <- function(x, ...){
+
+  dec = 5
+
+  class(x) <- setdiff(class(x),c("repmeandif","repmeandif.list"))
+
+  if(inherits(x,"list")){
+
+
+    print(    lapply(x,function(i){
+
+      maxdec(i, dec = dec)
+
+    }))
+
+  }else{
+    print(maxdec(x, dec = dec))
+  }
+
+
+
+}

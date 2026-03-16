@@ -20,8 +20,9 @@ leaguetable(
 \arguments{
 \item{df}{a data frame.}
 
-\item{study}{an optional character vector indicating the subjects to be analyzed, for a list of available
-subjects, check \code{\link{ILSAinfo}}.}
+\item{study}{an optional character vector indicating the ILSA name, for a list of available
+ILSA, check \code{\link{ILSAinfo}}. If \code{NULL}, the ILSA name will be determined
+by the column names in the data frame.}
 
 \item{year}{a numeric vector indicating the ILSA name, for a list of available
 cycles, check \code{\link{ILSAinfo}}.}

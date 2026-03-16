@@ -15,13 +15,15 @@
 #' @export
 #'
 
-repquant <- function(x,qtl = c(0.05, 0.25, 0.75, 0.95),PV = FALSE,
+repquant <- function(x,qtl = c(0.05, 0.25, 0.75, 0.95),
                      setup = NULL,
                      repwt, wt, df,
                      method,
                      group = NULL,by = NULL, exclude = NULL){
 
 
+
+  PV <- FALSE
 
 
   if(!is.null(setup)){
@@ -44,6 +46,14 @@ repquant <- function(x,qtl = c(0.05, 0.25, 0.75, 0.95),PV = FALSE,
 
   ## class
   returnis(ischavec,x)
+
+  if(length(x)==1){
+    PV <- FALSE
+  }else{
+    PV <- TRUE
+    message("More than one variable provided. 'x' treated as PVs.")
+  }
+
   returnis(islova,PV)
   returnis(is.chavec.or.dfonly,repwt)
   returnis(ischaval,wt)
@@ -157,6 +167,9 @@ repquant <- function(x,qtl = c(0.05, 0.25, 0.75, 0.95),PV = FALSE,
                     GR = GR, exclude = exclude,qtl = qtl)
 
   if(is.null(by)){
+
+    class(outt) <- c("repquant", class(outt))
+
     return(outt)
   }
 
@@ -193,7 +206,9 @@ repquant <- function(x,qtl = c(0.05, 0.25, 0.75, 0.95),PV = FALSE,
 
   names(out) <- paste0(by,'==',bys)
 
-  c(list(ALL=outt),out)
+  out <- c(list(ALL=outt),out)
+
+  class(out) <- c("repquant.list","repquant", class(out))
 }
 
 
@@ -385,4 +400,28 @@ repquant <- function(x,qtl = c(0.05, 0.25, 0.75, 0.95),PV = FALSE,
   cs <- cumsum(xx[,2L])/sum(xx[,2L])
 
   unlist(lapply(qtl, function(y) xx[which(cs>=y)[1],1L]),use.names = FALSE)
+}
+
+#' @export
+print.repquant <- function(x, ...){
+
+  dec = 5
+
+  class(x) <- setdiff(class(x),c("repquant","repquant.list"))
+
+  if(inherits(x,"list")){
+
+
+    print(    lapply(x,function(i){
+
+      maxdec(i, dec = dec)
+
+    }))
+
+  }else{
+    print(maxdec(x, dec = dec))
+  }
+
+
+
 }

@@ -20,9 +20,7 @@
 
 
 proflevels.get <- function(df, study = NULL, subject = NULL, combine = TRUE){
-  # Argument checks ----
 
-  returnis(islova,combine)
 
   # 1 - df
   # 2 - study
@@ -40,7 +38,12 @@ proflevels.get <- function(df, study = NULL, subject = NULL, combine = TRUE){
   # group = NULL
   # reps = NULL
   # method = NULL
+  # combine = TRUE
 
+
+  # Argument checks ----
+
+  returnis(islova,combine)
 
 
   # ili <- merge(ILSAstats::ILSAinfo$pvs,ILSAstats::ILSAinfo$weights,all.x = TRUE)
@@ -49,7 +52,7 @@ proflevels.get <- function(df, study = NULL, subject = NULL, combine = TRUE){
   ili <- stats::na.omit(ili)
   cdf <- colnames(df)
 
-  ## 1 - df - check variables within df ----
+  ## 1 - df - check variables within df --
 
   ilic <- lapply(1:nrow(ili), function(i){
     as.vector(unlist(lapply(ili[i,c("country","pvs")],
@@ -66,7 +69,7 @@ proflevels.get <- function(df, study = NULL, subject = NULL, combine = TRUE){
 
 
 
-  ## 2 - study, character value and within ILSAinfo ----
+  ## 2 - study, character value and within ILSAinfo --
   returnisNULL(ischaval,study)
   returnisNULL(isinvec,x = study,choices = sort(unique(ili$study)))
 
@@ -83,14 +86,14 @@ proflevels.get <- function(df, study = NULL, subject = NULL, combine = TRUE){
 
   }
 
-  # ## 3 - year, numeric value and within ILSAinfo ----
+  # # ## 3 - year, numeric value and within ILSAinfo --
   # returnis(isnumval,year)
   # returnis(isinvec,x = year,choices = sort(unique(ili$year)))
   #
   # ili <- ili[ili$year%in%year,]
 
 
-  ## 4 - subject, character value and within ILSAinfo ----
+  ## 4 - subject, character value and within ILSAinfo --
   returnisNULL(ischavec,subject)
   returnisNULL(isinvecmul,x = subject, choices = sort(unique(ili$subject)))
 
@@ -98,26 +101,6 @@ proflevels.get <- function(df, study = NULL, subject = NULL, combine = TRUE){
     ili <- ili[ili$subject%in%subject,]
   }
 
-  # ## 5 - method ----
-  # returnisNULL(ischavec, method)
-  # returnisNULL(isinvec,x = method[1L],choices = ILSAmethods(repse = TRUE))
-  # if(is.null(method)){method <- unique(ili$method)}
-
-  # ## 6 - reps ----
-  # returnisNULL(isnumval, reps)
-  # if(is.null(reps)){reps <- unique(ili$reps)}
-
-  ## 7 - var - passes through repmean ----
-
-
-  # ## 8 - group ----
-  #
-  # if("IDCNTRY_STR"%in%colnames(df)){
-  #   cou <- "IDCNTRY_STR"
-  # }else{
-  #   cou <- unique(ili$country)
-  # }
-  #
 
 
   # Process -----------------------------------------------------------------

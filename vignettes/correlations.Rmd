@@ -1,0 +1,174 @@
+---
+title: "Correlations"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Correlations}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+# knitr::opts_chunk$set(
+#   collapse = TRUE,
+#   comment = "#>"
+# )
+```
+
+```{r setup, echo=FALSE}
+library(ILSAstats)
+```
+
+We can estimate the correlations for any pair of variables using the function `reprho()`, as any other "rep" function of `ILSAstats`, we need to specify the data (`df`), the total weights (`wt`), the replicate weights (`repwt`), and the method (`method`).
+
+Besides these basic options, other arguments can be used:
+
+- `x`: a string with the name of the variable (or variables) to be used in the analysis.
+- `pv`: a string containing the name of plausible value variables related to a construct.
+- `pv2`: a string containing the name of plausible value variables related to **another** construct (diferente from the one in `pv`).
+- `relatedpvs`: a logical value indicating if when using two plausible value constructs, there should be related or not. If `TRUE` correlations between plausible values will be estimated in pairs (1 with 1, 2 with 2, etc.). If `FALSE` correlations will be estimated using all posible combination between both plausible value variables.
+- `rho`: a string indicating the correlation coefficient to be computed, options are `"pearson"` (the default), `"spearman"`, and `"polychoric"`.
+- `group`: a string containing the name of the variable that contains the groups of countries. If used all statistics will be estimated separately for each group, and groups will be treated as **independent** from each other, e.g., countries.
+- `exclude`: a string containing which groups should be excluded from aggregate estimations.
+- `aggregates`: a string containing the aggregate statistics that should be estimated. Options include: `"pooled"` for also estimating all groups (without exclusions) as a single group; and `"composite"` for averaging all the estimations for each single group (without exclusions).
+
+
+## Weights and setup
+
+For `reprho()`, first we need to create the replicate weights. Using the included `repdata` data, and using the `"LANA"` method:
+  
+  
+  
+```{r}
+RW <- repcreate(df = repdata,
+                wt = "wt",
+                jkzone = "jkzones",
+                jkrep = "jkrep",
+                method = "LANA")
+```
+
+To make it easier to specify some arguments, it is advised that we create also a `"repsetup"` object. We will create three setups for this example: one without groups, one with groups and without exclusions, and one with groups and exclusions (excluding group 2):
+  
+```{r}
+# No groups
+STNG <- repsetup(repwt = RW, wt = "wt", df = repdata, method = "LANA")
+
+# With groups
+STGR <- repsetup(repwt = RW, wt = "wt", df = repdata, method = "LANA",
+                 group = "GROUP")
+
+# With groups and exclusions
+STGE <- repsetup(repwt = RW, wt = "wt", df = repdata, method = "LANA",
+                 group = "GROUP", exclude = "GR2")
+
+```
+
+## Two non-PV variables
+
+For example, if we want to estimate the correlation between `"item01"` and `"SES"`, we can use either of the setups to get the overall or group results (notice that if we do not specify the type of correlation it will default to `"pearson"`):
+  
+```{r}
+# No groups
+reprho(x = c("SES","item01"), setup = STNG)
+
+# With groups
+reprho(x = c("item01","SES","item01"), setup = STGR, rho = "pearson")
+
+# With groups and exclusions
+reprho(x = c("SES","item01"), setup = STGE, rho = "pearson")
+```
+
+We can notice that using no groups we would get the same results for the pooled estimates if we use groups and no exclusions. But, when we exclude group 2, the pooled and the composite estimate changes.
+
+
+## Correlation methods
+
+Besides the Pearson correlation, also the Spearman correlation and polychoric correlation can be obtained, for this we use the `rho` argument:
+
+```{r}
+# Pearson
+reprho(x = c("item02","item01"), setup = STGR, rho = "pearson")
+
+# Spearman
+reprho(x = c("item02","item01"), setup = STGR, rho = "spearman")
+
+# Polychoric
+reprho(x = c("item02","item01"), setup = STGR, rho = "polychoric")
+```
+
+We can notice that using no groups we would get the same results for the pooled estimates if we use groups and no exclusions. But, when we exclude group 2, the pooled and the composite estimate changes.
+
+
+
+## Multiple non-PV variables
+
+We can also estimate correlations between more than two variables:
+
+```{r}
+reprho(x = c("SES","item01","item02"), setup = STGR, rho = "pearson")
+```
+
+## One PV variable
+
+To estimate the correlations between a non plausible value variables and a plausible value variable we need to state the normal variables in `x` and plausible values variables in argument `pv`: 
+
+```{r}
+# One variable
+reprho(x = c("SES"),
+       pv = c(paste0("Math",1:5)),
+       setup = STGR, rho = "pearson")
+
+# More than one variable
+reprho(x = c("SES","item01"),
+       pv = c(paste0("Math",1:5)),
+       setup = STGR, rho = "pearson")
+```
+
+## Multiple PV variables
+
+It is also possible to correlate two plausible value variables using argument `pv` and `pv2`, when doing so `x` should be `NULL`. For example, to correlate math and reading achievement in `repdata`:
+```{r}
+reprho(pv = c(paste0("Math",1:5)),
+       pv2 = c(paste0("Reading",1:5)),
+       setup = STGR, rho = "pearson")
+```
+
+Please notice that by default `reprho()` assumes that both plausible value variables are related and correlates the first plausible value of each variable, then the seconde one of each and so on. For our example it will estimate 5 correlations (Math1-Reading1, Math2-Reading2, Math3-Reading3, Math4-Reading4, and Math5-Reading5) and average them.
+
+Nevertheless, it is also possible to calculate de correlation between no related plausible values, therefore instead of 5 estimations, `reprho()` will make 25 estimations, with all the possible combinations between math and reading. For doing that, we can use the argument `relatedpvs=FALSE`:
+
+```{r}
+reprho(pv = c(paste0("Math",1:5)),
+       pv2 = c(paste0("Reading",1:5)),
+       relatedpvs = FALSE,
+       setup = STGR, rho = "pearson")
+```
+
+## Aggregates
+
+When using groups we can always omit the pooled and composite calculations if we need to, by default both estimates will be calculated.
+
+```{r}
+# Default
+reprho(pv = paste0("Math",1:5), 
+       pv2 = c(paste0("Reading",1:5)), 
+       setup = STGR, rho = "pearson")
+
+# Only pooled
+reprho(pv = paste0("Math",1:5), 
+       pv2 = c(paste0("Reading",1:5)), 
+       setup = STGR, rho = "pearson",
+       aggregates = "pooled")
+
+# Only composite
+reprho(pv = paste0("Math",1:5), 
+       pv2 = c(paste0("Reading",1:5)), 
+       setup = STGR, rho = "pearson",
+       aggregates = "composite")
+
+# No aggregates
+reprho(pv = paste0("Math",1:5), 
+       pv2 = c(paste0("Reading",1:5)), 
+       setup = STGR, rho = "pearson",
+       aggregates = NULL)
+```
+

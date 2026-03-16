@@ -1,0 +1,66 @@
+---
+title: "League tables"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{League tables}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+# knitr::opts_chunk$set(
+#   collapse = TRUE,
+#   comment = "#>"
+# )
+```
+
+```{r setup, echo=FALSE}
+library(ILSAstats)
+```
+
+To calculate league tables of an ILSA we need to obtain the country mean of all participant country of a cycle. Of course, we can do this using `repmean()`, nevertheless, for certain ILSA all the relevant information is already incorporated into `ILSAstats`. We can check all the available cycles with `ILSAinfo$pvs`:
+
+```{r}
+table(ILSAinfo$pvs$study)
+
+nrow(ILSAinfo$pvs)
+```
+
+As we can see, there is a total of `r nrow(ILSAinfo$pvs)` combinations.
+
+For producing an automatic league table we can use `leaguetable()`, which contains the following arguments:
+
+- `df`: the data frame with the ILSA data.
+- `study`: the name of the study as it appears in `ILSAinfo$pvs$study`.
+- `year`: the year of the cycle.
+- `subject`: the name of the subject as it appears in `ILSAinfo$pvs$year`. If left `NULL` all subjects will be estimated.
+- `specification`: a string indicating extra specification for the identifying the study if it is necessary, as it appears in `ILSAinfo$pvs$study2`. If left `NULL` it is equivalent to `"-"`.
+- `method`: the method to use. If left `NULL` the default method will be used.
+- `fixN`: a logical value indicating if cases should be removed to match official results. This is necessary in some studies like TIMSS 1995, in which the public data includes cases that are not used for producing the league tables.
+
+## Official league tables
+
+We can use `timss99` data to calculate the official league table published in the TIMSS 1999 report using:
+
+```{r}
+# Only math
+leaguetable(df = timss99, study = "TIMSS", year = 1999, subject = "math")
+
+# Only math
+leaguetable(df = timss99, study = "TIMSS", year = 1999, subject = "science")
+
+# Both subjects
+leaguetable(df = timss99, study = "TIMSS", year = 1999)
+
+```
+
+## Un-official league tables
+
+Nevertheless, we can also change the method. For example, we can do this to compare TIMSS 1999 to TIMSS 2023, therefore, we would need to use the method `"TIMSS"` instead of `"oldTIMSS"`:
+
+```{r}
+leaguetable(df = timss99, study = "TIMSS", year = 1999, method = "TIMSS")
+```
+
+
+
