@@ -1,3 +1,8 @@
+# ILSAstats 0.4.5
+- Added extensive documentation.
+- Added support for TIMSS Longitudinal 2023.
+- Added `autoILSA()`.
+
 # ILSAstats 0.4.4
 - Added support for LaNA.
 - Added `repmeanCI()`.

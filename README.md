@@ -14,18 +14,13 @@ regressions, and multilevel regressions.
 
 <!-- badges: start -->
 
-<!-- [![CRAN status](https://www.r-pkg.org/badges/version/ILSAstats)](https://CRAN.R-project.org/package=ILSAstats) -->
-
-<!-- [![](https://img.shields.io/github/r-package/v/dopatendo/ILSAstats)](https://github.com/dopatendo/ILSAstats) -->
-
-<!-- [![](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable) -->
-
-<!-- ![Static Badge](https://img.shields.io/badge/dependencies-haven-brightgreen) -->
-
-<!-- [![](https://img.shields.io/badge/doi-10.32614/CRAN.package.ILSAstats-green.svg)](https://doi.org/10.32614/CRAN.package.ILSAstats) -->
-
-<!-- ![![](http://cranlogs.r-pkg.org/badges/grand-total/ILSAstats?color=blue)](https://cran.r-project.org/package=ILSAstats)-->
-
+[![CRAN
+status](https://www.r-pkg.org/badges/version/ILSAstats)](https://CRAN.R-project.org/package=ILSAstats)
+[![](https://img.shields.io/github/r-package/v/dopatendo/ILSAstats)](https://github.com/dopatendo/ILSAstats)
+[![](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+![Static
+Badge](https://img.shields.io/badge/dependencies-none-brightgreen)
+[![](https://img.shields.io/badge/doi-10.32614/CRAN.package.ILSAstats-green.svg)](https://doi.org/10.32614/CRAN.package.ILSAstats)
 <!-- badges: end -->
 
 ## Installation
