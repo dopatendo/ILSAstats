@@ -9,3 +9,4 @@ ztools/
 ^docs$
 ^pkgdown$
 ^README\.Rmd$
+^\.github$

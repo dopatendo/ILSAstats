@@ -26,3 +26,4 @@ Suggests:
 Depends: R (>= 3.5.0)
 License: GPL (>= 3)
 VignetteBuilder: knitr
+URL: https://dopatendo.github.io/ILSAstats/
