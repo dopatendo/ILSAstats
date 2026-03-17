@@ -1,0 +1,138 @@
+# ILSAstats
+
+Calculates point estimates and standard errors using replicate weights
+and plausible values for International Large-Scale Assessments (ILSA),
+including: means, proportions, quantiles, correlations, singlelevel
+regressions, and multilevel regressions.
+
+## Installation
+
+You can install the stable version of `ILSAstats` directly from CRAN:
+
+``` r
+install.packages("ILSAstats")
+```
+
+Or, if you wish to install the development version of `ILSAstats`:
+
+``` r
+remotes::install_github("dopatendo/ILSAstats")
+```
+
+## Create replicate weights
+
+Before working with replicate weights statistics we need to be sure to
+create the replicate weights (if they are not provided within the data).
+For an example on how to create them see
+[`vignette("repweights")`](https://dopatendo.github.io/ILSAstats/articles/repweights.md).
+
+## Setup
+
+When doing multiple estimations we may need to use the same options more
+than one time. For an example on how to create a setup object for
+`ILSAstats` see
+[`vignette("setup")`](https://dopatendo.github.io/ILSAstats/articles/setup.md).
+
+## Means
+
+For an example on estimating means using replicate weights and plausible
+values see
+[`vignette("means")`](https://dopatendo.github.io/ILSAstats/articles/means.md).
+
+## Proportions
+
+For an example on estimating proportions using replicate weights and
+plausible values see
+[`vignette("proportions")`](https://dopatendo.github.io/ILSAstats/articles/proportions.md).
+
+## Quantiles
+
+For an example on estimating quantiles using replicate weights and
+plausible values see
+[`vignette("quantiles")`](https://dopatendo.github.io/ILSAstats/articles/quantiles.md).
+
+## Correlations
+
+For an example on estimating correlations using replicate weights and
+plausible values see
+[`vignette("correlations")`](https://dopatendo.github.io/ILSAstats/articles/correlations.md).
+
+## League tables
+
+For an example on estimating league tables automatically see
+[`vignette("leaguetables")`](https://dopatendo.github.io/ILSAstats/articles/leaguetables.md).
+
+# Package index
+
+## All functions
+
+- [`ILSAinfo`](https://dopatendo.github.io/ILSAstats/reference/ILSAinfo.md)
+  : ILSA information
+- [`WeMixPV()`](https://dopatendo.github.io/ILSAstats/reference/WeMixPV.md)
+  : Survey Weighted Mixed-Effects Models with Plausible Values
+- [`autoILSA()`](https://dopatendo.github.io/ILSAstats/reference/autoILSA.md)
+  : Options for automatic functions
+- [`center()`](https://dopatendo.github.io/ILSAstats/reference/center.md)
+  [`grand.mean()`](https://dopatendo.github.io/ILSAstats/reference/center.md)
+  [`group.mean()`](https://dopatendo.github.io/ILSAstats/reference/center.md)
+  [`getgroup.mean()`](https://dopatendo.github.io/ILSAstats/reference/center.md)
+  : Centering
+- [`icc()`](https://dopatendo.github.io/ILSAstats/reference/icc.md) :
+  Intraclass Correlation Coefficient
+- [`leaguetable()`](https://dopatendo.github.io/ILSAstats/reference/leaguetable.md)
+  : ILSA's league tables
+- [`lmerPV()`](https://dopatendo.github.io/ILSAstats/reference/lmerPV.md)
+  : Linear Mixed-Models with Plausible Values
+- [`prepILSA()`](https://dopatendo.github.io/ILSAstats/reference/prepILSA.md)
+  : Prepare ILSA Data
+- [`proflevels()`](https://dopatendo.github.io/ILSAstats/reference/proflevels.md)
+  : ILSA's proficiency levels
+- [`proflevels.get()`](https://dopatendo.github.io/ILSAstats/reference/proflevels.get.md)
+  : Get ILSA's proficiency levels
+- [`repcreate()`](https://dopatendo.github.io/ILSAstats/reference/repcreate.md)
+  [`repcreateILSA()`](https://dopatendo.github.io/ILSAstats/reference/repcreate.md)
+  : Creation of Replicate Weights
+- [`repdata`](https://dopatendo.github.io/ILSAstats/reference/repdata.md)
+  : Simulated data with 5000 cases
+- [`repglm()`](https://dopatendo.github.io/ILSAstats/reference/repglm.md)
+  : Generalized Linear Models with Replicate Weights
+- [`replm()`](https://dopatendo.github.io/ILSAstats/reference/replm.md)
+  : Linear Models with Replicate Weights
+- [`repmean()`](https://dopatendo.github.io/ILSAstats/reference/repmean.md)
+  : Mean, Variance and Standard Deviation with Replicate Weights
+- [`repmeanCI()`](https://dopatendo.github.io/ILSAstats/reference/repmeanCI.md)
+  : Confidence Intervals for Replicated Means
+- [`repmeandif()`](https://dopatendo.github.io/ILSAstats/reference/repmeandif.md)
+  : Mean Difference of Independent Samples with Replicate Weights
+- [`repprop()`](https://dopatendo.github.io/ILSAstats/reference/repprop.md)
+  : Proportions with Replicate Weights
+- [`repprop.table()`](https://dopatendo.github.io/ILSAstats/reference/repprop.table.md)
+  : Tables for Proportions with Replicate Weights
+- [`repquant()`](https://dopatendo.github.io/ILSAstats/reference/repquant.md)
+  : Quantiles with Replicate Weights
+- [`reprho()`](https://dopatendo.github.io/ILSAstats/reference/reprho.md)
+  : Correlations with Replicate Weights
+- [`repse()`](https://dopatendo.github.io/ILSAstats/reference/repse.md)
+  [`repsecomp()`](https://dopatendo.github.io/ILSAstats/reference/repse.md)
+  [`pvse()`](https://dopatendo.github.io/ILSAstats/reference/repse.md) :
+  Standard Error for Estimates with Replicate Weights and Plausible
+  Values
+- [`repsetup()`](https://dopatendo.github.io/ILSAstats/reference/repsetup.md)
+  [`repsetupILSA()`](https://dopatendo.github.io/ILSAstats/reference/repsetup.md)
+  : Setup for Analysis with Replicate Weights
+- [`timss99`](https://dopatendo.github.io/ILSAstats/reference/timss99.md)
+  : Random TIMSS 99 data with 3000 cases and 3 countries
+
+# Articles
+
+### Articles
+
+- [Replicate
+  weights](https://dopatendo.github.io/ILSAstats/articles/repweights.md):
+- [Setup](https://dopatendo.github.io/ILSAstats/articles/setup.md):
+- [Means](https://dopatendo.github.io/ILSAstats/articles/means.md):
+- [Proportions](https://dopatendo.github.io/ILSAstats/articles/proportions.md):
+- [Quantiles](https://dopatendo.github.io/ILSAstats/articles/quantiles.md):
+- [Correlations](https://dopatendo.github.io/ILSAstats/articles/correlations.md):
+- [League
+  tables](https://dopatendo.github.io/ILSAstats/articles/leaguetables.md):
