@@ -13,11 +13,6 @@ articles:
   - quantiles
   - correlations
   - leaguetables
-on:
-  push:
-    branches: documentation # Only run when pushing to this branch
-  pull_request:
-    branches: documentation
-  workflow_dispatch:                 # Optional: adds a manual "Run" button
+
 
 
