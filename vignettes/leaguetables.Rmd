@@ -18,15 +18,13 @@ vignette: >
 library(ILSAstats)
 ```
 
-To calculate league tables of an ILSA we need to obtain the country mean of all participant country of a cycle. Of course, we can do this using `repmean()`, nevertheless, for certain ILSA all the relevant information is already incorporated into `ILSAstats`. We can check all the available cycles with `ILSAinfo$pvs`:
+To calculate league tables of an ILSA we need to obtain the country mean of all participant country of a cycle. Of course, we can do this using `repmean()`, nevertheless, for certain ILSA all the relevant information is already incorporated into `ILSAstats`. We can check all the available cycles with `autoILSA()`:
 
 ```{r}
-table(ILSAinfo$pvs$study)
-
-nrow(ILSAinfo$pvs)
+autoILSA()
 ```
 
-As we can see, there is a total of `r nrow(ILSAinfo$pvs)` combinations.
+There is a total of `r nrow(ILSAinfo$pvs)` combinations.
 
 For producing an automatic league table we can use `leaguetable()`, which contains the following arguments:
 

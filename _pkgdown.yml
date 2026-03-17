@@ -1,0 +1,16 @@
+url: https://dopatendo.github.io/ILSAstats/
+template:
+  bootstrap: 5
+  light-switch: yes
+articles:
+- title: Articles
+  navbar: ~
+  contents:
+  - repweights
+  - setup
+  - means
+  - proportions
+  - quantiles
+  - correlations
+  - leaguetables
+
