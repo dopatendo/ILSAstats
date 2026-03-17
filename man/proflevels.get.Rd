@@ -10,11 +10,11 @@ proflevels.get(df, study = NULL, subject = NULL, combine = TRUE)
 \item{df}{a data frame.}
 
 \item{study}{an optional character vector indicating the ILSA name, for a list of available
-ILSA, check \code{\link{ILSAinfo}}. If \code{NULL}, the ILSA name will be determined
+ILSA, check \code{\link{autoILSA}}. If \code{NULL}, the ILSA name will be determined
 by the column names in the data frame.}
 
 \item{subject}{an optional character vector indicating the subject for a list of available
-ILSA, check \code{\link{ILSAinfo}}.}
+ILSA, check \code{\link{autoILSA}}.}
 
 \item{combine}{a logical value indicating if subjects should be combined in
 a single data frame.}

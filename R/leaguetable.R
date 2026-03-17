@@ -2,15 +2,15 @@
 #'
 #' Estimates the mean score for all countries within a cycle of an ILSA.
 #' Arguments \code{method}, \code{reps}, and \code{var}, are extracted from
-#' \code{\link{ILSAinfo}} and can be overridden by the user.
+#' \code{\link{autoILSA}} and can be overridden by the user.
 #'
 #' @param study an optional character vector indicating the ILSA name, for a list of available
-#'  ILSA, check \code{\link{ILSAinfo}}. If \code{NULL}, the ILSA name will be determined
+#'  ILSA, check \code{\link{autoILSA}}. If \code{NULL}, the ILSA name will be determined
 #'  by the column names in the data frame.
 #' @param year a numeric vector indicating the ILSA name, for a list of available
-#'  cycles, check \code{\link{ILSAinfo}}.
+#'  cycles, check \code{\link{autoILSA}}.
 #' @param subject an optional character vector indicating the subject for a list of available
-#'  ILSA, check \code{\link{ILSAinfo}}.
+#'  ILSA, check \code{\link{autoILSA}}.
 #' @param fixN a logical value indicating if data should be "fixed" to meet official criteria.
 #' For example, reducing the sample for certain countries in TIMSS 1995. Default is \code{TRUE}.
 #' @param addCI a logical value indicating if confidence intervals should be added.
@@ -280,3 +280,26 @@ leaguetable <- function(df,
 
 
 
+#' @export
+print.leaguetable <- function(x, ...){
+
+  dec = 5
+
+  class(x) <- setdiff(class(x),c("leaguetable"))
+
+  if(inherits(x,"list")){
+
+
+    print(    lapply(x,function(i){
+
+      maxdec(i, dec = dec)
+
+    }))
+
+  }else{
+    print(maxdec(x, dec = dec))
+  }
+
+
+
+}

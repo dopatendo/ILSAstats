@@ -21,14 +21,14 @@ leaguetable(
 \item{df}{a data frame.}
 
 \item{study}{an optional character vector indicating the ILSA name, for a list of available
-ILSA, check \code{\link{ILSAinfo}}. If \code{NULL}, the ILSA name will be determined
+ILSA, check \code{\link{autoILSA}}. If \code{NULL}, the ILSA name will be determined
 by the column names in the data frame.}
 
 \item{year}{a numeric vector indicating the ILSA name, for a list of available
-cycles, check \code{\link{ILSAinfo}}.}
+cycles, check \code{\link{autoILSA}}.}
 
 \item{subject}{an optional character vector indicating the subject for a list of available
-ILSA, check \code{\link{ILSAinfo}}.}
+ILSA, check \code{\link{autoILSA}}.}
 
 \item{specification}{a character value indicating extra specification like grade
 (e.g., \code{"G8"} for TIMSS) or subject (e.g., \code{"Math"} for TIMSSADVANCED).}
@@ -67,7 +67,7 @@ a data frame.
 \description{
 Estimates the mean score for all countries within a cycle of an ILSA.
 Arguments \code{method}, \code{reps}, and \code{var}, are extracted from
-\code{\link{ILSAinfo}} and can be overridden by the user.
+\code{\link{autoILSA}} and can be overridden by the user.
 }
 \examples{
 data(timss99)

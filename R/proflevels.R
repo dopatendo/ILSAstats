@@ -2,7 +2,7 @@
 #'
 #' Estimates the proficiency levels for all countries within a cycle of an ILSA.
 #' Arguments \code{method}, and \code{reps}, are extracted from
-#' \code{\link{ILSAinfo}} and can be overridden by the user.
+#' \code{\link{autoILSA}} and can be overridden by the user.
 #'
 #'
 #' @inheritParams leaguetable
@@ -30,11 +30,13 @@ proflevels <- function(df,
                        accumulated = FALSE){
 
 
+  # rm(list = ls())
   # library(ILSAstats)
   # source("R/internal.R")
   # source("R/argchecks.R")
   # source("R/repmean.R")
   # source("R/repse.R")
+  # source("R/prepILSA.R")
   # source("R/proflevels.get.R")
   # df = ILSAstats::timss99
   # study = NULL
@@ -45,7 +47,7 @@ proflevels <- function(df,
   # type = c("wide2")
   # separateSE = FALSE
   # fixN = TRUE
-  # acumulated = TRUE
+  # accumulated = FALSE
 
   # Argument checks ----
 
@@ -328,6 +330,15 @@ if(!accumulated){
   levs <- untidy(levs)
 
 
+  rwi <- repcreate(df = levs,
+                   jkzone = ili$jkzones[1],
+                   jkrep = ili$jkreps[1],
+                   wt = ili$totalweight[1],
+                   repwtname = "rwi",
+                   reps = reps,
+                   method = method)
+
+
   levs <- cbind.data.frame(levs,
                            proflevels.get(df = df,study = study,combine = TRUE))
 
@@ -398,10 +409,40 @@ if(!accumulated){
 
 
 
-  if(length(out)==1)
-    return(out[[1]])
+  if(length(out)==1){
+    out <- out[[1]]
+    class(out) <- c("proflevels",class(out))
+    return(out)
+  }
+
 
   names(out) <- ili$subject
+  class(out) <- c("proflevels",class(out))
   return(out)
+
+}
+
+
+#' @export
+print.proflevels <- function(x, ...){
+
+  dec = 5
+
+  class(x) <- setdiff(class(x),c("proflevels"))
+
+  if(inherits(x,"list")){
+
+
+    print(    lapply(x,function(i){
+
+      maxdec(i, dec = dec)
+
+    }))
+
+  }else{
+    print(maxdec(x, dec = dec))
+  }
+
+
 
 }
