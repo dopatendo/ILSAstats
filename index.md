@@ -1,10 +1,5 @@
 # ILSAstats
 
-Calculates point estimates and standard errors using replicate weights
-and plausible values for International Large-Scale Assessments (ILSA),
-including: means, proportions, quantiles, correlations, singlelevel
-regressions, and multilevel regressions.
-
 ## Installation
 
 You can install the stable version of `ILSAstats` directly from CRAN:

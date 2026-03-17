@@ -1,5 +1,12 @@
 # Changelog
 
+## ILSAstats 0.4.5
+
+- Added extensive documentation.
+- Added support for TIMSS Longitudinal 2023.
+- Added
+  [`autoILSA()`](https://dopatendo.github.io/ILSAstats/reference/autoILSA.md).
+
 ## ILSAstats 0.4.4
 
 CRAN release: 2026-03-13
