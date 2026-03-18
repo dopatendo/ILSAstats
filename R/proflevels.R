@@ -430,18 +430,33 @@ print.proflevels <- function(x, ...){
 
   class(x) <- setdiff(class(x),c("proflevels"))
 
-  if(inherits(x,"list")){
+  if(inherits(x,"list")&&inherits(x[[1]],"list")){
 
 
-    print(    lapply(x,function(i){
-
-      maxdec(i, dec = dec)
-
+    print( lapply(x,function(i){
+      lapply(i,function(j){
+        maxdec(j, dec = dec)
+      })
     }))
 
+
   }else{
-    print(maxdec(x, dec = dec))
+    if(inherits(x,"list")){
+
+
+      print(    lapply(x,function(i){
+
+        maxdec(i, dec = dec)
+
+      }))
+
+    }else{
+      print(maxdec(x, dec = dec))
+    }
   }
+
+
+
 
 
 
