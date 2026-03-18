@@ -61,4 +61,12 @@ leaguetable(df = timss99, study = "TIMSS", year = 1999, method = "TIMSS")
 ```
 
 
+## Difference between groups
+
+We can calculate the difference between groups using `repmeandif()`:
+```{r}
+leaguetable(df = timss99, study = "TIMSS", year = 1999)|>
+  repmeandif()
+```
+
 

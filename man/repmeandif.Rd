@@ -7,7 +7,8 @@
 repmeandif(x)
 }
 \arguments{
-\item{x}{a data frame produced by \code{\link{repmean}} for a single variable.}
+\item{x}{a data frame produced by \code{\link{repmean}} for a single variable
+or an object produced by \code{\link{leaguetable}}.}
 }
 \value{
 a data frame or a list.

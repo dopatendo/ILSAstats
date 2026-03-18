@@ -6,7 +6,8 @@
 #' see \code{\link{repse}}.
 #'
 #'
-#' @param x a data frame produced by \code{\link{repmean}} for a single variable.
+#' @param x a data frame produced by \code{\link{repmean}} for a single variable
+#' or an object produced by \code{\link{leaguetable}}.
 #'
 #'
 #' @return a data frame or a list.
@@ -20,7 +21,7 @@ repmeandif <- function(x){
 
   if(inherits(x,"leaguetable")){
 
-    return(.LTdif(x))
+    return(.repmeandifLT(x))
 
   }
 
@@ -176,25 +177,45 @@ repmeandif <- function(x){
 }
 
 
+.repmeandifLT <- function(x){
 
-.LTdif <- function(x){
-  spl <- split(x,f = x$subject)
+  xx <- split(x,f=x$subject)
 
-  out <- do.call(rbind,lapply(spl,function(i){
+  xx <- do.call(rbind,lapply(xx,function(i){
+    x1 <- unique(i[,setdiff(colnames(x),c("group","mean","se","N","CIup","CIdown"))])
+    x2 <- i[,c("group","N","mean","se")]
 
-    i2 <- i[,-(1:4)]
-    class(i2) <- c("repmean.single","repmean","data.frame")
+    class(x2) <- c("repmean.single","repmean","data.frame")
+    sw(cbind(x1,repmeandif(x2)))
+  })
+  )
+  rownames(xx) <- NULL
+  class(xx) <- c("repmeandif",class(xx))
 
-    sw(cbind.data.frame(i[,1:4],.repmeandif(i2)))
+  xx
 
-
-  }))
-  rownames(out) <- NULL
-
-  class(out) <- c("repmeandif", class(out))
-
-  out
 }
+
+
+
+# .LTdif <- function(x){
+#   spl <- split(x,f = x$subject)
+#
+#   out <- do.call(rbind,lapply(spl,function(i){
+#
+#     i2 <- i[,-(1:4)]
+#     class(i2) <- c("repmean.single","repmean","data.frame")
+#
+#     sw(cbind.data.frame(i[,1:4],.repmeandif(i2)))
+#
+#
+#   }))
+#   rownames(out) <- NULL
+#
+#   class(out) <- c("repmeandif", class(out))
+#
+#   out
+# }
 
 
 #' @export
