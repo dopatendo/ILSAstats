@@ -123,3 +123,52 @@ leaguetable(df = timss99, study = "TIMSS", year = 1999, method = "TIMSS")
     ## 4 TIMSS     G8 1999 science  Chile 1076 420.5514 4.86369 411.0187 430.0840
     ## 5 TIMSS     G8 1999 science  Japan  885 550.6614 2.53919 545.6847 555.6381
     ## 6 TIMSS     G8 1999 science Taiwan 1039 573.3537 5.01030 563.5337 583.1737
+
+## Difference between groups
+
+We can calculate the difference between groups using
+[`repmeandif()`](https://dopatendo.github.io/ILSAstats/reference/repmeandif.md):
+
+``` r
+leaguetable(df = timss99, study = "TIMSS", year = 1999)|>
+  repmeandif()
+```
+
+    ##    study study2 year subject group1 group2        dif      se    tvalue   df
+    ## 1  TIMSS     G8 1999    math  Chile  Chile    0.00000 7.71064   0.00000 2150
+    ## 2  TIMSS     G8 1999    math  Chile  Japan -185.65410 6.20049 -29.94184 1959
+    ## 3  TIMSS     G8 1999    math  Chile Taiwan -197.67460 7.36163 -26.85202 2113
+    ## 4  TIMSS     G8 1999    math  Japan  Chile  185.65410 6.20049  29.94184 1959
+    ## 5  TIMSS     G8 1999    math  Japan  Japan    0.00000 4.17589   0.00000 1768
+    ## 6  TIMSS     G8 1999    math  Japan Taiwan  -12.02049 5.76069  -2.08664 1922
+    ## 7  TIMSS     G8 1999    math Taiwan  Chile  197.67460 7.36163  26.85202 2113
+    ## 8  TIMSS     G8 1999    math Taiwan  Japan   12.02049 5.76069   2.08664 1922
+    ## 9  TIMSS     G8 1999    math Taiwan Taiwan    0.00000 6.99522   0.00000 2076
+    ## 10 TIMSS     G8 1999 science  Chile  Chile    0.00000 6.76855   0.00000 2150
+    ## 11 TIMSS     G8 1999 science  Chile  Japan -130.11005 5.44584 -23.89164 1959
+    ## 12 TIMSS     G8 1999 science  Chile Taiwan -152.80231 6.99301 -21.85072 2113
+    ## 13 TIMSS     G8 1999 science  Japan  Chile  130.11005 5.44584  23.89164 1959
+    ## 14 TIMSS     G8 1999 science  Japan  Japan    0.00000 3.67440   0.00000 1768
+    ## 15 TIMSS     G8 1999 science  Japan Taiwan  -22.69226 5.72242  -3.96550 1922
+    ## 16 TIMSS     G8 1999 science Taiwan  Chile  152.80231 6.99301  21.85072 2113
+    ## 17 TIMSS     G8 1999 science Taiwan  Japan   22.69226 5.72242   3.96550 1922
+    ## 18 TIMSS     G8 1999 science Taiwan Taiwan    0.00000 7.21048   0.00000 2076
+    ##     pvalue
+    ## 1  1.00000
+    ## 2  0.00000
+    ## 3  0.00000
+    ## 4  0.00000
+    ## 5  1.00000
+    ## 6  0.03705
+    ## 7  0.00000
+    ## 8  0.03705
+    ## 9  1.00000
+    ## 10 1.00000
+    ## 11 0.00000
+    ## 12 0.00000
+    ## 13 0.00000
+    ## 14 1.00000
+    ## 15 0.00008
+    ## 16 0.00000
+    ## 17 0.00008
+    ## 18 1.00000

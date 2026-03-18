@@ -196,6 +196,53 @@ use the method <code>"TIMSS"</code> instead of
 <span><span class="co">## 5 TIMSS     G8 1999 science  Japan  885 550.6614 2.53919 545.6847 555.6381</span></span>
 <span><span class="co">## 6 TIMSS     G8 1999 science Taiwan 1039 573.3537 5.01030 563.5337 583.1737</span></span></code></pre>
 </div>
+<div class="section level2">
+<h2 id="difference-between-groups">Difference between groups<a class="anchor" aria-label="anchor" href="#difference-between-groups"></a>
+</h2>
+<p>We can calculate the difference between groups using
+<code><a href="../reference/repmeandif.html">repmeandif()</a></code>:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/leaguetable.html">leaguetable</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">timss99</span>, study <span class="op">=</span> <span class="st">"TIMSS"</span>, year <span class="op">=</span> <span class="fl">1999</span><span class="op">)</span><span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/repmeandif.html">repmeandif</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##    study study2 year subject group1 group2        dif      se    tvalue   df</span></span>
+<span><span class="co">## 1  TIMSS     G8 1999    math  Chile  Chile    0.00000 7.71064   0.00000 2150</span></span>
+<span><span class="co">## 2  TIMSS     G8 1999    math  Chile  Japan -185.65410 6.20049 -29.94184 1959</span></span>
+<span><span class="co">## 3  TIMSS     G8 1999    math  Chile Taiwan -197.67460 7.36163 -26.85202 2113</span></span>
+<span><span class="co">## 4  TIMSS     G8 1999    math  Japan  Chile  185.65410 6.20049  29.94184 1959</span></span>
+<span><span class="co">## 5  TIMSS     G8 1999    math  Japan  Japan    0.00000 4.17589   0.00000 1768</span></span>
+<span><span class="co">## 6  TIMSS     G8 1999    math  Japan Taiwan  -12.02049 5.76069  -2.08664 1922</span></span>
+<span><span class="co">## 7  TIMSS     G8 1999    math Taiwan  Chile  197.67460 7.36163  26.85202 2113</span></span>
+<span><span class="co">## 8  TIMSS     G8 1999    math Taiwan  Japan   12.02049 5.76069   2.08664 1922</span></span>
+<span><span class="co">## 9  TIMSS     G8 1999    math Taiwan Taiwan    0.00000 6.99522   0.00000 2076</span></span>
+<span><span class="co">## 10 TIMSS     G8 1999 science  Chile  Chile    0.00000 6.76855   0.00000 2150</span></span>
+<span><span class="co">## 11 TIMSS     G8 1999 science  Chile  Japan -130.11005 5.44584 -23.89164 1959</span></span>
+<span><span class="co">## 12 TIMSS     G8 1999 science  Chile Taiwan -152.80231 6.99301 -21.85072 2113</span></span>
+<span><span class="co">## 13 TIMSS     G8 1999 science  Japan  Chile  130.11005 5.44584  23.89164 1959</span></span>
+<span><span class="co">## 14 TIMSS     G8 1999 science  Japan  Japan    0.00000 3.67440   0.00000 1768</span></span>
+<span><span class="co">## 15 TIMSS     G8 1999 science  Japan Taiwan  -22.69226 5.72242  -3.96550 1922</span></span>
+<span><span class="co">## 16 TIMSS     G8 1999 science Taiwan  Chile  152.80231 6.99301  21.85072 2113</span></span>
+<span><span class="co">## 17 TIMSS     G8 1999 science Taiwan  Japan   22.69226 5.72242   3.96550 1922</span></span>
+<span><span class="co">## 18 TIMSS     G8 1999 science Taiwan Taiwan    0.00000 7.21048   0.00000 2076</span></span>
+<span><span class="co">##     pvalue</span></span>
+<span><span class="co">## 1  1.00000</span></span>
+<span><span class="co">## 2  0.00000</span></span>
+<span><span class="co">## 3  0.00000</span></span>
+<span><span class="co">## 4  0.00000</span></span>
+<span><span class="co">## 5  1.00000</span></span>
+<span><span class="co">## 6  0.03705</span></span>
+<span><span class="co">## 7  0.00000</span></span>
+<span><span class="co">## 8  0.03705</span></span>
+<span><span class="co">## 9  1.00000</span></span>
+<span><span class="co">## 10 1.00000</span></span>
+<span><span class="co">## 11 0.00000</span></span>
+<span><span class="co">## 12 0.00000</span></span>
+<span><span class="co">## 13 0.00000</span></span>
+<span><span class="co">## 14 1.00000</span></span>
+<span><span class="co">## 15 0.00008</span></span>
+<span><span class="co">## 16 0.00000</span></span>
+<span><span class="co">## 17 0.00008</span></span>
+<span><span class="co">## 18 1.00000</span></span></code></pre>
+</div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>

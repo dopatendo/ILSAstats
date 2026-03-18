@@ -17,7 +17,8 @@ repmeandif(x)
 
   a data frame produced by
   [`repmean`](https://dopatendo.github.io/ILSAstats/reference/repmean.md)
-  for a single variable.
+  for a single variable or an object produced by
+  [`leaguetable`](https://dopatendo.github.io/ILSAstats/reference/leaguetable.md).
 
 ## Value
 
