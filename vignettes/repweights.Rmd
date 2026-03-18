@@ -14,7 +14,7 @@ vignette: >
 # )
 ```
 
-```{r setup,echo=FALSE}
+```{r ,echo=FALSE}
 library(ILSAstats)
 ```
 
