@@ -81,7 +81,7 @@ leaguetable <- function(df,
   ilic <- lapply(1:nrow(ili), function(i){
     omitna(as.vector(unlist(lapply(ili[i,c("country","pvs","jkzones","jkreps",
                                            "totalweight","extravars")],
-                                           strsplit,split = ";"))))
+                                   strsplit,split = ";"))))
   })
 
   ili <- ili[sapply(ilic,function(i){all(i%in%cdf)}),]
@@ -175,7 +175,7 @@ leaguetable <- function(df,
 
 
 
-# Fixdata -----------------------------------------------------------------
+  # Fixdata -----------------------------------------------------------------
 
 
 
@@ -208,12 +208,12 @@ leaguetable <- function(df,
                cou)
 
   # if(fixdata){
-    df <- .fixdata(df = df,
-                   study = ili$study[1],
-                   year = ili$year[1],
-                   specification = ili$study2[1],
-                   columns = kolumns,
-                   fixN = fixN)
+  df <- .fixdata(df = df,
+                 study = ili$study[1],
+                 year = ili$year[1],
+                 specification = ili$study2[1],
+                 columns = kolumns,
+                 fixN = fixN)
   # }
 
 
@@ -228,7 +228,7 @@ leaguetable <- function(df,
                    wt = ili$totalweight[1],
                    repwtname = "rwi",
                    reps = reps,
-                   method = method)
+                   method = method,index = TRUE)
 
 
   xx <- strsplit(ili$pvs,";")
@@ -236,19 +236,28 @@ leaguetable <- function(df,
 
   out <- vector("list",length(xx))
   for(i in 1:length(xx)){
-    meai <- .repmean0(df = df,
-                    x = xx[[i]],
-                    PV = (length(xx[[i]])>1),
-                    # setup = NULL,
-                    repwt = rwi,
-                    wt = ili$totalweight[i],
-                    method = method,
-                    var = -1,
-                    group = cou,
-                    by = NULL,
-                    exclude = NULL,
-                    aggregates = NULL,
-                    zones = NULL)
+    meai <- repmeanfast(x = xx[[i]],
+                        PV = (length(xx[[i]])>1),
+                        setup = NULL,
+                        repindex = rwi,
+                        wt = ili$totalweight[i],
+                        df = df,
+                        group = cou,
+                        exclude = NULL,
+                        aggregates = NULL)
+    # meai <- .repmean0(df = df,
+    #                   x = xx[[i]],
+    #                   PV = (length(xx[[i]])>1),
+    #                   # setup = NULL,
+    #                   repwt = rwi,
+    #                   wt = ili$totalweight[i],
+    #                   method = method,
+    #                   var = -1,
+    #                   group = cou,
+    #                   by = NULL,
+    #                   exclude = NULL,
+    #                   aggregates = NULL,
+    #                   zones = NULL)
     if(addCI){
       meai <- repmeanCI(x = meai, alpha = alpha, add = TRUE)
     }
@@ -277,7 +286,6 @@ leaguetable <- function(df,
   return(out)
 
 }
-
 
 
 #' @export

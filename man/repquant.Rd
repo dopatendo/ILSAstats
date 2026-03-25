@@ -90,21 +90,18 @@ RWT <- repcreate(df = repdata, # the data frame with all the information
 # One variable - weights within df
 repquant(x = c("item01"),
         qtl = c(0.05, 0.25, 0.75, 0.95),
-        PV = FALSE,
         repwt = "REPWT", wt = "wt", df = cbind(repdata,RWT),
         method = "ICILS")
 
 # One variable - weights as a separate data frame
 repquant(x = c("item01"),
         qtl = c(0.05, 0.25, 0.75, 0.95),
-        PV = FALSE,
         repwt = RWT, wt = "wt", df = repdata,
         method = "ICILS")
 
 # One PV variable
 repquant(x = paste0("Math",1:5),
         qtl = c(0.05, 0.25, 0.75, 0.95),
-        PV = TRUE, # if set to TRUE, PVs will be treated as separate variables
         repwt = RWT, wt = "wt", df = repdata,
         method = "ICILS")
 
@@ -113,7 +110,6 @@ repquant(x = paste0("Math",1:5),
 # One variable
 repquant(x = c("item01"),
         qtl = c(0.05, 0.25, 0.75, 0.95),
-        PV = FALSE,
         repwt = RWT, wt = "wt", df = repdata,
         method = "ICILS",
         group = "GROUP",
@@ -123,7 +119,6 @@ repquant(x = c("item01"),
 # One PV variable
 repquant(x = paste0("Math",1:5),
         qtl = c(0.05, 0.25, 0.75, 0.95),
-        PV = TRUE, # if set to TRUE, PVs will be treated as separate variables
         repwt = RWT, wt = "wt", df = repdata,
         method = "ICILS",
         group = "GROUP",
@@ -134,7 +129,6 @@ repquant(x = paste0("Math",1:5),
 # One variable
 repquant(x = c("item01"),
         qtl = c(0.05, 0.25, 0.75, 0.95),
-        PV = FALSE,
         repwt = RWT, wt = "wt", df = repdata,
         method = "ICILS",
         group = "GROUP",
@@ -144,7 +138,6 @@ repquant(x = c("item01"),
 # One PV variable
 repquant(x = paste0("Math",1:5),
         qtl = c(0.05, 0.25, 0.75, 0.95),
-        PV = TRUE, # if set to TRUE, PVs will be treated as separate variables
         repwt = RWT, wt = "wt", df = repdata,
         method = "ICILS",
         group = "GROUP",

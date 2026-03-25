@@ -18,6 +18,7 @@ autoILSA <- function(func = c("leaguetable","proflevels"),
                      study = NULL){
 
 
+  data(ILSAinfo,package = "ILSAstats")
 
 # Argument checks ---------------------------------------------------------
 

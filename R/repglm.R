@@ -10,7 +10,7 @@
 #'
 #' @return a list with the standard errors and the total weights models.
 #'
-#' @example inst/examples/replm_example.R
+#' @example inst/examples/repglm_example.R
 #' @export
 #'
 

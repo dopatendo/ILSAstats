@@ -5,9 +5,18 @@
 \alias{repcreateILSA}
 \title{Creation of Replicate Weights}
 \usage{
-repcreate(df, wt, jkzone, jkrep, repwtname = "RWT", reps = NULL, method)
+repcreate(
+  df,
+  wt,
+  jkzone,
+  jkrep,
+  repwtname = "RWT",
+  reps = NULL,
+  method,
+  index = FALSE
+)
 
-repcreateILSA(study, year, df, repwtname = "RWT")
+repcreateILSA(study, year, df, repwtname = "RWT", index = FALSE)
 }
 \arguments{
 \item{df}{a data frame.}
@@ -44,6 +53,9 @@ refer to the method used for TIMSS and PIRLS before 2015,
 where within imputation variance
 is estimated using only 1 plausible value.}
 
+\item{index}{a logical value indicating if the result should be just an index
+of zero and double weights instead of a matrix. Default is \code{FALSE}.}
+
 \item{study}{a string indicating the study name. For checking available studies use
 \code{ILSAinfo$weights}.}
 
@@ -52,7 +64,7 @@ years use
 \code{ILSAinfo$weights}.}
 }
 \value{
-a data frame.
+a data frame or a list.
 }
 \description{
 Creates replicate weights given jackknife replicates and jackknife zones.

@@ -393,7 +393,12 @@ repquant <- function(x,qtl = c(0.05, 0.25, 0.75, 0.95),
   xx <- omitna(cbind(x,wt))
 
   if(nrow(xx)<2){
-    return(rep(NA,length(qtl)))
+
+    if(nrow(xx)==1)
+    return(rep(xx[,1],length(qtl)))
+
+    if(nrow(xx)==0)
+      return(rep(NA,length(qtl)))
   }
 
   xx <- xx[order(xx[,1L]),]

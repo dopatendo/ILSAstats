@@ -97,3 +97,65 @@ addcolumn <- function(df, xname, after, x = NA){
 
 
 }
+
+upperfirst <- function(x){
+
+
+
+  paste0(toupper(substr(x,1,1)),tolower(substring(x,2)))
+}
+
+
+splitindexold <- function(repindex, group){
+  spl <- split(1:length(group),f = group)
+
+
+  out <- lapply(spl,function(i){
+    outi <- list(lapply(repindex[[1]],function(j) omitna(match(j,i))),
+                 lapply(repindex[[2]],function(j) omitna(match(j,i))))
+
+    attributes(outi) <- attributes(repindex)
+    outi
+
+  })
+
+  out
+
+}
+
+
+
+
+splitindex <- function(repindex,group){
+  att <- attributes(repindex)
+
+  groupR <- rep(NA,length(group))
+  ugr <- sort(unique(group))
+  for(i in 1:length(ugr)){
+    indi <- group%in%ugr[i]
+    groupR[indi] <- 1:sum(indi)
+  }
+
+  out <- vector("list",length(ugr))
+  names(out) <- ugr
+  for(i in 1:length(ugr)){
+
+    indi <- which(group%in%ugr[i])
+
+    ugri1 <- vector("list",att$reps)
+    ugri2 <- vector("list",att$reps)
+    for(j in 1:att$reps){
+      ugri1[[j]] <- groupR[repindex[[1]][[j]][group[repindex[[1]][[j]]]%in%ugr[i]]]
+      ugri2[[j]] <- groupR[repindex[[2]][[j]][group[repindex[[2]][[j]]]%in%ugr[i]]]
+    }
+
+    out[[i]] <- list(ugri1,ugri2)
+    attributes(out[[i]]) <- att
+
+  }
+
+  return(out)
+}
+
+
+depth <- function(this) ifelse(is.list(this), 1L + max(sapply(this, depth)), 0L)

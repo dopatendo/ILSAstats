@@ -16,8 +16,10 @@
 #' @param year a numeric value indicating the study year. For checking available
 #' years use
 #' \code{ILSAinfo$weights}.
+#' @param index a logical value indicating if the result should be just an index
+#' of zero and double weights instead of a matrix. Default is \code{FALSE}.
 #'
-#' @return a data frame.
+#' @return a data frame or a list.
 #'
 #' @example inst/examples/repcreate_example.R
 #'
@@ -30,7 +32,8 @@ repcreate <- function(df,
                        jkrep,
                        repwtname = "RWT",
                        reps = NULL,
-                       method){
+                       method,
+                      index = FALSE){
 
 
   returnis(ischavec, method)
@@ -114,6 +117,16 @@ repcreate <- function(df,
 
 
 
+
+  if(index){
+    out <- .repcreateIndex(reps = reps,
+                           jzn = df[,jkzone],
+                           jre = df[,jkrep],
+                           method = method, simple = simple)
+    return(out)
+  }
+
+
   RWT <- matrix(df[,wt],ncol = reps,nrow = nrow(df))
   MM <- matrix(1,ncol = reps,nrow = nrow(df))
   # JKZ <- matrix(df[,jkzone],ncol = reps,nrow = nrow(df))
@@ -165,7 +178,7 @@ repcreate <- function(df,
 repcreateILSA <- function(study,
                           year,
                           df,
-                          repwtname = "RWT"){
+                          repwtname = "RWT", index = FALSE){
 
 
   # Checks ----
@@ -192,7 +205,8 @@ repcreateILSA <- function(study,
             jkzone = x$jkzones,
             jkrep = x$jkreps,
             method = x$method,
-            reps = x$reps)
+            reps = x$reps,
+            index = index)
 
 
 }
@@ -319,3 +333,44 @@ repcreateOLD <- function(df,
 }
 
 
+.repcreateIndex <- function(reps, jzn, jre, method, simple){
+  # jzn <- df[,jkzones]
+  # jre <- df[,jkrep]
+
+
+
+  ze = lapply(1:reps, function(i){
+    which(jzn==i&jre==0)
+  })
+  do = lapply(1:reps, function(i){
+    which(jzn==i&jre==1)
+  })
+
+  if(!simple){
+    zef <- c(ze,do)
+    dof <- c(do,ze)
+  }else{
+    zef <- ze
+    dof <- do
+  }
+
+
+
+  out <- list(zef, dof)
+  attributes(out)$multiplier <- c(0,2)
+  attributes(out)$method <- method
+  attributes(out)$reps <- reps
+
+  class(out) <- c("repweights.index","repweights",class(out))
+
+  return(out)
+}
+
+#' @export
+print.repweights.index <- function(x, ...){
+
+cat(paste0('Replicate weights indices for ', attributes(x)$reps, " replications."))
+# cat(paste0('Weights for ',length(x[[1]])," replications."))
+cat(paste0("\nMethod: ",attributes(x)$method,"."))
+
+}
