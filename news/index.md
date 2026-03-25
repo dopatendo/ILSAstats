@@ -5,6 +5,7 @@
 - Added
   [`repmeanfast()`](https://dopatendo.github.io/ILSAstats/reference/repmeanfast.md). -
   Missing option for PVs and by.
+- Started support for multiple groups instead of only 1.
 - Added creation of replicate weights by index.
 - Added extensive documentation.
 - Added support for TIMSS Longitudinal 2023.
