@@ -6,9 +6,18 @@ zones.
 ## Usage
 
 ``` r
-repcreate(df, wt, jkzone, jkrep, repwtname = "RWT", reps = NULL, method)
+repcreate(
+  df,
+  wt,
+  jkzone,
+  jkrep,
+  repwtname = "RWT",
+  reps = NULL,
+  method,
+  index = FALSE
+)
 
-repcreateILSA(study, year, df, repwtname = "RWT")
+repcreateILSA(study, year, df, repwtname = "RWT", index = FALSE)
 ```
 
 ## Arguments
@@ -61,6 +70,11 @@ repcreateILSA(study, year, df, repwtname = "RWT")
   TIMSS and PIRLS before 2015, where within imputation variance is
   estimated using only 1 plausible value.
 
+- index:
+
+  a logical value indicating if the result should be just an index of
+  zero and double weights instead of a matrix. Default is `FALSE`.
+
 - study:
 
   a string indicating the study name. For checking available studies use
@@ -73,7 +87,7 @@ repcreateILSA(study, year, df, repwtname = "RWT")
 
 ## Value
 
-a data frame.
+a data frame or a list.
 
 ## Examples
 

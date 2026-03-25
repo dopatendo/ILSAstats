@@ -169,73 +169,86 @@ should be excluded from the pooled and composite estimates.</p></dd>
 <span class="r-in"><span><span class="co"># One variable - weights within df</span></span></span>
 <span class="r-in"><span><span class="fu">repquant</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"item01"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>        qtl <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.25</span>, <span class="fl">0.75</span>, <span class="fl">0.95</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>        PV <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>        repwt <span class="op">=</span> <span class="st">"REPWT"</span>, wt <span class="op">=</span> <span class="st">"wt"</span>, df <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">repdata</span>,<span class="va">RWT</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>        method <span class="op">=</span> <span class="st">"ICILS"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in repquant(x = c("item01"), qtl = c(0.05, 0.25, 0.75, 0.95), PV = FALSE,     repwt = "REPWT", wt = "wt", df = cbind(repdata, RWT), method = "ICILS"):</span> unused argument (PV = FALSE)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   variable P05 P05se P25 P25se P75 P75se P95 P95se</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   item01   2     0   3     0   4     0   4     0</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># One variable - weights as a separate data frame</span></span></span>
 <span class="r-in"><span><span class="fu">repquant</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"item01"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>        qtl <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.25</span>, <span class="fl">0.75</span>, <span class="fl">0.95</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>        PV <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>        repwt <span class="op">=</span> <span class="va">RWT</span>, wt <span class="op">=</span> <span class="st">"wt"</span>, df <span class="op">=</span> <span class="va">repdata</span>,</span></span>
 <span class="r-in"><span>        method <span class="op">=</span> <span class="st">"ICILS"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in repquant(x = c("item01"), qtl = c(0.05, 0.25, 0.75, 0.95), PV = FALSE,     repwt = RWT, wt = "wt", df = repdata, method = "ICILS"):</span> unused argument (PV = FALSE)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   variable P05 P05se P25 P25se P75 P75se P95 P95se</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   item01   2     0   3     0   4     0   4     0</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># One PV variable</span></span></span>
 <span class="r-in"><span><span class="fu">repquant</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Math"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>        qtl <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.25</span>, <span class="fl">0.75</span>, <span class="fl">0.95</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>        PV <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co"># if set to TRUE, PVs will be treated as separate variables</span></span></span>
 <span class="r-in"><span>        repwt <span class="op">=</span> <span class="va">RWT</span>, wt <span class="op">=</span> <span class="st">"wt"</span>, df <span class="op">=</span> <span class="va">repdata</span>,</span></span>
 <span class="r-in"><span>        method <span class="op">=</span> <span class="st">"ICILS"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in repquant(x = paste0("Math", 1:5), qtl = c(0.05, 0.25, 0.75, 0.95),     PV = TRUE, repwt = RWT, wt = "wt", df = repdata, method = "ICILS"):</span> unused argument (PV = TRUE)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> More than one variable provided. 'x' treated as PVs.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   variable      P05   P05se      P25   P25se     P75   P75se     P95  P95se</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1      PVs -1.68118 0.04039 -0.68384 0.02698 0.69452 0.02582 1.68116 0.0399</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">### Groups ----</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># One variable</span></span></span>
 <span class="r-in"><span><span class="fu">repquant</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"item01"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>        qtl <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.25</span>, <span class="fl">0.75</span>, <span class="fl">0.95</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>        PV <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>        repwt <span class="op">=</span> <span class="va">RWT</span>, wt <span class="op">=</span> <span class="st">"wt"</span>, df <span class="op">=</span> <span class="va">repdata</span>,</span></span>
 <span class="r-in"><span>        method <span class="op">=</span> <span class="st">"ICILS"</span>,</span></span>
 <span class="r-in"><span>        group <span class="op">=</span> <span class="st">"GROUP"</span>,</span></span>
 <span class="r-in"><span>        exclude <span class="op">=</span> <span class="st">"GR2"</span><span class="op">)</span> <span class="co"># GR2 will not be used for Pooled nor Composite</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in repquant(x = c("item01"), qtl = c(0.05, 0.25, 0.75, 0.95), PV = FALSE,     repwt = RWT, wt = "wt", df = repdata, method = "ICILS", group = "GROUP",     exclude = "GR2"):</span> unused argument (PV = FALSE)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   variable     group P05 P05se P25 P25se P75 P75se P95 P95se</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   item01    Pooled   2     0   3     0   4     0   4     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   item01 Composite   2     0   3     0   4     0   4     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   item01       GR1   2     0   3     0   4     0   4     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   item01       GR2   2     0   3     0   4     0   4     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   item01       GR3   2     0   3     0   4     0   4     0</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># One PV variable</span></span></span>
 <span class="r-in"><span><span class="fu">repquant</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Math"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>        qtl <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.25</span>, <span class="fl">0.75</span>, <span class="fl">0.95</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>        PV <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co"># if set to TRUE, PVs will be treated as separate variables</span></span></span>
 <span class="r-in"><span>        repwt <span class="op">=</span> <span class="va">RWT</span>, wt <span class="op">=</span> <span class="st">"wt"</span>, df <span class="op">=</span> <span class="va">repdata</span>,</span></span>
 <span class="r-in"><span>        method <span class="op">=</span> <span class="st">"ICILS"</span>,</span></span>
 <span class="r-in"><span>        group <span class="op">=</span> <span class="st">"GROUP"</span>,</span></span>
 <span class="r-in"><span>        exclude <span class="op">=</span> <span class="st">"GR2"</span><span class="op">)</span> <span class="co"># GR2 will not be used for Pooled nor Composite</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in repquant(x = paste0("Math", 1:5), qtl = c(0.05, 0.25, 0.75, 0.95),     PV = TRUE, repwt = RWT, wt = "wt", df = repdata, method = "ICILS",     group = "GROUP", exclude = "GR2"):</span> unused argument (PV = TRUE)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> More than one variable provided. 'x' treated as PVs.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   variable     group      P05   P05se      P25   P25se     P75   P75se     P95</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1      PVs    Pooled -1.78116 0.05793 -0.74310 0.04099 0.73814 0.03017 1.76034</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2      PVs Composite -1.50158 0.04746 -0.59553 0.04241 0.59988 0.03536 1.48907</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3      PVs       GR1 -2.10212 0.07188 -1.18328 0.05214 0.01332 0.05149 0.88008</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4      PVs       GR2 -1.44166 0.06880 -0.57888 0.04137 0.61342 0.03943 1.50918</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5      PVs       GR3 -0.90104 0.06199 -0.00778 0.06690 1.18644 0.04848 2.09806</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     P95se</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.04780</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.06260</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.09722</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.06852</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.07890</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">### Groups and By ----</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># One variable</span></span></span>
 <span class="r-in"><span><span class="fu">repquant</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"item01"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>        qtl <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.25</span>, <span class="fl">0.75</span>, <span class="fl">0.95</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>        PV <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>        repwt <span class="op">=</span> <span class="va">RWT</span>, wt <span class="op">=</span> <span class="st">"wt"</span>, df <span class="op">=</span> <span class="va">repdata</span>,</span></span>
 <span class="r-in"><span>        method <span class="op">=</span> <span class="st">"ICILS"</span>,</span></span>
 <span class="r-in"><span>        group <span class="op">=</span> <span class="st">"GROUP"</span>,</span></span>
 <span class="r-in"><span>        by <span class="op">=</span> <span class="st">"GENDER"</span>, <span class="co"># results will be separated by GENDER</span></span></span>
 <span class="r-in"><span>        exclude <span class="op">=</span> <span class="st">"GR2"</span><span class="op">)</span> <span class="co"># GR2 will not be used for Pooled nor Composite</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in repquant(x = c("item01"), qtl = c(0.05, 0.25, 0.75, 0.95), PV = FALSE,     repwt = RWT, wt = "wt", df = repdata, method = "ICILS", group = "GROUP",     by = "GENDER", exclude = "GR2"):</span> unused argument (PV = FALSE)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># One PV variable</span></span></span>
 <span class="r-in"><span><span class="fu">repquant</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Math"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>        qtl <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.25</span>, <span class="fl">0.75</span>, <span class="fl">0.95</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>        PV <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co"># if set to TRUE, PVs will be treated as separate variables</span></span></span>
 <span class="r-in"><span>        repwt <span class="op">=</span> <span class="va">RWT</span>, wt <span class="op">=</span> <span class="st">"wt"</span>, df <span class="op">=</span> <span class="va">repdata</span>,</span></span>
 <span class="r-in"><span>        method <span class="op">=</span> <span class="st">"ICILS"</span>,</span></span>
 <span class="r-in"><span>        group <span class="op">=</span> <span class="st">"GROUP"</span>,</span></span>
 <span class="r-in"><span>        by <span class="op">=</span> <span class="st">"GENDER"</span>, <span class="co"># results will be separated by GENDER</span></span></span>
 <span class="r-in"><span>        exclude <span class="op">=</span> <span class="st">"GR2"</span><span class="op">)</span> <span class="co"># GR2 will not be used for Pooled nor Composite</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in repquant(x = paste0("Math", 1:5), qtl = c(0.05, 0.25, 0.75, 0.95),     PV = TRUE, repwt = RWT, wt = "wt", df = repdata, method = "ICILS",     group = "GROUP", by = "GENDER", exclude = "GR2"):</span> unused argument (PV = TRUE)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> More than one variable provided. 'x' treated as PVs.</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -110,71 +110,84 @@ RWT <- repcreate(df = repdata, # the data frame with all the information
 # One variable - weights within df
 repquant(x = c("item01"),
         qtl = c(0.05, 0.25, 0.75, 0.95),
-        PV = FALSE,
         repwt = "REPWT", wt = "wt", df = cbind(repdata,RWT),
         method = "ICILS")
-#> Error in repquant(x = c("item01"), qtl = c(0.05, 0.25, 0.75, 0.95), PV = FALSE,     repwt = "REPWT", wt = "wt", df = cbind(repdata, RWT), method = "ICILS"): unused argument (PV = FALSE)
+#>   variable P05 P05se P25 P25se P75 P75se P95 P95se
+#> 1   item01   2     0   3     0   4     0   4     0
 
 # One variable - weights as a separate data frame
 repquant(x = c("item01"),
         qtl = c(0.05, 0.25, 0.75, 0.95),
-        PV = FALSE,
         repwt = RWT, wt = "wt", df = repdata,
         method = "ICILS")
-#> Error in repquant(x = c("item01"), qtl = c(0.05, 0.25, 0.75, 0.95), PV = FALSE,     repwt = RWT, wt = "wt", df = repdata, method = "ICILS"): unused argument (PV = FALSE)
+#>   variable P05 P05se P25 P25se P75 P75se P95 P95se
+#> 1   item01   2     0   3     0   4     0   4     0
 
 # One PV variable
 repquant(x = paste0("Math",1:5),
         qtl = c(0.05, 0.25, 0.75, 0.95),
-        PV = TRUE, # if set to TRUE, PVs will be treated as separate variables
         repwt = RWT, wt = "wt", df = repdata,
         method = "ICILS")
-#> Error in repquant(x = paste0("Math", 1:5), qtl = c(0.05, 0.25, 0.75, 0.95),     PV = TRUE, repwt = RWT, wt = "wt", df = repdata, method = "ICILS"): unused argument (PV = TRUE)
+#> More than one variable provided. 'x' treated as PVs.
+#>   variable      P05   P05se      P25   P25se     P75   P75se     P95  P95se
+#> 1      PVs -1.68118 0.04039 -0.68384 0.02698 0.69452 0.02582 1.68116 0.0399
 
 ### Groups ----
 
 # One variable
 repquant(x = c("item01"),
         qtl = c(0.05, 0.25, 0.75, 0.95),
-        PV = FALSE,
         repwt = RWT, wt = "wt", df = repdata,
         method = "ICILS",
         group = "GROUP",
         exclude = "GR2") # GR2 will not be used for Pooled nor Composite
-#> Error in repquant(x = c("item01"), qtl = c(0.05, 0.25, 0.75, 0.95), PV = FALSE,     repwt = RWT, wt = "wt", df = repdata, method = "ICILS", group = "GROUP",     exclude = "GR2"): unused argument (PV = FALSE)
+#>   variable     group P05 P05se P25 P25se P75 P75se P95 P95se
+#> 1   item01    Pooled   2     0   3     0   4     0   4     0
+#> 2   item01 Composite   2     0   3     0   4     0   4     0
+#> 3   item01       GR1   2     0   3     0   4     0   4     0
+#> 4   item01       GR2   2     0   3     0   4     0   4     0
+#> 5   item01       GR3   2     0   3     0   4     0   4     0
 
 
 # One PV variable
 repquant(x = paste0("Math",1:5),
         qtl = c(0.05, 0.25, 0.75, 0.95),
-        PV = TRUE, # if set to TRUE, PVs will be treated as separate variables
         repwt = RWT, wt = "wt", df = repdata,
         method = "ICILS",
         group = "GROUP",
         exclude = "GR2") # GR2 will not be used for Pooled nor Composite
-#> Error in repquant(x = paste0("Math", 1:5), qtl = c(0.05, 0.25, 0.75, 0.95),     PV = TRUE, repwt = RWT, wt = "wt", df = repdata, method = "ICILS",     group = "GROUP", exclude = "GR2"): unused argument (PV = TRUE)
+#> More than one variable provided. 'x' treated as PVs.
+#>   variable     group      P05   P05se      P25   P25se     P75   P75se     P95
+#> 1      PVs    Pooled -1.78116 0.05793 -0.74310 0.04099 0.73814 0.03017 1.76034
+#> 2      PVs Composite -1.50158 0.04746 -0.59553 0.04241 0.59988 0.03536 1.48907
+#> 3      PVs       GR1 -2.10212 0.07188 -1.18328 0.05214 0.01332 0.05149 0.88008
+#> 4      PVs       GR2 -1.44166 0.06880 -0.57888 0.04137 0.61342 0.03943 1.50918
+#> 5      PVs       GR3 -0.90104 0.06199 -0.00778 0.06690 1.18644 0.04848 2.09806
+#>     P95se
+#> 1 0.04780
+#> 2 0.06260
+#> 3 0.09722
+#> 4 0.06852
+#> 5 0.07890
 
 ### Groups and By ----
 
 # One variable
 repquant(x = c("item01"),
         qtl = c(0.05, 0.25, 0.75, 0.95),
-        PV = FALSE,
         repwt = RWT, wt = "wt", df = repdata,
         method = "ICILS",
         group = "GROUP",
         by = "GENDER", # results will be separated by GENDER
         exclude = "GR2") # GR2 will not be used for Pooled nor Composite
-#> Error in repquant(x = c("item01"), qtl = c(0.05, 0.25, 0.75, 0.95), PV = FALSE,     repwt = RWT, wt = "wt", df = repdata, method = "ICILS", group = "GROUP",     by = "GENDER", exclude = "GR2"): unused argument (PV = FALSE)
 
 # One PV variable
 repquant(x = paste0("Math",1:5),
         qtl = c(0.05, 0.25, 0.75, 0.95),
-        PV = TRUE, # if set to TRUE, PVs will be treated as separate variables
         repwt = RWT, wt = "wt", df = repdata,
         method = "ICILS",
         group = "GROUP",
         by = "GENDER", # results will be separated by GENDER
         exclude = "GR2") # GR2 will not be used for Pooled nor Composite
-#> Error in repquant(x = paste0("Math", 1:5), qtl = c(0.05, 0.25, 0.75, 0.95),     PV = TRUE, repwt = RWT, wt = "wt", df = repdata, method = "ICILS",     group = "GROUP", by = "GENDER", exclude = "GR2"): unused argument (PV = TRUE)
+#> More than one variable provided. 'x' treated as PVs.
 ```
