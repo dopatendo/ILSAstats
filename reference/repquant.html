@@ -239,6 +239,30 @@ should be excluded from the pooled and composite estimates.</p></dd>
 <span class="r-in"><span>        group <span class="op">=</span> <span class="st">"GROUP"</span>,</span></span>
 <span class="r-in"><span>        by <span class="op">=</span> <span class="st">"GENDER"</span>, <span class="co"># results will be separated by GENDER</span></span></span>
 <span class="r-in"><span>        exclude <span class="op">=</span> <span class="st">"GR2"</span><span class="op">)</span> <span class="co"># GR2 will not be used for Pooled nor Composite</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ALL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   variable     group P05 P05se P25 P25se P75 P75se P95 P95se</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   item01    Pooled   2     0   3     0   4     0   4     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   item01 Composite   2     0   3     0   4     0   4     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   item01       GR1   2     0   3     0   4     0   4     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   item01       GR2   2     0   3     0   4     0   4     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   item01       GR3   2     0   3     0   4     0   4     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`GENDER==0`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   variable     group P05 P05se P25 P25se P75 P75se P95 P95se</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   item01    Pooled   2     0   3     0   4     0   4     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   item01 Composite   2     0   3     0   4     0   4     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   item01       GR1   2     0   3     0   4     0   4     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   item01       GR2   2     0   3     0   4     0   4     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   item01       GR3   2     0   3     0   4     0   4     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`GENDER==1`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   variable     group P05 P05se P25 P25se P75 P75se P95 P95se</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   item01    Pooled   2     0   3     0   4     0   4     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   item01 Composite   2     0   3     0   4     0   4     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   item01       GR1   2     0   3     0   4     0   4     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   item01       GR2   2     0   3     0   4     0   4     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   item01       GR3   2     0   3     0   4     0   4     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># One PV variable</span></span></span>
 <span class="r-in"><span><span class="fu">repquant</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Math"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>,</span></span>
@@ -249,6 +273,48 @@ should be excluded from the pooled and composite estimates.</p></dd>
 <span class="r-in"><span>        by <span class="op">=</span> <span class="st">"GENDER"</span>, <span class="co"># results will be separated by GENDER</span></span></span>
 <span class="r-in"><span>        exclude <span class="op">=</span> <span class="st">"GR2"</span><span class="op">)</span> <span class="co"># GR2 will not be used for Pooled nor Composite</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> More than one variable provided. 'x' treated as PVs.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ALL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   variable     group      P05   P05se      P25   P25se     P75   P75se     P95</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1      PVs    Pooled -1.78116 0.05793 -0.74310 0.04099 0.73814 0.03017 1.76034</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2      PVs Composite -1.50158 0.04746 -0.59553 0.04241 0.59988 0.03536 1.48907</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3      PVs       GR1 -2.10212 0.07188 -1.18328 0.05214 0.01332 0.05149 0.88008</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4      PVs       GR2 -1.44166 0.06880 -0.57888 0.04137 0.61342 0.03943 1.50918</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5      PVs       GR3 -0.90104 0.06199 -0.00778 0.06690 1.18644 0.04848 2.09806</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     P95se</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.04780</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.06260</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.09722</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.06852</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.07890</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`GENDER==0`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   variable     group      P05   P05se      P25   P25se     P75   P75se     P95</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1      PVs    Pooled -1.19290 0.06652 -0.26394 0.05345 1.13220 0.06077 2.08854</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2      PVs Composite -0.82315 0.08505 -0.10307 0.03852 0.95225 0.05200 1.78376</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3      PVs       GR1 -1.47118 0.10982 -0.72064 0.03581 0.34496 0.07602 1.15548</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4      PVs       GR2 -0.77200 0.10884 -0.06178 0.08445 0.99454 0.04823 1.78526</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5      PVs       GR3 -0.17512 0.12990  0.51450 0.06820 1.55954 0.07098 2.41204</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     P95se</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.09317</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.05054</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.07823</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.11426</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.06403</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`GENDER==1`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   variable     group      P05   P05se      P25   P25se      P75   P75se     P95</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1      PVs    Pooled -2.08374 0.09169 -1.08394 0.06498  0.25306 0.06892 1.13996</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2      PVs Composite -1.76398 0.07051 -0.96009 0.04057  0.12662 0.05539 0.83202</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3      PVs       GR1 -2.35086 0.10029 -1.54884 0.06032 -0.42550 0.09229 0.27880</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4      PVs       GR2 -1.69276 0.10257 -0.95154 0.05519  0.03732 0.06121 0.74238</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5      PVs       GR3 -1.17710 0.09914 -0.37134 0.05428  0.67874 0.06126 1.38524</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     P95se</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.09649</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.09738</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.16363</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.14226</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.10563</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -1,9 +1,8 @@
 # Mean with Replicate Weights
 
 Estimates only the mean with replicate weights for a variable or a group
-of variables and for one or more populations. For a detailed explanation
-on how the standard errors are estimated see
-[`repse`](https://dopatendo.github.io/ILSAstats/reference/repse.md).
+of variables and for one or more populations. Please be aware, this
+function is under construction and does not have argument checks yet.
 
 ## Usage
 
@@ -81,6 +80,11 @@ repmeanfast(
 ## Value
 
 a data frame or a list.
+
+## Details
+
+For a detailed explanation on how the standard errors are estimated see
+[`repse`](https://dopatendo.github.io/ILSAstats/reference/repse.md).
 
 ## Examples
 
