@@ -61,7 +61,11 @@ a data frame or a list.
 \description{
 Estimates only the mean with replicate weights
 for a variable or a group of variables and for one or more
-populations. For a detailed explanation on how the standard errors are estimated
+populations. Please be aware, this function is under construction and does not
+have argument checks yet.
+}
+\details{
+For a detailed explanation on how the standard errors are estimated
 see \code{\link{repse}}.
 }
 \examples{

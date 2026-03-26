@@ -209,6 +209,8 @@ repquant <- function(x,qtl = c(0.05, 0.25, 0.75, 0.95),
   out <- c(list(ALL=outt),out)
 
   class(out) <- c("repquant.list","repquant", class(out))
+
+  return(out)
 }
 
 
