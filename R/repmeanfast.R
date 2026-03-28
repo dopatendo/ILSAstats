@@ -131,8 +131,9 @@ repmeanfast <- function(x,
 
 
 #' @export
-summary.repmean.complex <- function(x){
+summary.repmean.complex <- function(object,...){
 
+  x <- object
   de <- depth(x)
   gr <- attr(x,"groups")
 
@@ -720,7 +721,7 @@ summary.repmean.complex <- function(x){
     })
     )
 
-    outi <- cbind.data.frame(summary(estmi[[i]]),outi)
+    outi <- cbind.data.frame(summary.repmean.complex(estmi[[i]]),outi)
     class(outi) <- c("repmean.single","repmean",class(outi))
 
     if(is.null(GR)){
@@ -736,7 +737,7 @@ summary.repmean.complex <- function(x){
   }
 
 
-  out[[1]] <- summary(estm)
+  out[[1]] <- summary.repmean.complex(estm)
   names(out) <- c("ALL",paste0(by,"==",uby))
 
   class(out) <- c("repmean.list","repmean",class(out))
@@ -892,7 +893,7 @@ summary.repmean.complex <- function(x){
       nestj
 
     })
-    sesti <- summary(estmi[[i]])
+    sesti <- summary.repmean.complex(estmi[[i]])
     nesti <- cbind(sesti,nesti)
     class(nesti) <- class(sesti)
 
@@ -910,7 +911,7 @@ summary.repmean.complex <- function(x){
   }
 
 
-  out[[1]] <- summary(estm)
+  out[[1]] <- summary.repmean.complex(estm)
   names(out) <- c("ALL",paste0(by,"==",uby))
 
   class(out) <- c("repmean.list","repmean",class(out))

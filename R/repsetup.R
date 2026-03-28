@@ -82,7 +82,7 @@ print.repsetup <- function(x, ...){
       nc <- sum(grepl(x$repwt,colnames(get(x$df))))
     }else{nc <- ncol(get(x$repwt))}
   }else{
-    nc <- lengths(rw2)[1]
+    nc <- lengths(get(x$repindex))[1]
   }
 
 

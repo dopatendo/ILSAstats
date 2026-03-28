@@ -7,7 +7,7 @@
 #'
 #' @inheritParams leaguetable
 #' @inheritParams repprop.table
-#' @param acumulated a logical value indicating if proficiency levels should be accumulated.
+#' @param accumulated a logical value indicating if proficiency levels should be accumulated.
 #'
 #' @return a data frame or a list.
 #'

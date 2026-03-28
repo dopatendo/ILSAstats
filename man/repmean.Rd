@@ -8,16 +8,17 @@ repmean(
   x,
   PV = FALSE,
   setup = NULL,
-  repwt,
+  repwt = NULL,
+  repindex = NULL,
   wt,
   df,
   method,
-  var = c("unbiased", "ML"),
+  var = c("unbiased", "ML", "none"),
   group = NULL,
   by = NULL,
   exclude = NULL,
   aggregates = c("pooled", "composite"),
-  zones = NULL
+  simplify = TRUE
 )
 }
 \arguments{
@@ -31,6 +32,10 @@ plausible values.}
 
 \item{repwt}{a string indicating the common names for the replicate weights
 columns (within \code{df}), or a data frame with the replicate weights.}
+
+\item{repindex}{a \code{repweights.index} object generated
+with \code{\link{repcreate}(..., index = TRUE)}. Using this argument instead of
+\code{repwt} will speed up the estimations considerably.}
 
 \item{wt}{a string specifying the name of the column (within \code{df}) with the
 total weights.}
@@ -77,10 +82,11 @@ should be excluded from the pooled and composite estimates.}
 included, options are \code{"pooled"} and \code{"composite"}, both options can be
 used at the same time. If \code{NULL} no aggregate will be estimated.}
 
-\item{zones}{a string specifying the name of the variable containing the
-replicate zones.
-Used for calculating the number of zones to be used by variable and group.
-If \code{NULL}, zones are not be calculated.}
+\item{simplify}{a logical value indicating if only the summary
+statistics should be printed. If \code{FALSE} estimations for
+all replicated will be provided and no aggregates will
+be estimated. Default is \code{TRUE}. It only works while using \code{repindex},
+otherwise it will be ignored.}
 }
 \value{
 a data frame or a list.
@@ -107,25 +113,25 @@ RW <- repcreate(df = repdata, # the data frame with all the information
 repmean(x = c("item01"),
         PV = FALSE,
         repwt = "REPWT", wt = "wt", df = cbind(repdata,RW),
-        method = "ICILS",var = "ML",zones = "jkzones")
+        method = "ICILS",var = "ML")
 
 # One variable - weights as a separate data frame
 repmean(x = c("item01"),
         PV = FALSE,
         repwt = RW, wt = "wt", df = repdata,
-        method = "ICILS",var = "ML",zones = "jkzones")
+        method = "ICILS",var = "ML")
 
 # Multiple variables
 repmean(x = c("item01","item02","item03"),
         PV = FALSE,
         repwt = RW, wt = "wt", df = repdata,
-        method = "ICILS",var = "ML",zones = "jkzones")
+        method = "ICILS",var = "ML")
 
 # One PV variable
 repmean(x = paste0("Math",1:5),
         PV = TRUE, # if set to TRUE, PVs will be treated as separate variables
         repwt = RW, wt = "wt", df = repdata,
-        method = "ICILS",var = "ML",zones = "jkzones")
+        method = "ICILS",var = "ML")
 
 ### Groups ----
 
@@ -133,7 +139,7 @@ repmean(x = paste0("Math",1:5),
 repmean(x = c("item01"),
         PV = FALSE,
         repwt = RW, wt = "wt", df = repdata,
-        method = "ICILS",var = "ML",zones = "jkzones",
+        method = "ICILS",var = "ML",
         group = "GROUP",
         exclude = "GR2") # GR2 will not be used for Pooled nor Composite
 
@@ -141,7 +147,7 @@ repmean(x = c("item01"),
 repmean(x = c("item01","item02","item03"),
         PV = FALSE,
         repwt = RW, wt = "wt", df = repdata,
-        method = "ICILS",var = "ML",zones = "jkzones",
+        method = "ICILS",var = "ML",
         group = "GROUP",
         exclude = "GR2") # GR2 will not be used for Pooled nor Composite
 
@@ -149,7 +155,7 @@ repmean(x = c("item01","item02","item03"),
 repmean(x = paste0("Math",1:5),
         PV = TRUE, # if set to TRUE, PVs will be treated as separate variables
         repwt = RW, wt = "wt", df = repdata,
-        method = "ICILS",var = "ML",zones = "jkzones",
+        method = "ICILS",var = "ML",
         group = "GROUP",
         exclude = "GR2") # GR2 will not be used for Pooled nor Composite
 
@@ -159,7 +165,7 @@ repmean(x = paste0("Math",1:5),
 repmean(x = c("item01"),
         PV = FALSE,
         repwt = RW, wt = "wt", df = repdata,
-        method = "ICILS",var = "ML",zones = "jkzones",
+        method = "ICILS",var = "ML",
         group = "GROUP",
         by = "GENDER", # results will be separated by GENDER
         exclude = "GR2") # GR2 will not be used for Pooled nor Composite
@@ -168,7 +174,7 @@ repmean(x = c("item01"),
 repmean(x = paste0("Math",1:5),
         PV = TRUE, # if set to TRUE, PVs will be treated as separate variables
         repwt = RW, wt = "wt", df = repdata,
-        method = "ICILS",var = "ML",zones = "jkzones",
+        method = "ICILS",var = "ML",
         group = "GROUP",
         by = "GENDER", # results will be separated by GENDER
         exclude = "GR2") # GR2 will not be used for Pooled nor Composite

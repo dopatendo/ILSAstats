@@ -61,7 +61,7 @@ proportions, each as an element from a list. Only works for wide tables. Default
 \item{fixN}{a logical value indicating if data should be "fixed" to meet official criteria.
 For example, reducing the sample for certain countries in TIMSS 1995. Default is \code{TRUE}.}
 
-\item{acumulated}{a logical value indicating if proficiency levels should be accumulated.}
+\item{accumulated}{a logical value indicating if proficiency levels should be accumulated.}
 }
 \value{
 a data frame or a list.

@@ -13,25 +13,25 @@ RW <- repcreate(df = repdata, # the data frame with all the information
 repmean(x = c("item01"),
         PV = FALSE,
         repwt = "REPWT", wt = "wt", df = cbind(repdata,RW),
-        method = "ICILS",var = "ML",zones = "jkzones")
+        method = "ICILS",var = "ML")
 
 # One variable - weights as a separate data frame
 repmean(x = c("item01"),
         PV = FALSE,
         repwt = RW, wt = "wt", df = repdata,
-        method = "ICILS",var = "ML",zones = "jkzones")
+        method = "ICILS",var = "ML")
 
 # Multiple variables
 repmean(x = c("item01","item02","item03"),
         PV = FALSE,
         repwt = RW, wt = "wt", df = repdata,
-        method = "ICILS",var = "ML",zones = "jkzones")
+        method = "ICILS",var = "ML")
 
 # One PV variable
 repmean(x = paste0("Math",1:5),
         PV = TRUE, # if set to TRUE, PVs will be treated as separate variables
         repwt = RW, wt = "wt", df = repdata,
-        method = "ICILS",var = "ML",zones = "jkzones")
+        method = "ICILS",var = "ML")
 
 ### Groups ----
 
@@ -39,7 +39,7 @@ repmean(x = paste0("Math",1:5),
 repmean(x = c("item01"),
         PV = FALSE,
         repwt = RW, wt = "wt", df = repdata,
-        method = "ICILS",var = "ML",zones = "jkzones",
+        method = "ICILS",var = "ML",
         group = "GROUP",
         exclude = "GR2") # GR2 will not be used for Pooled nor Composite
 
@@ -47,7 +47,7 @@ repmean(x = c("item01"),
 repmean(x = c("item01","item02","item03"),
         PV = FALSE,
         repwt = RW, wt = "wt", df = repdata,
-        method = "ICILS",var = "ML",zones = "jkzones",
+        method = "ICILS",var = "ML",
         group = "GROUP",
         exclude = "GR2") # GR2 will not be used for Pooled nor Composite
 
@@ -55,7 +55,7 @@ repmean(x = c("item01","item02","item03"),
 repmean(x = paste0("Math",1:5),
         PV = TRUE, # if set to TRUE, PVs will be treated as separate variables
         repwt = RW, wt = "wt", df = repdata,
-        method = "ICILS",var = "ML",zones = "jkzones",
+        method = "ICILS",var = "ML",
         group = "GROUP",
         exclude = "GR2") # GR2 will not be used for Pooled nor Composite
 
@@ -65,7 +65,7 @@ repmean(x = paste0("Math",1:5),
 repmean(x = c("item01"),
         PV = FALSE,
         repwt = RW, wt = "wt", df = repdata,
-        method = "ICILS",var = "ML",zones = "jkzones",
+        method = "ICILS",var = "ML",
         group = "GROUP",
         by = "GENDER", # results will be separated by GENDER
         exclude = "GR2") # GR2 will not be used for Pooled nor Composite
@@ -74,7 +74,7 @@ repmean(x = c("item01"),
 repmean(x = paste0("Math",1:5),
         PV = TRUE, # if set to TRUE, PVs will be treated as separate variables
         repwt = RW, wt = "wt", df = repdata,
-        method = "ICILS",var = "ML",zones = "jkzones",
+        method = "ICILS",var = "ML",
         group = "GROUP",
         by = "GENDER", # results will be separated by GENDER
         exclude = "GR2") # GR2 will not be used for Pooled nor Composite

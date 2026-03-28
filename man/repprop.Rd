@@ -8,7 +8,8 @@ repprop(
   x,
   categories = NULL,
   setup = NULL,
-  repwt,
+  repwt = NULL,
+  repindex = NULL,
   wt,
   df,
   method,
@@ -28,6 +29,10 @@ If \code{NULL}, categories will be derived from the data.}
 
 \item{repwt}{a string indicating the common names for the replicate weights
 columns (within \code{df}), or a data frame with the replicate weights.}
+
+\item{repindex}{a \code{repweights.index} object generated
+with \code{\link{repcreate}(..., index = TRUE)}. Using this argument instead of
+\code{repwt} will speed up the estimations considerably.}
 
 \item{wt}{a string specifying the name of the column (within \code{df}) with the
 total weights.}

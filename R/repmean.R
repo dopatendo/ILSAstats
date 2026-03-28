@@ -61,7 +61,8 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt = NULL, repindex = NULL,
                     method,
                     var = c("unbiased","ML","none"), group = NULL, by = NULL,
                     exclude = NULL,
-                    aggregates = c("pooled","composite")){
+                    aggregates = c("pooled","composite"),
+                    simplify = TRUE){
 
   zones = NULL
 
@@ -181,7 +182,7 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt = NULL, repindex = NULL,
                        by = by,
                        exclude = exclude,
                        aggregates = aggregates,
-                       simplify = TRUE))
+                       simplify = simplify))
 
 
   returnis(is.chavec.or.dfonly,repwt)

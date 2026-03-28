@@ -243,6 +243,7 @@ leaguetable <- function(df,
                         wt = ili$totalweight[i],
                         df = df,
                         group = cou,
+                        method = method,
                         var = "none",
                         exclude = NULL,
                         aggregates = NULL)
