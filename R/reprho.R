@@ -46,14 +46,7 @@ reprho <- function(x = NULL,pv = NULL, pv2 = NULL,relatedpvs = TRUE,
   frm <- formals(reprho)
 
 
-  if(!is.null(setup)){
-    if(setup$repwt.type!="df"){repwt <- setup$repwt}else{repwt <- get(setup$repwt)}
-    wt <- setup$wt
-    method <- setup$method
-    group <- setup$group
-    exclude <- setup$exclude
-    df <- get(setup$df)
-  }
+  assignsetup(reprho,setup = setup,mc = match.call())
 
 
   returnis(ischavec, method)

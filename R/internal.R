@@ -129,6 +129,8 @@ splitindexold <- function(repindex, group){
 splitindex <- function(repindex,group){
   att <- attributes(repindex)
 
+  repsi <- lengths(repindex)[[1]]
+
   groupR <- rep(NA,length(group))
   ugr <- sort(unique(group))
   for(i in 1:length(ugr)){
@@ -142,9 +144,9 @@ splitindex <- function(repindex,group){
 
     indi <- which(group%in%ugr[i])
 
-    ugri1 <- vector("list",att$reps)
-    ugri2 <- vector("list",att$reps)
-    for(j in 1:att$reps){
+    ugri1 <- vector("list",repsi)
+    ugri2 <- vector("list",repsi)
+    for(j in 1:repsi){
       ugri1[[j]] <- groupR[repindex[[1]][[j]][group[repindex[[1]][[j]]]%in%ugr[i]]]
       ugri2[[j]] <- groupR[repindex[[2]][[j]][group[repindex[[2]][[j]]]%in%ugr[i]]]
     }
@@ -158,4 +160,76 @@ splitindex <- function(repindex,group){
 }
 
 
-depth <- function(this) ifelse(is.list(this), 1L + max(sapply(this, depth)), 0L)
+depth <- function(x){
+
+  if(!is.list(x))
+    return(1L)
+
+  d <- 1L
+  w <- TRUE
+  y <- x
+  while(w){
+    if(is.list(y[[1]])){
+      d <- d+1L
+      y <- y[[1]]
+    }else{
+      w <- FALSE
+    }
+  }
+
+  return(d)
+
+}
+
+
+assignsetup <- function(func,setup = NULL,mc){
+
+  if(is.null(setup))
+    return(NULL)
+
+  # mc <- (match.call())
+  args <- intersect(names(formals(func)),names(formals(repsetup)))
+  # empt <- lapply(formals(repsetup),function(x){
+  #
+  #   x <- nzchar(x)
+  #   if(length(x)==0){
+  #     TRUE
+  #   }else{FALSE}
+  #
+  #
+  # })
+
+
+
+  for(i in 1:length(args)){
+    argi <- args[i]
+
+    used <- argi%in%names(mc)
+
+
+    if(!used&&!argi%in%c("df","repwt","repindex")){
+      assign(argi,setup[[argi]], envir = parent.frame(n = 1))
+    }
+
+
+    if(!used&&argi=="df"){
+      assign(argi,get(setup[[argi]],envir = parent.frame(n = 2)), envir = parent.frame(n = 1))
+    }
+
+    if(!used&&argi=="repindex"&!is.null(setup[[argi]])){
+      assign(argi,get(setup[[argi]],envir = parent.frame(n = 2)), envir = parent.frame(n = 1))
+    }
+
+
+    if(!used&&argi=="repwt"&!is.null(setup[[argi]])){
+      if(setup$repwt.type!="df"){
+        assign(argi,setup[[argi]], envir = parent.frame(n = 1))
+      }else{
+        assign(argi,get(setup[[argi]],envir = parent.frame(n = 2)), envir = parent.frame(n = 1))
+      }
+    }
+
+
+  }
+
+}

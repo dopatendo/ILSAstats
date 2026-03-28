@@ -167,58 +167,6 @@ proflevels <- function(df,
 
 
 
-  # Process -----------------------------------------------------------------
-
-  # levs <- df[,c(cou,unlist(c(ili[1,c("jkzones","jkreps","totalweight")]),
-  #                          use.names = FALSE))]
-  # levs <- untidy(levs)
-  #
-  #
-  # rwi <- repcreate(df = levs,
-  #                  jkzone = ili$jkzones[1],
-  #                  jkrep = ili$jkreps[1],
-  #                  wt = ili$totalweight[1],
-  #                  repwtname = "rwi",
-  #                  reps = reps,
-  #                  method = method)
-  #
-  #
-  # if(acumulated)
-  #
-  # i=1
-  # # for(i 1:nrow(ili)){}
-  #
-  # aci <- .proflevels.get(df = df,
-  #                        pvs = strsplit(ili$pvs[i],";")[[1]],
-  #                        bchs = as.numeric(strsplit(ili$cutoffs[i],";")[[1]]),
-  #                        moreorequal = (ili$moreorequal[i]==1),
-  #                        acumulated = TRUE)
-  # ci <- 0:length(strsplit(ili[i,"cutoffs"],";")[[1]])
-  #
-  # j=1
-  # pri <- vector("list",length(aci))
-  # for(j in 1:length(aci)){
-  #   dfj <- cbind(levs,aci[[j]])
-  #
-  #   xi <- colnames(aci[[j]])
-  #
-  #   prj <- sm(repprop(x = xi,
-  #                     categories = 0:1,
-  #                     setup = NULL,
-  #                     repwt = rwi,
-  #                     wt = ili$totalweight[i],
-  #                     df = dfj,
-  #                     method = method,
-  #                     group = cou,
-  #                     exclude = NULL,
-  #                     aggregates = NULL))
-  #   pri[[j]] <- prj[["PVs==1"]]
-  #   names(pri)[j] <- paste0("PVs==",ci[j+1])
-  # }
-  # class(pri) <- c("repprop",class(pri))
-  # attributes(pri)$categories <- ci[-1]
-
-
 
 # Acumulated --------------------------------------------------------------
 
@@ -237,7 +185,7 @@ proflevels <- function(df,
                      wt = ili$totalweight[1],
                      repwtname = "rwi",
                      reps = reps,
-                     method = method)
+                     method = method,index = TRUE)
 
 
 
@@ -264,7 +212,7 @@ proflevels <- function(df,
         prj <- sm(repprop(x = xi,
                           categories = 0:1,
                           setup = NULL,
-                          repwt = rwi,
+                          repindex = rwi,
                           wt = ili$totalweight[i],
                           df = dfj,
                           method = method,
@@ -336,7 +284,7 @@ if(!accumulated){
                    wt = ili$totalweight[1],
                    repwtname = "rwi",
                    reps = reps,
-                   method = method)
+                   method = method,index = TRUE)
 
 
   levs <- cbind.data.frame(levs,
@@ -354,7 +302,7 @@ if(!accumulated){
     pri <- sm(repprop(x = xi,
                       categories = ci,
                       setup = NULL,
-                      repwt = rwi,
+                      repindex = rwi,
                       wt = ili$totalweight[1],
                       df = levs,
                       method = method,

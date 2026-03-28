@@ -122,14 +122,7 @@ repse <- function(er,e0,
 
 
 
-  if(!is.null(setup)){
-    # if(setup$repwt.type!="df"){repwt <- setup$repwt}else{repwt <- get(setup$repwt)}
-    # wt <- setup$wt
-    method <- setup$method
-    # group <- setup$group
-    # exclude <- setup$exclude
-    # df <- get(setup$df)
-  }
+  assignsetup(repse,setup = setup,mc = match.call())
 
 
   returnis(ischavec, method)

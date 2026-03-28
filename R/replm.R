@@ -44,14 +44,7 @@ replm <- function(formula, pvs = NULL, relatedpvs = TRUE, quiet = FALSE,
   # source("R/argchecks.R")
   # source("R/internal.R")
 
-  if(!is.null(setup)){
-    if(setup$repwt.type!="df"){repwt <- setup$repwt}else{repwt <- get(setup$repwt)}
-    wt <- setup$wt
-    method <- setup$method
-    group <- setup$group
-    exclude <- setup$exclude
-    df <- get(setup$df)
-  }
+  assignsetup(replm,setup = setup,mc = match.call())
 
 
   returnis(ischavec, method)

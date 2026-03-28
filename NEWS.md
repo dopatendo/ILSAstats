@@ -1,6 +1,10 @@
 # ILSAstats 0.4.5
-- Added `repmeanfast()`. - Missing option for PVs and by.
-- Started support for multiple groups instead of only 1.
+- Setup arguments can be overridden when calling a function.
+- Updated `proflevels()` for replicate weights by index.
+- Updated `leaguetable()` for replicate weights by index.
+- Updated `repprop()` for replicate weights by index.
+- Updated `repmean()` for replicate weights by index.
+- Added internal function `repmeanfast()` for faster means and proportions.
 - Added creation of replicate weights by index.
 - Added extensive documentation.
 - Added support for TIMSS Longitudinal 2023.

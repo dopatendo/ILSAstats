@@ -32,10 +32,14 @@
 #' @param aggregates a string vector indicating which aggregates should be
 #' included, options are \code{"pooled"} and \code{"composite"}, both options can be
 #' used at the same time. If \code{NULL} no aggregate will be estimated.
-#' @param zones a string specifying the name of the variable containing the
-#' replicate zones.
-#' Used for calculating the number of zones to be used by variable and group.
-#' If \code{NULL}, zones are not be calculated.
+#' @param repindex a \code{repweights.index} object generated
+#' with \code{\link{repcreate}(..., index = TRUE)}. Using this argument instead of
+#' \code{repwt} will speed up the estimations considerably.
+#' @param simplify a logical value indicating if only the summary
+#' statistics should be printed. If \code{FALSE} estimations for
+#' all replicated will be provided and no aggregates will
+#' be estimated. Default is \code{TRUE}. It only works while using \code{repindex},
+#' otherwise it will be ignored.
 #' @inheritParams repse
 #'
 #'
@@ -49,25 +53,26 @@
 #'
 
 
-repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
+
+
+
+repmean <- function(x, PV = FALSE, setup = NULL, repwt = NULL, repindex = NULL,
+                    wt, df,
                     method,
-                    var = c("unbiased","ML"), group = NULL, by = NULL,
+                    var = c("unbiased","ML","none"), group = NULL, by = NULL,
                     exclude = NULL,
-                    aggregates = c("pooled","composite"),
-                    zones = NULL){
+                    aggregates = c("pooled","composite")){
 
-  if(!is.null(setup)){
-    if(setup$repwt.type!="df"){repwt <- setup$repwt}else{repwt <- get(setup$repwt)}
-    wt <- setup$wt
-    method <- setup$method
-    group <- setup$group
-    exclude <- setup$exclude
-    # aggregates <- setup$aggregates
-    df <- get(setup$df)
-  }
+  zones = NULL
 
-  # returnis(ischavec, method)
-  # method <- returnis(isinvec,x = method[1L],choices = ILSAmethods(repse = TRUE))
+  assignsetup(repmean,setup = setup,mc = match.call())
+
+
+  if(is.null(repwt)&is.null(repindex))
+    stop(paste0("\nInvalid input for 'repwt' or 'repindex'",
+                "\nAt least one should be different from NULL."),call. = FALSE)
+
+
 
 
 
@@ -81,20 +86,8 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
 
   returnis(ischavec,x)
   returnis(islova,PV)
-  returnis(is.chavec.or.dfonly,repwt)
   returnis(ischaval,wt)
-  returnis(isdf,df)
-  if(!isdfonly(df)){
 
-   if(ischavec(repwt)){
-     rena = repwt
-   }else{
-     rena = NULL
-   }
-
-    df <- df[,c(x,group,wt,by,zones,rena)]
-    df <- untidy(df)
-  }
   returnisNULL(ischaval, group)
   returnisNULL(ischaval, by)
   returnisNULL(ischavec, exclude)
@@ -149,6 +142,52 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
   ### exclude + group
   if(!is.null(exclude)&&min(!exclude%in%df[,group])==1)
     warning("Check 'exclude', values not found in 'group'.",call. = FALSE)
+
+
+
+  returnis(isdf,df)
+
+
+  if(!isdfonly(df)){
+
+
+    if(!is.null(repwt)){
+      if(ischavec(repwt)){
+        rena = repwt
+      }else{
+        rena = NULL
+      }
+    }else{
+      rena = NULL
+    }
+
+
+
+    df <- df[,c(x,group,wt,by,zones,rena)]
+    df <- untidy(df)
+  }
+
+
+
+  if(!is.null(repindex))
+    return(repmeanfast(x = x,
+                       PV = PV,
+                       repindex = repindex,
+                       wt = wt,
+                       df = df,
+                       method = method,
+                       var = var,
+                       group = group,
+                       by = by,
+                       exclude = exclude,
+                       aggregates = aggregates,
+                       simplify = TRUE))
+
+
+  returnis(is.chavec.or.dfonly,repwt)
+  if(var%in%"none"){
+    var <- 1
+  }
 
 
   ### repwt(df) + df
@@ -256,6 +295,14 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
 
     if(!"variable"%in%colnames(out)){
       class(out) <- c("repmean.single", class(out))
+    }
+
+
+    if(is.null(GR)){
+      attributes(out)$groups <- FALSE
+    }else{
+      attributes(out)$groups <- TRUE
+      attributes(out)$excluded <- exclude
     }
 
     return(out)
@@ -483,13 +530,27 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
     if(!"variable"%in%colnames(outi)){
       class(outi) <- c("repmean.single", class(outi))
     }
+
+    if(is.null(GR)){
+      attributes(outi)$groups <- FALSE
+    }else{
+      attributes(outi)$groups <- TRUE
+      attributes(outi)$excluded <- exclude
+    }
+
+
     outi
 
   })
 
   class(out) <- c("repmean.list","repmean", class(out))
 
-
+  if(is.null(GR)){
+    attributes(out)$groups <- FALSE
+  }else{
+    attributes(out)$groups <- TRUE
+    attributes(out)$excluded <- exclude
+  }
 
 
 
@@ -506,462 +567,7 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
 }
 
 
-# NEED TO BE MODIFIED WHEN repprop is modified for POOL
 
-.repmean0 <- function(x, PV = FALSE, repwt, wt, df,
-                    method,
-                    var = 0, group = NULL, by = NULL,
-                    exclude = NULL, zones = NULL,
-                    aggregates = c("pooled","composite")){
-
-  # if(!is.null(setup)){
-  #   if(setup$repwt.type!="df"){repwt <- setup$repwt}else{repwt <- get(setup$repwt)}
-  #   wt <- setup$wt
-  #   method <- setup$method
-  #   group <- setup$group
-  #   exclude <- setup$exclude
-  #   df <- get(setup$df)
-  # }
-
-  # Checks ----
-
-  frm <- formals(.repmean0)
-
-
-
-
-  ## class
-  returnis(ischavec,x)
-  returnis(islova,PV)
-  returnis(is.chavec.or.dfonly,repwt)
-  returnis(ischaval,wt)
-  returnis(isdf,df)
-  if(!isdfonly(df)){
-
-    if(ischavec(repwt)){
-      rena = repwt
-    }else{
-      rena = NULL
-    }
-
-    df <- df[,c(group,wt,by,zones,rena)]
-    df <- untidy(df)
-  }
-  returnisNULL(ischaval, group)
-  returnisNULL(ischaval, by)
-  returnisNULL(ischaval, exclude)
-  returnisNULL(ischaval, zones)
-  returnis(ischavec, method)
-
-
-
-  ## match option
-  method <- returnis(isinvec,x = method[1L],choices = ILSAmethods(repse = TRUE))
-  aggregates <- returnisNULL(isinvecmul,x = aggregates, choices = frm$aggregates)
-
-  ## Combinations
-
-  ### x & PV
-  if(length(x)==1&PV)
-    stop(c("\nInvalid input for 'x'.",
-           "\nOnly one PV provided."),call. = FALSE)
-
-  ### PV are complete
-  if(PV){
-    if(!all(rowSums(is.na(df[,x]))%in%c(0,length(x))))
-      stop(c("\nInvalid input for 'x'.",
-             "\nThere are cases with incomplete PVs."),call. = FALSE)
-  }
-
-  ### by for 1 variable
-  if(length(x)>1&!PV&!is.null(by))
-    stop(paste0("Invalid input for 'by'.",
-                "\nIt is only implemented for one variable."),call. = FALSE)
-
-
-  ### x, wt, group, by, zones in df
-  indf <- c(x, wt, group, by, zones)
-
-
-
-  if(!all(indf%in%colnames(df)))
-    stop(c("\nInvalid input.",
-           "\n",
-           paste(paste0(indf[!indf%in%colnames(df)],collapse = ', '),"not found in 'df'")),
-         call. = FALSE)
-
-  if(length(indf)!=length(unique(indf)))
-    stop(paste0("\nInvalid input. Repeated arguments."),
-         call. = FALSE)
-
-
-  ### exclude + group
-  if(!is.null(exclude)&&min(!exclude%in%df[,group])==1)
-    warning("Check 'exclude', values not found in 'group'.",call. = FALSE)
-
-
-  ### repwt(df) + df
-  if(!is.vector(repwt)&&(nrow(repwt)!=nrow(df)))
-    stop(c("\nInvalid input for 'repwt'.",
-           "\nIf it is a data frame it should have the same number of rows as 'df'."),call. = FALSE)
-
-
-
-  # Process ----
-
-  # Transformation of arguments ----
-
-  ### X - x
-  X <- df[,x]
-  TW <- df[,wt]
-
-  ### GR - groups
-  if(!is.null(group)){
-    GR = df[,group]
-
-    if('Pooled'%in%GR)
-      stop(c("\nInvalid input for 'group'.",
-             "\nNo group names should be 'Pooled'."),call. = FALSE)
-
-    if('Composite'%in%GR)
-      stop(c("\nInvalid input for 'group'.",
-             "\nNo group names should be 'Composite'."),call. = FALSE)
-
-
-  }else{
-    GR = NULL
-  }
-
-  ### ZN - zones
-  if(!is.null(zones)){
-    ZN = df[,zones]
-  }else{
-    ZN = NULL
-  }
-
-  ### RW - replicate weights
-  if(is.vector(repwt)){
-
-    if(length(repwt==1)){
-      RW <- df[,grepl(repwt,colnames(df)),drop = FALSE]
-
-      if(ncol(RW)<2)
-        stop(c("\nInvalid input for 'repwt'.",
-               "\nLess than 2 column names found in 'df'."),call. = FALSE)
-
-      message(paste0(ncol(RW)," weights found."))
-
-    }else{
-
-      if(min(repwt%in%colnames(df))!=1)
-        stop(c("\nInvalid input for 'repwt'.",
-               "\nColumns not found in 'df'."),call. = FALSE)
-
-      RW = df[,repwt]
-
-      if(ncol(RW)<2)
-        stop(c("\nInvalid input for 'repwt'.",
-               "\nLess than 2 column names found in 'df'."),call. = FALSE)
-    }
-
-  }else{
-
-    if(ncol(repwt)<2)
-      stop(c("\nInvalid input for 'repwt'.",
-             "\nLess than 2 columns."),call. = FALSE)
-
-
-    if(nrow(repwt)!=nrow(df))
-      stop(c("\nInvalid input for 'repwt'.",
-             "\nIf a matrix or data frame is provided it should have the same number of rows as 'df'."),call. = FALSE)
-
-    RW <- repwt
-  }
-
-  RW <- as.matrix(RW);colnames(RW) <- NULL
-
-
-
-  # pooled ----
-
-  if(var!=0){
-    outp <- .repmean(X = X, RW = RW,TW = TW,method = method,PV = PV,var = var,
-                     group = GR,
-                     exclude = exclude,zones = ZN,outrep = FALSE,
-                     aggregates = aggregates)
-  }else{
-    outp <- NA
-  }
-
-
-
-  if(is.null(by)|(length(x)>1&!PV)){
-
-
-
-    out <- outp[[1]]
-    class(out) <- c("repmean", class(out))
-
-    if(!"variable"%in%colnames(out)){
-      class(out) <- c("repmean.single", class(out))
-    }
-
-    return(out)
-
-
-  }
-
-  # by ----
-
-  message("dfs and pvalues are experimental.")
-  bys <- sort(omitna(unique(df[,by])))
-
-  outg <- vector(mode = "list", length = length(bys))
-
-  ugr <- sort(unique(GR))
-
-  for(i in 1:length(bys)){
-
-    I <- bys[i]
-
-    Xii <- as.data.frame(X)[df[,by]%in%I,]
-    RWii <- RW[df[,by]%in%I,]
-    TWii <- TW[df[,by]%in%I]
-    GRii <- GR[df[,by]%in%I]
-    ZNii <- ZN[df[,by]%in%I]
-
-    # dim(Xii)
-    # dim(RWii)
-    # length(TWii)
-    # length(GRii)
-    # length(ZNii)
-
-    # .repmean(X = Xii, RW = RWii,TW = TWii,
-    #          method = method,
-    #          PV = PV,
-    #          group =GRi,
-    #          var = var)
-
-    outgi <- .repmean(X = Xii, RW = RWii,TW = TWii,
-                      method = method,PV = PV,var = var,
-                      group = GRii,exclude = exclude,zones = ZNii,outrep = TRUE,
-                      aggregates = aggregates)
-
-    if(!is.null(ugr)){
-      if(lu(GRii)!=length(ugr)){
-
-
-
-
-        fixon <-  ugr[which(!ugr%in%names(outgi[[2]]))]
-
-
-        fixo <-  lapply(1:length(fixon), function(i){
-          lapply(outgi[[2]][[1]], `is.na<-`)
-        })
-        names(fixo) <- fixon
-
-
-
-
-        isagg <- c("pooled", "composite")%in%aggregates
-
-        if(all(isagg)){
-          outgi[[1]] <-  rbind(outgi[[1]][1:2,],merge(cbind.data.frame(group = c(ugr)),
-                                                      outgi[[1]],sort = TRUE,all.x=TRUE))
-        }
-
-        if(all(isagg==c(TRUE,FALSE))){
-          outgi[[1]] <-  rbind(outgi[[1]][1,],merge(cbind.data.frame(group = c(ugr)),
-                                                    outgi[[1]],sort = TRUE,all.x=TRUE))
-        }
-
-
-        if(all(isagg==c(FALSE,TRUE))){
-          outgi[[1]] <-  rbind(outgi[[1]][2,],merge(cbind.data.frame(group = c(ugr)),
-                                                    outgi[[1]],sort = TRUE,all.x=TRUE))
-        }
-
-        if(all(isagg==c(FALSE,FALSE))){
-          outgi[[1]] <-  rbind(NULL,merge(cbind.data.frame(group = c(ugr)),
-                                          outgi[[1]],sort = TRUE,all.x=TRUE))
-        }
-
-
-
-        outgi[[1]][is.na(outgi[[1]][,'N']),'N'] <- 0
-
-        if(isagg[2]){
-          outgi[[2]] <-  c(outgi[[2]],fixo)[c('Pooled',ugr)]
-        }else{
-          outgi[[2]] <-  c(outgi[[2]],fixo)[c(ugr)]
-        }
-
-      }
-    }
-
-
-    outg[[i]] <- outgi
-
-  }
-
-
-  kom <- utils::combn(bys,2)
-
-  outd <- lapply(1:ncol(kom),{
-    function(k){
-      G1 <- outg[[which(bys%in%kom[1,k])]][[-1]]
-      G2 <- outg[[which(bys%in%kom[2,k])]][[-1]]
-
-
-      if(is.null(GR)){
-
-
-        Difk <- lapply(1:length(G1),function(i){
-          G1[[i]]-G2[[i]]
-        })
-
-
-        Difk <- do.call(rbind,lapply(1:1, function(j){
-          c(mean(sapply(Difk,function(i) i[1])),
-            .repse(er = lapply(Difk,function(i) i[-1]),
-                   e0 = sapply(Difk,function(i) i[1]),
-                   method = method))
-
-        })
-        )
-
-
-
-      }else{
-        Difk <- lapply(1:length(G1),function(j){
-          lapply(1:length(G1[[1]]),function(i){
-            G1[[j]][[i]]-G2[[j]][[i]]
-          })
-        })
-
-
-        Difk <- do.call(rbind,lapply(1:length(Difk), function(j){
-          c(mean(sapply(Difk[[j]],function(i) i[1])),
-            .repse(er = lapply(Difk[[j]],function(i) i[-1]),
-                   e0 = sapply(Difk[[j]],function(i) i[1]),
-                   method = method))
-
-        })
-        )
-
-
-        isagg <- c("pooled", "composite")%in%aggregates
-
-        if(all(isagg)){
-          out <- rbind(Difk[1,],
-                c(mean(Difk[-1,1][!ugr%in%exclude],na.rm = T),
-                  .repsecomp(Difk[-1,2][!ugr%in%exclude])),
-                Difk[-1,])
-        }
-
-
-        if(all(isagg==c(TRUE,FALSE))){
-          out <- rbind(Difk[1,],
-                       # c(mean(Difk[-1,1][!ugr%in%exclude],na.rm = T),
-                       #   .repsecomp(Difk[-1,2][!ugr%in%exclude])),
-                       Difk[-1,])
-        }
-
-        if(all(isagg==c(FALSE,TRUE))){
-          out <- rbind(
-                       c(mean(Difk[,1][!ugr%in%exclude],na.rm = T),
-                         .repsecomp(Difk[,2][!ugr%in%exclude])),
-                       Difk[,])
-        }
-
-        if(all(isagg==c(FALSE,FALSE))){
-          out <- rbind(Difk[,])
-        }
-
-        out
-
-
-
-      }
-
-
-
-
-
-
-    }
-  })
-
-
-
-  outg <- lapply(1:length(bys),function(k){
-
-
-
-    wh <- which(kom[1,]%in%bys[k]|kom[2,]%in%bys[k])
-
-    cbind.data.frame(outg[[k]][[1]],do.call(cbind,lapply(1:length(wh),function(j){
-
-
-      whj <- wh[j]
-      komj <- kom[,whj]
-
-      difj <- outd[[whj]]
-      if(bys[k]%in%komj[2]){difj[,1] = -(difj[,1])}
-
-      difj <- cbind(outg[[which(bys==komj[!komj%in%bys[k]])]][[1]][,c('mean')],difj)
-      difj <- cbind(difj,difj[,2]/difj[,3])
-      dfs <- outg[[k]][[1]][,'N']+outg[[which(bys==komj[!komj%in%bys[k]])]][[1]][,'N']-2
-      dfs[dfs<0] <- NA
-      difj <- cbind(difj,dfs,2*(stats::pt(q = abs(difj[,4]), df = dfs, lower.tail = FALSE)))
-
-      colnames(difj) <- paste0(c('mean_',"meandiff_","meandiffse_",'tvalue_','df_','pvalue_'),
-                               komj[!komj%in%bys[k]])
-      difj
-
-    })
-    ))
-
-
-  })
-
-
-  names(outg) <- paste0(by,'==',bys)
-
-
-  # Output ----
-
-
-  out <- c(ALL=outp,outg)
-
-  out <- lapply(out,function(i){
-    outi <- i
-    class(outi) <- c("repmean", class(outi))
-    if(!"variable"%in%colnames(outi)){
-      class(outi) <- c("repmean.single",class(outi))
-    }
-    outi
-
-  })
-
-  class(out) <- c("repmean","repmean.list", class(out))
-
-
-
-
-
-  # class(out) <- c(class(out),"repmean")
-  #
-  # if(length(x)==1|PV){
-  #   class(out) <- c(class(out),"repmean.single")
-  # }
-
-  return(out)
-
-
-
-}
 
 .repmeanX <- function(X, RW, TW,method,var = 'unbiased',zones = NULL,
                       outrep = FALSE){
@@ -1090,6 +696,7 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt, wt, df,
                      RW = RW,TW = TW,method = method,
                      var = var,zones=zones,outrep = outrep)
     out[[1]] <- as.data.frame(out[[1]])
+    attributes(out)$groups = FALSE
 
     return(out)
   }
@@ -1221,7 +828,9 @@ if(goco){
   # rownames(oute) <- NULL
   #
   # oute <- cbind.data.frame(group = c('Pooled','Composite',ugr),oute)
-  attributes(oute)$excluded = exclude
+attributes(oute)$groups = TRUE
+attributes(oute)$excluded = exclude
+
 
   if(!outrep){
     return(list(oute))

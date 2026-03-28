@@ -243,21 +243,10 @@ leaguetable <- function(df,
                         wt = ili$totalweight[i],
                         df = df,
                         group = cou,
+                        var = "none",
                         exclude = NULL,
                         aggregates = NULL)
-    # meai <- .repmean0(df = df,
-    #                   x = xx[[i]],
-    #                   PV = (length(xx[[i]])>1),
-    #                   # setup = NULL,
-    #                   repwt = rwi,
-    #                   wt = ili$totalweight[i],
-    #                   method = method,
-    #                   var = -1,
-    #                   group = cou,
-    #                   by = NULL,
-    #                   exclude = NULL,
-    #                   aggregates = NULL,
-    #                   zones = NULL)
+
     if(addCI){
       meai <- repmeanCI(x = meai, alpha = alpha, add = TRUE)
     }

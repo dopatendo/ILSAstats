@@ -27,15 +27,7 @@ repglm <- function(formula, family = stats::gaussian,
   # source("R/argchecks.R")
   # source("R/internal.R")
 
-  if(!is.null(setup)){
-    if(setup$repwt.type!="df"){repwt <- setup$repwt}else{repwt <- get(setup$repwt)}
-    wt <- setup$wt
-    method <- setup$method
-    group <- setup$group
-    exclude <- setup$exclude
-    df <- get(setup$df)
-  }
-
+  assignsetup(repglm,setup = setup,mc = match.call())
 
   returnis(ischavec, method)
   method <- returnis(isinvec,x = method[1L],choices = ILSAmethods(repse = TRUE))

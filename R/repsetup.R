@@ -16,27 +16,47 @@
 #'
 #' @export
 
-repsetup <- function(repwt, wt, df,
+repsetup <- function(repwt = NULL, repindex = NULL, wt, df,
                      method,
                      group = NULL,
                      exclude = NULL){
 
+
+  if(is.null(repwt)&is.null(repindex))
+    stop(paste0("\nInvalid input for 'repwt' or 'repindex'",
+                "\nAt least one should be different from NULL."),call. = FALSE)
+
+  if(!is.null(repindex))
+    repindex <- deparse(substitute(repindex))
 
 
   returnis(ischavec, method)
   method <- returnis(isinvec,x = method[1L],choices = ILSAmethods(repse = TRUE))
 
 
-  if(!ischaval(repwt)){
-    repwt <- deparse(substitute(repwt))
-    repwt.type <- "df"
+  if(!is.null(repwt)){
+    if(!ischaval(repwt)){
+      repwt <- deparse(substitute(repwt))
+      repwt.type <- "df"
+    }else{
+      repwt.type <- "character"
+    }
   }else{
-    repwt.type <- "character"
+    repwt <- NULL
+    repwt.type <- NULL
   }
 
 
 
-  out <- list(repwt = repwt, wt = wt, df = deparse(substitute(df)),
+
+
+
+
+
+
+
+
+  out <- list(repwt = repwt, repindex = repindex, wt = wt, df = deparse(substitute(df)),
        method = method, group = group,
        exclude = exclude,
        repwt.type = repwt.type)
@@ -53,11 +73,19 @@ repsetup <- function(repwt, wt, df,
 #' @export
 print.repsetup <- function(x, ...){
 
+  # dims <- dim(get(x$df,envir = globalenv()))
   dims <- dim(get(x$df))
 
-  if(x$repwt.type!="df"){
-    nc <- sum(grepl(x$repwt,colnames(get(x$df))))
-  }else{nc <- ncol(get(x$repwt))}
+
+  if(!is.null(x$repwt)){
+    if(x$repwt.type!="df"){
+      nc <- sum(grepl(x$repwt,colnames(get(x$df))))
+    }else{nc <- ncol(get(x$repwt))}
+  }else{
+    nc <- lengths(rw2)[1]
+  }
+
+
 
   cat("repsetup:")
   cat("\ndata = ",x$df,": ",dims[2]," columns, and ",dims[1]," rows.",sep = "")
@@ -74,10 +102,19 @@ print.repsetup <- function(x, ...){
 #' @export
 repsetupILSA <- function(study,
                          year,
-                         repwt,
+                         repwt = NULL,
+                         repindex = NULL,
                          df,
                          group = NULL,
                          exclude = NULL){
+
+
+  if(is.null(repwt)&is.null(repindex))
+    stop(paste0("\nInvalid input for 'repwt' or 'repindex'",
+                "\nAt least one should be different from NULL."),call. = FALSE)
+
+  if(!is.null(repindex))
+    repindex <- deparse(substitute(repindex))
 
 
   # Checks ----
@@ -100,16 +137,21 @@ repsetupILSA <- function(study,
 
 
 
-  if(!ischaval(repwt)){
-    repwt <- deparse(substitute(repwt))
-    repwt.type <- "df"
+  if(!is.null(repwt)){
+    if(!ischaval(repwt)){
+      repwt <- deparse(substitute(repwt))
+      repwt.type <- "df"
+    }else{
+      repwt.type <- "character"
+    }
   }else{
-    repwt.type <- "character"
+    repwt <- NULL
+    repwt.type <- NULL
   }
 
 
 
-  out <- list(repwt = repwt, wt = x$totalweight,
+  out <- list(repwt = repwt, repindex = repindex,wt = x$totalweight,
               df = deparse(substitute(df)),
               method = x$method, group = group,
               exclude = exclude,
