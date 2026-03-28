@@ -117,12 +117,12 @@ leaguetable(df = timss99, study = "TIMSS", year = 1999, method = "TIMSS")
 ```
 
     ##   study study2 year subject  group    N     mean      se   CIdown     CIup
-    ## 1 TIMSS     G8 1999    math  Chile 1076 392.7611 4.30496 384.3235 401.1986
-    ## 2 TIMSS     G8 1999    math  Japan  885 578.4152 2.18722 574.1283 582.7021
-    ## 3 TIMSS     G8 1999    math Taiwan 1039 590.4357 3.74791 583.0899 597.7814
-    ## 4 TIMSS     G8 1999 science  Chile 1076 420.5514 3.57602 413.5425 427.5602
-    ## 5 TIMSS     G8 1999 science  Japan  885 550.6614 1.86600 547.0041 554.3187
-    ## 6 TIMSS     G8 1999 science Taiwan 1039 573.3537 4.11868 565.2812 581.4261
+    ## 1 TIMSS     G8 1999    math  Chile 1076 392.7611 5.46288 382.0540 403.4681
+    ## 2 TIMSS     G8 1999    math  Japan  885 578.4152 2.80539 572.9167 583.9137
+    ## 3 TIMSS     G8 1999    math Taiwan 1039 590.4357 5.00692 580.6223 600.2491
+    ## 4 TIMSS     G8 1999 science  Chile 1076 420.5514 4.86369 411.0187 430.0840
+    ## 5 TIMSS     G8 1999 science  Japan  885 550.6614 2.53919 545.6847 555.6381
+    ## 6 TIMSS     G8 1999 science Taiwan 1039 573.3537 5.01030 563.5337 583.1737
 
 ## Difference between groups
 

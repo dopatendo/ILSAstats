@@ -2,10 +2,21 @@
 
 ## ILSAstats 0.4.5
 
-- Added
-  [`repmeanfast()`](https://dopatendo.github.io/ILSAstats/reference/repmeanfast.md). -
-  Missing option for PVs and by.
-- Started support for multiple groups instead of only 1.
+- Setup arguments can be overridden when calling a function.
+- Updated
+  [`proflevels()`](https://dopatendo.github.io/ILSAstats/reference/proflevels.md)
+  for replicate weights by index.
+- Updated
+  [`leaguetable()`](https://dopatendo.github.io/ILSAstats/reference/leaguetable.md)
+  for replicate weights by index.
+- Updated
+  [`repprop()`](https://dopatendo.github.io/ILSAstats/reference/repprop.md)
+  for replicate weights by index.
+- Updated
+  [`repmean()`](https://dopatendo.github.io/ILSAstats/reference/repmean.md)
+  for replicate weights by index.
+- Added internal function `repmeanfast()` for faster means and
+  proportions.
 - Added creation of replicate weights by index.
 - Added extensive documentation.
 - Added support for TIMSS Longitudinal 2023.

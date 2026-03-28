@@ -12,7 +12,8 @@ repprop(
   x,
   categories = NULL,
   setup = NULL,
-  repwt,
+  repwt = NULL,
+  repindex = NULL,
   wt,
   df,
   method,
@@ -42,6 +43,13 @@ repprop(
 
   a string indicating the common names for the replicate weights columns
   (within `df`), or a data frame with the replicate weights.
+
+- repindex:
+
+  a `repweights.index` object generated with
+  [`repcreate`](https://dopatendo.github.io/ILSAstats/reference/repcreate.md)`(..., index = TRUE)`.
+  Using this argument instead of `repwt` will speed up the estimations
+  considerably.
 
 - wt:
 

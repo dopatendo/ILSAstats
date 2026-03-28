@@ -6,9 +6,25 @@ weights.
 ## Usage
 
 ``` r
-repsetup(repwt, wt, df, method, group = NULL, exclude = NULL)
+repsetup(
+  repwt = NULL,
+  repindex = NULL,
+  wt,
+  df,
+  method,
+  group = NULL,
+  exclude = NULL
+)
 
-repsetupILSA(study, year, repwt, df, group = NULL, exclude = NULL)
+repsetupILSA(
+  study,
+  year,
+  repwt = NULL,
+  repindex = NULL,
+  df,
+  group = NULL,
+  exclude = NULL
+)
 ```
 
 ## Arguments
@@ -17,6 +33,13 @@ repsetupILSA(study, year, repwt, df, group = NULL, exclude = NULL)
 
   a string indicating the common names for the replicate weights columns
   (within `df`), or a data frame with the replicate weights.
+
+- repindex:
+
+  a `repweights.index` object generated with
+  [`repcreate`](https://dopatendo.github.io/ILSAstats/reference/repcreate.md)`(..., index = TRUE)`.
+  Using this argument instead of `repwt` will speed up the estimations
+  considerably.
 
 - wt:
 
@@ -99,8 +122,14 @@ stp2
 ### repmean ----
 
 repmean(x = "Math1",setup = stp1)
-#> Error in get(setup$repwt): object 'RW' not found
+#>      N    mean      se      sd    sdse     var   varse
+#> 1 5000 0.00191 0.01718 1.02336 0.00928 1.04726 0.01899
 
 repmean(x = "Math1",setup = stp2)
-#> Error in get(setup$repwt): object 'RW' not found
+#>       group    N     mean      se      sd    sdse     var   varse
+#> 1    Pooled 3334 -0.00267 0.02192 1.08611 0.01133 1.17964 0.02462
+#> 2 Composite   NA -0.00327 0.01511 0.90647 0.01033 0.82169 0.01874
+#> 3       GR1 1667 -0.60164 0.02193 0.90847 0.01330 0.82532 0.02416
+#> 4       GR2 1666  0.01102 0.02383 0.88556 0.01507 0.78422 0.02668
+#> 5       GR3 1667  0.59510 0.02079 0.90446 0.01582 0.81805 0.02865
 ```

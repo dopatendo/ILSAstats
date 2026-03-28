@@ -93,7 +93,7 @@ proflevels(
   criteria. For example, reducing the sample for certain countries in
   TIMSS 1995. Default is `TRUE`.
 
-- acumulated:
+- accumulated:
 
   a logical value indicating if proficiency levels should be
   accumulated.

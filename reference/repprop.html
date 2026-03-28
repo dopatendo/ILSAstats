@@ -70,7 +70,8 @@ see <code><a href="repse.html">repse</a></code>.</p>
 <span>  <span class="va">x</span>,</span>
 <span>  categories <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  setup <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  <span class="va">repwt</span>,</span>
+<span>  repwt <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  repindex <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">wt</span>,</span>
 <span>  <span class="va">df</span>,</span>
 <span>  <span class="va">method</span>,</span>
@@ -101,6 +102,12 @@ If <code>NULL</code>, categories will be derived from the data.</p></dd>
 <dt id="arg-repwt">repwt<a class="anchor" aria-label="anchor" href="#arg-repwt"></a></dt>
 <dd><p>a string indicating the common names for the replicate weights
 columns (within <code>df</code>), or a data frame with the replicate weights.</p></dd>
+
+
+<dt id="arg-repindex">repindex<a class="anchor" aria-label="anchor" href="#arg-repindex"></a></dt>
+<dd><p>a <code>repweights.index</code> object generated
+with <code><a href="repcreate.html">repcreate</a>(..., index = TRUE)</code>. Using this argument instead of
+<code>repwt</code> will speed up the estimations considerably.</p></dd>
 
 
 <dt id="arg-wt">wt<a class="anchor" aria-label="anchor" href="#arg-wt"></a></dt>

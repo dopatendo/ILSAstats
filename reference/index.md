@@ -40,8 +40,6 @@
   : Confidence Intervals for Replicated Means
 - [`repmeandif()`](https://dopatendo.github.io/ILSAstats/reference/repmeandif.md)
   : Mean Difference of Independent Samples with Replicate Weights
-- [`repmeanfast()`](https://dopatendo.github.io/ILSAstats/reference/repmeanfast.md)
-  : Mean with Replicate Weights
 - [`repprop()`](https://dopatendo.github.io/ILSAstats/reference/repprop.md)
   : Proportions with Replicate Weights
 - [`repprop.table()`](https://dopatendo.github.io/ILSAstats/reference/repprop.table.md)

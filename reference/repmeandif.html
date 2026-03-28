@@ -95,7 +95,7 @@ or an object produced by <code><a href="leaguetable.html">leaguetable</a></code>
 <span class="r-in"><span><span class="va">reme</span> <span class="op">&lt;-</span> <span class="fu"><a href="repmean.html">repmean</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"item01"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                PV <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>                repwt <span class="op">=</span> <span class="va">RW</span>, wt <span class="op">=</span> <span class="st">"wt"</span>, df <span class="op">=</span> <span class="va">repdata</span>,</span></span>
-<span class="r-in"><span>                method <span class="op">=</span> <span class="st">"ICILS"</span>,var <span class="op">=</span> <span class="st">"ML"</span>,zones <span class="op">=</span> <span class="st">"jkzones"</span>,</span></span>
+<span class="r-in"><span>                method <span class="op">=</span> <span class="st">"ICILS"</span>,var <span class="op">=</span> <span class="st">"ML"</span>,</span></span>
 <span class="r-in"><span>                group <span class="op">=</span> <span class="st">"GROUP"</span>,</span></span>
 <span class="r-in"><span>                exclude <span class="op">=</span> <span class="st">"GR2"</span><span class="op">)</span> <span class="co"># GR2 will not be used for Pooled nor Composite</span></span></span>
 <span class="r-in"><span></span></span>
@@ -132,7 +132,7 @@ or an object produced by <code><a href="leaguetable.html">leaguetable</a></code>
 <span class="r-in"><span><span class="va">reme</span> <span class="op">&lt;-</span> <span class="fu"><a href="repmean.html">repmean</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Math"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                PV <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co"># if set to TRUE, PVs will be treated as separate variables</span></span></span>
 <span class="r-in"><span>                repwt <span class="op">=</span> <span class="va">RW</span>, wt <span class="op">=</span> <span class="st">"wt"</span>, df <span class="op">=</span> <span class="va">repdata</span>,</span></span>
-<span class="r-in"><span>                method <span class="op">=</span> <span class="st">"ICILS"</span>,var <span class="op">=</span> <span class="st">"ML"</span>,zones <span class="op">=</span> <span class="st">"jkzones"</span>,</span></span>
+<span class="r-in"><span>                method <span class="op">=</span> <span class="st">"ICILS"</span>,var <span class="op">=</span> <span class="st">"ML"</span>,</span></span>
 <span class="r-in"><span>                group <span class="op">=</span> <span class="st">"GROUP"</span>,</span></span>
 <span class="r-in"><span>                exclude <span class="op">=</span> <span class="st">"GR2"</span><span class="op">)</span> <span class="co"># GR2 will not be used for Pooled nor Composite</span></span></span>
 <span class="r-in"><span></span></span>
@@ -170,7 +170,7 @@ or an object produced by <code><a href="leaguetable.html">leaguetable</a></code>
 <span class="r-in"><span><span class="va">reme</span> <span class="op">&lt;-</span> <span class="fu"><a href="repmean.html">repmean</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"item01"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                PV <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>                repwt <span class="op">=</span> <span class="va">RW</span>, wt <span class="op">=</span> <span class="st">"wt"</span>, df <span class="op">=</span> <span class="va">repdata</span>,</span></span>
-<span class="r-in"><span>                method <span class="op">=</span> <span class="st">"ICILS"</span>,var <span class="op">=</span> <span class="st">"ML"</span>,zones <span class="op">=</span> <span class="st">"jkzones"</span>,</span></span>
+<span class="r-in"><span>                method <span class="op">=</span> <span class="st">"ICILS"</span>,var <span class="op">=</span> <span class="st">"ML"</span>,</span></span>
 <span class="r-in"><span>                group <span class="op">=</span> <span class="st">"GROUP"</span>,</span></span>
 <span class="r-in"><span>                by <span class="op">=</span> <span class="st">"GENDER"</span>, <span class="co"># results will be separated by GENDER</span></span></span>
 <span class="r-in"><span>                exclude <span class="op">=</span> <span class="st">"GR2"</span><span class="op">)</span> <span class="co"># GR2 will not be used for Pooled nor Composite</span></span></span>
@@ -265,7 +265,7 @@ or an object produced by <code><a href="leaguetable.html">leaguetable</a></code>
 <span class="r-in"><span><span class="va">reme</span> <span class="op">&lt;-</span> <span class="fu"><a href="repmean.html">repmean</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Math"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                PV <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co"># if set to TRUE, PVs will be treated as separate variables</span></span></span>
 <span class="r-in"><span>                repwt <span class="op">=</span> <span class="va">RW</span>, wt <span class="op">=</span> <span class="st">"wt"</span>, df <span class="op">=</span> <span class="va">repdata</span>,</span></span>
-<span class="r-in"><span>                method <span class="op">=</span> <span class="st">"ICILS"</span>,var <span class="op">=</span> <span class="st">"ML"</span>,zones <span class="op">=</span> <span class="st">"jkzones"</span>,</span></span>
+<span class="r-in"><span>                method <span class="op">=</span> <span class="st">"ICILS"</span>,var <span class="op">=</span> <span class="st">"ML"</span>,</span></span>
 <span class="r-in"><span>                group <span class="op">=</span> <span class="st">"GROUP"</span>,</span></span>
 <span class="r-in"><span>                by <span class="op">=</span> <span class="st">"GENDER"</span>, <span class="co"># results will be separated by GENDER</span></span></span>
 <span class="r-in"><span>                exclude <span class="op">=</span> <span class="st">"GR2"</span><span class="op">)</span> <span class="co"># GR2 will not be used for Pooled nor Composite</span></span></span>
