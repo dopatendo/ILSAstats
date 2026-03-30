@@ -141,7 +141,7 @@ a list with the standard errors and the total weights models.
 
 ``` r
 # Less data for shorter example
-repdata2 <- repdata[1:1000,]
+repdata2 <- repdata[1:500,]
 
 # Creation of replicate weights
 RW <- repcreate(df = repdata2, # the data frame with all the information
@@ -222,8 +222,8 @@ repglm(formula = GENDER ~ 1 + Math1,
 #> 
 #> Coefficients:
 #>             Estimate Std. Error t value Pr(>|t|)
-#> (Intercept)   0.5092     0.0137  37.131        0
-#> Math1        -0.2404     0.0100 -24.089        0
+#> (Intercept)   0.5000     0.0172  29.129        0
+#> Math1        -0.2345     0.0145 -16.184        0
 #> 
 #> -------------------------------------------------------------------------------- 
 #> Total weights' model:
@@ -234,16 +234,16 @@ repglm(formula = GENDER ~ 1 + Math1,
 #> 
 #> Coefficients:
 #>             Estimate Std. Error t value Pr(>|t|)    
-#> (Intercept)  0.50917    0.01380   36.91   <2e-16 ***
-#> Math1       -0.24035    0.01352  -17.78   <2e-16 ***
+#> (Intercept)  0.50000    0.01942   25.74   <2e-16 ***
+#> Math1       -0.23452    0.01822  -12.87   <2e-16 ***
 #> ---
 #> Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 #> 
-#> (Dispersion parameter for gaussian family taken to be 0.2854853)
+#> (Dispersion parameter for gaussian family taken to be 0.2834801)
 #> 
-#>     Null deviance: 375.15  on 999  degrees of freedom
-#> Residual deviance: 284.91  on 998  degrees of freedom
-#> AIC: 1201.2
+#>     Null deviance: 188.16  on 499  degrees of freedom
+#> Residual deviance: 141.17  on 498  degrees of freedom
+#> AIC: 597.4
 #> 
 #> Number of Fisher Scoring iterations: 2
 #> 
@@ -317,8 +317,8 @@ repglm(formula = GENDER ~ 1 + Math1,
 #> 
 #> Coefficients:
 #>             Estimate Std. Error t value Pr(>|t|)
-#> (Intercept)   0.0542     0.0743    0.73    0.465
-#> Math1        -1.3100     0.0855  -15.33    0.000
+#> (Intercept)   0.0046     0.0922   0.050    0.961
+#> Math1        -1.3091     0.1396  -9.378    0.000
 #> 
 #> -------------------------------------------------------------------------------- 
 #> Total weights' model:
@@ -328,16 +328,16 @@ repglm(formula = GENDER ~ 1 + Math1,
 #>     df = repdata2, wt = "wt", repwt = RW, method = "ICILS")
 #> 
 #> Coefficients:
-#>             Estimate Std. Error t value Pr(>|t|)    
-#> (Intercept)  0.05424    0.07225   0.751    0.453    
-#> Math1       -1.31000    0.09499 -13.791   <2e-16 ***
+#>              Estimate Std. Error t value Pr(>|t|)    
+#> (Intercept)  0.004565   0.103681   0.044    0.965    
+#> Math1       -1.309150   0.133845  -9.781   <2e-16 ***
 #> ---
 #> Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 #> 
-#> (Dispersion parameter for quasibinomial family taken to be 1.466464)
+#> (Dispersion parameter for quasibinomial family taken to be 1.493772)
 #> 
-#>     Null deviance: 2080.3  on 999  degrees of freedom
-#> Residual deviance: 1661.5  on 998  degrees of freedom
+#>     Null deviance: 1043.53  on 499  degrees of freedom
+#> Residual deviance:  823.07  on 498  degrees of freedom
 #> AIC: NA
 #> 
 #> Number of Fisher Scoring iterations: 4
@@ -411,9 +411,9 @@ repglm(formula = GENDER ~ 1 + Math1 + Reading1,
 #> 
 #> Coefficients:
 #>             Estimate Std. Error t value Pr(>|t|)
-#> (Intercept)   0.1080     0.0859   1.258    0.209
-#> Math1        -1.6827     0.1194 -14.098    0.000
-#> Reading1      1.0634     0.0965  11.023    0.000
+#> (Intercept)   0.0338     0.1141   0.296    0.767
+#> Math1        -1.6906     0.1949  -8.673    0.000
+#> Reading1      1.0094     0.1528   6.605    0.000
 #> 
 #> -------------------------------------------------------------------------------- 
 #> Total weights' model:
@@ -424,16 +424,16 @@ repglm(formula = GENDER ~ 1 + Math1 + Reading1,
 #> 
 #> Coefficients:
 #>             Estimate Std. Error t value Pr(>|t|)    
-#> (Intercept)  0.10804    0.07994   1.352    0.177    
-#> Math1       -1.68273    0.11580 -14.531   <2e-16 ***
-#> Reading1     1.06341    0.09644  11.027   <2e-16 ***
+#> (Intercept)  0.03381    0.11595   0.292    0.771    
+#> Math1       -1.69060    0.16592 -10.189  < 2e-16 ***
+#> Reading1     1.00937    0.13871   7.277 1.34e-12 ***
 #> ---
 #> Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 #> 
-#> (Dispersion parameter for quasibinomial family taken to be 1.487731)
+#> (Dispersion parameter for quasibinomial family taken to be 1.583703)
 #> 
-#>     Null deviance: 2080.3  on 999  degrees of freedom
-#> Residual deviance: 1426.5  on 997  degrees of freedom
+#>     Null deviance: 1043.5  on 499  degrees of freedom
+#> Residual deviance:  716.8  on 497  degrees of freedom
 #> AIC: NA
 #> 
 #> Number of Fisher Scoring iterations: 5
@@ -615,9 +615,9 @@ repglm(formula = GENDER ~ 1 + Math + Reading1, # Math1 now is "Math"
 #> 
 #> Coefficients:
 #>             Estimate Std. Error t value Pr(>|t|)
-#> (Intercept)   0.1114     0.0886   1.257    0.209
-#> Math1        -1.7798     0.1604 -11.098    0.000
-#> Reading1      1.1877     0.1628   7.295    0.000
+#> (Intercept)   0.0384     0.1151   0.333    0.739
+#> Math1        -1.7658     0.1969  -8.967    0.000
+#> Reading1      1.0935     0.1854   5.896    0.000
 #> 
 #> -------------------------------------------------------------------------------- 
 #> Total weights' model for first plausible value combination:
@@ -628,16 +628,16 @@ repglm(formula = GENDER ~ 1 + Math + Reading1, # Math1 now is "Math"
 #> 
 #> Coefficients:
 #>             Estimate Std. Error t value Pr(>|t|)    
-#> (Intercept)  0.10804    0.07994   1.352    0.177    
-#> Math1       -1.68273    0.11580 -14.531   <2e-16 ***
-#> Reading1     1.06341    0.09644  11.027   <2e-16 ***
+#> (Intercept)  0.03381    0.11595   0.292    0.771    
+#> Math1       -1.69060    0.16592 -10.189  < 2e-16 ***
+#> Reading1     1.00937    0.13871   7.277 1.34e-12 ***
 #> ---
 #> Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 #> 
-#> (Dispersion parameter for quasibinomial family taken to be 1.487731)
+#> (Dispersion parameter for quasibinomial family taken to be 1.583703)
 #> 
-#>     Null deviance: 2080.3  on 999  degrees of freedom
-#> Residual deviance: 1426.5  on 997  degrees of freedom
+#>     Null deviance: 1043.5  on 499  degrees of freedom
+#> Residual deviance:  716.8  on 497  degrees of freedom
 #> AIC: NA
 #> 
 #> Number of Fisher Scoring iterations: 5
@@ -823,9 +823,9 @@ repglm(formula = GENDER ~ 1 + Math + Reading, # Reading1 now is "Reading"
 #> 
 #> Coefficients:
 #>             Estimate Std. Error t value Pr(>|t|)
-#> (Intercept)   0.1489     0.1124   1.325    0.186
-#> Math1        -2.0623     0.4660  -4.425    0.000
-#> Reading1      1.6379     0.6107   2.682    0.007
+#> (Intercept)   0.0848     0.1398   0.606    0.545
+#> Math1        -2.1205     0.5870  -3.612    0.000
+#> Reading1      1.6681     0.7211   2.313    0.021
 #> 
 #> -------------------------------------------------------------------------------- 
 #> Total weights' model for first plausible value combination:
@@ -836,16 +836,16 @@ repglm(formula = GENDER ~ 1 + Math + Reading, # Reading1 now is "Reading"
 #> 
 #> Coefficients:
 #>             Estimate Std. Error t value Pr(>|t|)    
-#> (Intercept)  0.10804    0.07994   1.352    0.177    
-#> Math1       -1.68273    0.11580 -14.531   <2e-16 ***
-#> Reading1     1.06341    0.09644  11.027   <2e-16 ***
+#> (Intercept)  0.03381    0.11595   0.292    0.771    
+#> Math1       -1.69060    0.16592 -10.189  < 2e-16 ***
+#> Reading1     1.00937    0.13871   7.277 1.34e-12 ***
 #> ---
 #> Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 #> 
-#> (Dispersion parameter for quasibinomial family taken to be 1.487731)
+#> (Dispersion parameter for quasibinomial family taken to be 1.583703)
 #> 
-#>     Null deviance: 2080.3  on 999  degrees of freedom
-#> Residual deviance: 1426.5  on 997  degrees of freedom
+#>     Null deviance: 1043.5  on 499  degrees of freedom
+#> Residual deviance:  716.8  on 497  degrees of freedom
 #> AIC: NA
 #> 
 #> Number of Fisher Scoring iterations: 5
@@ -1333,9 +1333,9 @@ repglm(formula = GENDER ~ 1 + Math + Reading, # Reading1 now is "Reading"
 #> 
 #> Coefficients:
 #>             Estimate Std. Error t value Pr(>|t|)
-#> (Intercept)   0.1464     0.1016   1.442     0.15
-#> Math1        -2.1058     0.3378  -6.234     0.00
-#> Reading1      1.6859     0.4452   3.787     0.00
+#> (Intercept)   0.0888     0.1361   0.653    0.514
+#> Math1        -2.1552     0.4362  -4.941    0.000
+#> Reading1      1.7197     0.5725   3.004    0.003
 #> 
 #> -------------------------------------------------------------------------------- 
 #> Total weights' model for first plausible value combination:
@@ -1347,16 +1347,16 @@ repglm(formula = GENDER ~ 1 + Math + Reading, # Reading1 now is "Reading"
 #> 
 #> Coefficients:
 #>             Estimate Std. Error t value Pr(>|t|)    
-#> (Intercept)  0.10804    0.07994   1.352    0.177    
-#> Math1       -1.68273    0.11580 -14.531   <2e-16 ***
-#> Reading1     1.06341    0.09644  11.027   <2e-16 ***
+#> (Intercept)  0.03381    0.11595   0.292    0.771    
+#> Math1       -1.69060    0.16592 -10.189  < 2e-16 ***
+#> Reading1     1.00937    0.13871   7.277 1.34e-12 ***
 #> ---
 #> Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 #> 
-#> (Dispersion parameter for quasibinomial family taken to be 1.487731)
+#> (Dispersion parameter for quasibinomial family taken to be 1.583703)
 #> 
-#>     Null deviance: 2080.3  on 999  degrees of freedom
-#> Residual deviance: 1426.5  on 997  degrees of freedom
+#>     Null deviance: 1043.5  on 499  degrees of freedom
+#> Residual deviance:  716.8  on 497  degrees of freedom
 #> AIC: NA
 #> 
 #> Number of Fisher Scoring iterations: 5
@@ -1473,10 +1473,7 @@ repglm(formula = GENDER ~ 1 + Math1,
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> Estimating group 2 of 3.
-#> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
@@ -1576,13 +1573,12 @@ repglm(formula = GENDER ~ 1 + Math1,
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> 204 models were estimated.
 #> -------------------------------------------------------------------------------- 
 #> Composite coefficients:
 #>             Estimate Std. Error t value
-#> (Intercept)   0.5080     0.0146  34.858
-#> Math1        -0.2954     0.0115 -25.780
+#> (Intercept)   0.5023     0.0209  23.993
+#> Math1        -0.2783     0.0180 -15.427
 #> -------------------------------------------------------------------------------- 
 #> 
 #> Call:
@@ -1591,9 +1587,9 @@ repglm(formula = GENDER ~ 1 + Math1,
 #> 
 #> Coefficients and standard errors by group:
 #>     (Intercept)  Math1        
-#> GR1 0.363 (0.03) -0.285 (0.02)
-#> GR3 0.658 (0.03) -0.292 (0.02)
-#> GR2 0.503 (0.02) -0.309 (0.03)
+#> GR1 0.410 (0.04) -0.257 (0.02)
+#> GR3 0.633 (0.04) -0.281 (0.03)
+#> GR2 0.464 (0.03) -0.297 (0.04)
 
 
 # Simple regression - change link function
@@ -1704,10 +1700,7 @@ repglm(formula = GENDER ~ 1 + Math1,
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> Estimating group 2 of 3.
-#> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
@@ -1807,13 +1800,12 @@ repglm(formula = GENDER ~ 1 + Math1,
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> 204 models were estimated.
 #> -------------------------------------------------------------------------------- 
 #> Composite coefficients:
 #>             Estimate Std. Error t value
-#> (Intercept)   0.0439     0.0906   0.484
-#> Math1        -1.7653     0.1224 -14.424
+#> (Intercept)  -0.0072     0.1214  -0.059
+#> Math1        -1.6468     0.1959  -8.406
 #> -------------------------------------------------------------------------------- 
 #> 
 #> Call:
@@ -1822,9 +1814,9 @@ repglm(formula = GENDER ~ 1 + Math1,
 #> 
 #> Coefficients and standard errors by group:
 #>     (Intercept)   Math1        
-#> GR1 -0.819 (0.15) -1.734 (0.19)
-#> GR3  0.925 (0.18) -1.719 (0.18)
-#> GR2  0.025 (0.14) -1.843 (0.26)
+#> GR1 -0.558 (0.20) -1.542 (0.26)
+#> GR3  0.729 (0.25) -1.594 (0.27)
+#> GR2 -0.192 (0.17) -1.804 (0.46)
 
 # Multiple regression
 repglm(formula = GENDER ~ 1 + Math1 + Reading1,
@@ -1934,10 +1926,7 @@ repglm(formula = GENDER ~ 1 + Math1 + Reading1,
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> Estimating group 2 of 3.
-#> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
@@ -2037,14 +2026,13 @@ repglm(formula = GENDER ~ 1 + Math1 + Reading1,
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> 204 models were estimated.
 #> -------------------------------------------------------------------------------- 
 #> Composite coefficients:
 #>             Estimate Std. Error t value
-#> (Intercept)   0.0996     0.1135   0.878
-#> Math1        -1.7881     0.1312 -13.627
-#> Reading1      0.9595     0.1185   8.097
+#> (Intercept)  -0.0390     0.1469  -0.266
+#> Math1        -1.6917     0.2041  -8.289
+#> Reading1      1.0154     0.1666   6.095
 #> -------------------------------------------------------------------------------- 
 #> 
 #> Call:
@@ -2053,9 +2041,9 @@ repglm(formula = GENDER ~ 1 + Math1 + Reading1,
 #> 
 #> Coefficients and standard errors by group:
 #>     (Intercept)   Math1         Reading1    
-#> GR1 -0.137 (0.20) -1.832 (0.24) 1.021 (0.21)
-#> GR3  0.361 (0.23) -1.739 (0.18) 0.954 (0.20)
-#> GR2  0.075 (0.15) -1.793 (0.26) 0.903 (0.21)
+#> GR1  0.071 (0.27) -1.575 (0.27) 0.828 (0.28)
+#> GR3  0.034 (0.30) -1.705 (0.29) 1.244 (0.30)
+#> GR2 -0.222 (0.18) -1.795 (0.47) 0.974 (0.28)
 
 # Multiple regression - with PVs
 ## Named list, with element names matching formula variables
@@ -2369,16 +2357,7 @@ repglm(formula = GENDER ~ 1 + Math + Reading1, # Math1 now is "Math"
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> Estimating group 2 of 3.
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
@@ -2674,16 +2653,13 @@ repglm(formula = GENDER ~ 1 + Math + Reading1, # Math1 now is "Math"
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> 612 models were estimated.
 #> -------------------------------------------------------------------------------- 
 #> Composite coefficients:
 #>             Estimate Std. Error t value
-#> (Intercept)   0.1334     0.1366   0.977
-#> Math1        -1.8618     0.1619 -11.500
-#> Reading1      1.1163     0.1548   7.211
+#> (Intercept)  -0.0181     0.1715  -0.105
+#> Math1        -1.7842     0.2329  -7.662
+#> Reading1      1.1512     0.2110   5.455
 #> -------------------------------------------------------------------------------- 
 #> 
 #> Call:
@@ -2692,10 +2668,10 @@ repglm(formula = GENDER ~ 1 + Math + Reading1, # Math1 now is "Math"
 #>     method = "ICILS")
 #> 
 #> Coefficients and standard errors by group:
-#>     (Intercept)  Math1         Reading1    
-#> GR1 0.014 (0.30) -1.733 (0.26) 1.126 (0.23)
-#> GR3 0.348 (0.23) -1.847 (0.22) 1.089 (0.25)
-#> GR2 0.039 (0.16) -2.006 (0.35) 1.134 (0.32)
+#>     (Intercept)   Math1         Reading1    
+#> GR1  0.173 (0.32) -1.541 (0.29) 0.877 (0.29)
+#> GR3  0.103 (0.33) -1.866 (0.32) 1.320 (0.34)
+#> GR2 -0.330 (0.23) -1.945 (0.55) 1.256 (0.45)
 
 # Multiple regression - with more than one related PV variable
 ## Named list, with element names matching formula variables
@@ -3013,16 +2989,7 @@ repglm(formula = GENDER ~ 1 + Math + Reading, # Reading1 now is "Reading"
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> Estimating group 2 of 3.
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
@@ -3318,16 +3285,13 @@ repglm(formula = GENDER ~ 1 + Math + Reading, # Reading1 now is "Reading"
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> 612 models were estimated.
 #> -------------------------------------------------------------------------------- 
 #> Composite coefficients:
 #>             Estimate Std. Error t value
-#> (Intercept)   0.1632     0.2183   0.748
-#> Math1        -2.0752     0.2580  -8.043
-#> Reading1      1.6648     0.4650   3.581
+#> (Intercept)   0.0459     0.2183   0.210
+#> Math1        -2.1022     0.4260  -4.935
+#> Reading1      1.8638     0.6283   2.966
 #> -------------------------------------------------------------------------------- 
 #> 
 #> Call:
@@ -3336,10 +3300,10 @@ repglm(formula = GENDER ~ 1 + Math + Reading, # Reading1 now is "Reading"
 #>     method = "ICILS")
 #> 
 #> Coefficients and standard errors by group:
-#>     (Intercept)  Math1         Reading1    
-#> GR1 0.241 (0.54) -2.001 (0.33) 1.631 (0.72)
-#> GR3 0.147 (0.33) -2.000 (0.44) 1.574 (0.72)
-#> GR2 0.102 (0.17) -2.225 (0.54) 1.790 (0.95)
+#>     (Intercept)   Math1         Reading1    
+#> GR1  0.403 (0.45) -1.822 (0.59) 1.436 (0.74)
+#> GR3 -0.009 (0.39) -2.240 (0.90) 1.931 (1.04)
+#> GR2 -0.256 (0.26) -2.244 (0.69) 2.224 (1.38)
 
 # Multiple regression - with UNrelated PV variables
 ## Named list, with element names matching formula variables
@@ -4246,34 +4210,7 @@ repglm(formula = GENDER ~ 1 + Math + Reading, # Reading1 now is "Reading"
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> Estimating group 2 of 3.
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
@@ -5157,22 +5094,13 @@ repglm(formula = GENDER ~ 1 + Math + Reading, # Reading1 now is "Reading"
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> 1836 models were estimated.
 #> -------------------------------------------------------------------------------- 
 #> Composite coefficients:
 #>             Estimate Std. Error t value
-#> (Intercept)   0.1554     0.1665   0.933
-#> Math1        -2.1117     0.2188  -9.649
-#> Reading1      1.7107     0.3408   5.020
+#> (Intercept)   0.0485     0.2006   0.242
+#> Math1        -2.1172     0.3430  -6.172
+#> Reading1      1.9053     0.4872   3.911
 #> -------------------------------------------------------------------------------- 
 #> 
 #> Call:
@@ -5181,8 +5109,8 @@ repglm(formula = GENDER ~ 1 + Math + Reading, # Reading1 now is "Reading"
 #>     repwt = RW, group = "GROUP", method = "ICILS")
 #> 
 #> Coefficients and standard errors by group:
-#>     (Intercept)  Math1         Reading1    
-#> GR1 0.223 (0.37) -2.024 (0.37) 1.655 (0.55)
-#> GR3 0.140 (0.29) -2.033 (0.34) 1.631 (0.53)
-#> GR2 0.102 (0.17) -2.277 (0.42) 1.846 (0.68)
+#>     (Intercept)   Math1         Reading1    
+#> GR1  0.410 (0.40) -1.889 (0.55) 1.528 (0.73)
+#> GR3 -0.006 (0.37) -2.193 (0.57) 1.932 (0.71)
+#> GR2 -0.258 (0.26) -2.270 (0.65) 2.256 (1.05)
 ```
