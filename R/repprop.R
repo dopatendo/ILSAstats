@@ -35,7 +35,10 @@ repprop <- function(x,categories = NULL,
 
   frm <- formals(repprop)
   # frm$aggregates <- c("pooled", "composite")
-  returnisNULL(isinvecmul,x = aggregates, choices = frm$aggregates)
+  if(!is.null(aggregates)){
+    aggregates <- returnisNULL(isinvecmul,x = aggregates, choices = frm$aggregates)
+  }
+
 
 
   returnis(ischavec, method)

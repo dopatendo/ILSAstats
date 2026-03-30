@@ -51,7 +51,11 @@ reprho <- function(x = NULL,pv = NULL, pv2 = NULL,relatedpvs = TRUE,
 
   returnis(ischavec, method)
   method <- returnis(isinvec,x = method[1L],choices = ILSAmethods(repse = TRUE))
-  aggregates <- returnisNULL(isinvecmul,x = aggregates, choices = frm$aggregates)
+
+  if(!is.null(aggregates)){
+    aggregates <- returnisNULL(isinvecmul,x = aggregates, choices = frm$aggregates)
+  }
+
 
 
   # Checks -----

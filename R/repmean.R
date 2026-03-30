@@ -38,8 +38,8 @@
 #' @param simplify a logical value indicating if only the summary
 #' statistics should be printed. If \code{FALSE} estimations for
 #' all replicated will be provided and no aggregates will
-#' be estimated. Default is \code{TRUE}. It only works while using \code{repindex},
-#' otherwise it will be ignored.
+#' be estimated. Default is \code{TRUE}.
+#' This argument will be ignored if \code{by} is used.
 #' @inheritParams repse
 #'
 #'
@@ -64,7 +64,7 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt = NULL, repindex = NULL,
                     aggregates = c("pooled","composite"),
                     simplify = TRUE){
 
-  zones = NULL
+
 
   assignsetup(repmean,setup = setup,mc = match.call())
 
@@ -74,8 +74,23 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt = NULL, repindex = NULL,
                 "\nAt least one should be different from NULL."),call. = FALSE)
 
 
+  #
+  # x = xsn
+  # PV = FALSE
+  # repwt = RW
+  # repindex = RWI
+  # wt = "W"
+  # df = DF
+  # method = method
+  # var = "none"
+  # group = Gn
+  # by = NULL
+  # exclude = exclude
+  # aggregates = NULL
+  # simplify = TRUE
+  # setup = NULL
 
-
+  zones = NULL
 
   # Checks ----
 
@@ -102,7 +117,12 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt = NULL, repindex = NULL,
   method <- returnis(isinvec,x = method[1L],choices = ILSAmethods(repse = TRUE))
   var <- returnis(isinvec,x = var[1L],choices = frm$var)
 
-  aggregates <- returnisNULL(isinvecmul,x = aggregates, choices = frm$aggregates)
+
+  if(!is.null(aggregates)){
+    aggregates <- returnisNULL(isinvecmul,x = aggregates, choices = frm$aggregates)
+  }
+
+
 
   ## Combinations
 
@@ -169,68 +189,8 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt = NULL, repindex = NULL,
   }
 
 
+  if(is.null(repindex)&&!tolower(method)%in%c("pisa","talis","fay-0.5")){
 
-  if(!is.null(repindex))
-    return(repmeanfast(x = x,
-                       PV = PV,
-                       repindex = repindex,
-                       wt = wt,
-                       df = df,
-                       method = method,
-                       var = var,
-                       group = group,
-                       by = by,
-                       exclude = exclude,
-                       aggregates = aggregates,
-                       simplify = simplify))
-
-
-  returnis(is.chavec.or.dfonly,repwt)
-  if(var%in%"none"){
-    var <- 1
-  }
-
-
-  ### repwt(df) + df
-  if(!is.vector(repwt)&&(nrow(repwt)!=nrow(df)))
-    stop(c("\nInvalid input for 'repwt'.",
-           "\nIf it is a data frame it should have the same number of rows as 'df'."),call. = FALSE)
-
-
-
-
-
-  # Process ----
-
-  # Transformation of arguments ----
-
-    ### X - x
-  X <- df[,x]
-  TW <- df[,wt]
-
-    ### GR - groups
-    if(!is.null(group)){
-      GR = df[,group]
-
-      if('Pooled'%in%GR)
-        stop(c("\nInvalid input for 'group'.",
-               "\nNo group names should be 'Pooled'."),call. = FALSE)
-
-      if('Composite'%in%GR)
-        stop(c("\nInvalid input for 'group'.",
-               "\nNo group names should be 'Composite'."),call. = FALSE)
-
-
-    }else{
-      GR = NULL
-    }
-
-    ### ZN - zones
-    if(!is.null(zones)){
-      ZN = df[,zones]
-    }else{
-      ZN = NULL
-    }
 
     ### RW - replicate weights
     if(is.vector(repwt)){
@@ -271,8 +231,144 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt = NULL, repindex = NULL,
       RW <- repwt
     }
 
-  RW <- as.matrix(RW);colnames(RW) <- NULL
+    RW <- as.matrix(RW);colnames(RW) <- NULL
 
+
+
+    repindex <- repweitoindex(RW,df[,wt],method)
+
+  }
+
+
+
+
+  if(!is.null(repindex)){
+    return(repmeanfast(x = x,
+                       PV = PV,
+                       repindex = repindex,
+                       wt = wt,
+                       df = df,
+                       method = method,
+                       var = var,
+                       group = group,
+                       by = by,
+                       exclude = exclude,
+                       aggregates = aggregates,
+                       simplify = simplify))
+  }else{
+
+
+    if(!simplify&&is.null(by)){
+      return(repmeanslow(x = x,
+                         PV = PV,
+                         repwt = repwt,
+                         wt = wt,
+                         df = df,
+                         method = method,
+                         var = var,
+                         group = group,
+                         by = by,
+                         exclude = exclude,
+                         aggregates = aggregates,
+                         simplify = FALSE))
+    }
+
+
+  }
+
+
+
+
+  if(var%in%"none"){
+    var <- 1
+  }
+
+
+  returnis(is.chavec.or.dfonly,repwt)
+
+  ### repwt(df) + df
+  if(!is.vector(repwt)&&(nrow(repwt)!=nrow(df)))
+    stop(c("\nInvalid input for 'repwt'.",
+           "\nIf it is a data frame it should have the same number of rows as 'df'."),call. = FALSE)
+
+
+
+
+
+
+  # Process ----
+
+  # Transformation of arguments ----
+
+    ### X - x
+  X <- df[,x]
+  TW <- df[,wt]
+
+    ### GR - groups
+    if(!is.null(group)){
+      GR = df[,group]
+
+      if('Pooled'%in%GR)
+        stop(c("\nInvalid input for 'group'.",
+               "\nNo group names should be 'Pooled'."),call. = FALSE)
+
+      if('Composite'%in%GR)
+        stop(c("\nInvalid input for 'group'.",
+               "\nNo group names should be 'Composite'."),call. = FALSE)
+
+
+    }else{
+      GR = NULL
+    }
+
+    ### ZN - zones
+    if(!is.null(zones)){
+      ZN = df[,zones]
+    }else{
+      ZN = NULL
+    }
+
+
+  ### RW - replicate weights
+  if(is.vector(repwt)){
+
+    if(length(repwt==1)){
+      RW <- df[,grepl(repwt,colnames(df)),drop = FALSE]
+
+      if(ncol(RW)<2)
+        stop(c("\nInvalid input for 'repwt'.",
+               "\nLess than 2 column names found in 'df'."),call. = FALSE)
+
+      message(paste0(ncol(RW)," weights found."))
+
+    }else{
+
+      if(min(repwt%in%colnames(df))!=1)
+        stop(c("\nInvalid input for 'repwt'.",
+               "\nColumns not found in 'df'."),call. = FALSE)
+
+      RW = df[,repwt]
+
+      if(ncol(RW)<2)
+        stop(c("\nInvalid input for 'repwt'.",
+               "\nLess than 2 column names found in 'df'."),call. = FALSE)
+    }
+
+  }else{
+
+    if(ncol(repwt)<2)
+      stop(c("\nInvalid input for 'repwt'.",
+             "\nLess than 2 columns."),call. = FALSE)
+
+
+    if(nrow(repwt)!=nrow(df))
+      stop(c("\nInvalid input for 'repwt'.",
+             "\nIf a matrix or data frame is provided it should have the same number of rows as 'df'."),call. = FALSE)
+
+    RW <- repwt
+  }
+
+  RW <- as.matrix(RW);colnames(RW) <- NULL
 
 
   # pooled ----

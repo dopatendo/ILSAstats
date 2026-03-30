@@ -133,16 +133,17 @@ splitindex <- function(repindex,group){
 
   groupR <- rep(NA,length(group))
   ugr <- sort(unique(group))
+  indix <- vector("list",length(ugr))
   for(i in 1:length(ugr)){
-    indi <- group%in%ugr[i]
-    groupR[indi] <- 1:sum(indi)
+    indix[[i]] <- group%in%ugr[i]
+    groupR[indix[[i]]] <- 1:sum(indix[[i]])
   }
 
   out <- vector("list",length(ugr))
   names(out) <- ugr
   for(i in 1:length(ugr)){
 
-    indi <- which(group%in%ugr[i])
+    indi <- which(indix[[i]])
 
     ugri1 <- vector("list",repsi)
     ugri2 <- vector("list",repsi)
@@ -231,5 +232,35 @@ assignsetup <- function(func,setup = NULL,mc){
 
 
   }
+
+}
+
+
+repweitoindex <- function(RW,W,method){
+
+  reps <- ncol(RW)
+
+  if(tolower(method)%in%c("timss","pirls","lana","jk2-full")){
+    reps <- reps/2
+  }
+
+  atri <- list(multiplier = c(0,2),
+               method = tolower(method),
+               reps = reps,
+               class = c("repweights.index","repweights","list"))
+
+
+  out <- list(vector("list",ncol(RW)),vector("list",ncol(RW)))
+  W2 <- 2*W
+  ptm = proc.time()
+  # This finds the '2x' cases column by column
+  for(j in 1:ncol(RW)){
+    out[[1]][[j]] <- which(RW[, j] == 0)
+    out[[2]][[j]] <- which(RW[, j] == (W2))
+  }
+
+  attributes(out) <- atri
+
+  return(out)
 
 }

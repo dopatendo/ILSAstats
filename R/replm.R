@@ -50,7 +50,10 @@ replm <- function(formula, pvs = NULL, relatedpvs = TRUE, quiet = FALSE,
   returnis(ischavec, method)
   method <- returnis(isinvec,x = method[1L],choices = ILSAmethods(repse = TRUE))
 
-  aggregates <- returnisNULL(isinvecmul,x = aggregates, choices = frm$aggregates)
+  if(!is.null(aggregates)){
+    aggregates <- returnisNULL(isinvecmul,x = aggregates, choices = frm$aggregates)
+  }
+
 
   # Checks ----
   returnis(isformula,formula)

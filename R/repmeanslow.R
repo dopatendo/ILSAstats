@@ -1,10 +1,7 @@
-
-
-
-repmeanfast <- function(x,
+repmeanslow <- function(x,
                         PV = FALSE,
                         setup = NULL,
-                        repindex,
+                        repwt,
                         wt,
                         df,
                         method,
@@ -15,7 +12,7 @@ repmeanfast <- function(x,
                         aggregates = c("pooled", "composite"),
                         simplify = TRUE){
 
-  assignsetup(repmeanfast,setup = setup,mc = match.call())
+  assignsetup(repmeanslow,setup = setup,mc = match.call())
 
 
   var <- var[1L]
@@ -47,17 +44,17 @@ repmeanfast <- function(x,
   if(is.null(by)){
 
 
-    estm <- .repmeanfastXsG(PV = PV,
-                                   GR = GR,
-                                   uGR = NULL,
-                                   exclude = exclude,
-                                   aggregates = aggregates,
-                                   Xs = Xs,
-                                   XsN = x,
-                                   W = W,
-                                   RWL = repindex,
-                                   mod = mod, method = method,
-                                   simplify = simplify)
+    estm <- .repmeanslowXsG(PV = PV,
+                            GR = GR,
+                            uGR = NULL,
+                            exclude = exclude,
+                            aggregates = aggregates,
+                            Xs = Xs,
+                            XsN = x,
+                            W = W,
+                            RW = repwt,
+                            mod = mod, method = method,
+                            simplify = simplify)
 
     if(is.null(GR)){
       attributes(estm)$groups <- FALSE
@@ -73,16 +70,16 @@ repmeanfast <- function(x,
   BY <- df[,by]
 
   if(!PV){
-    estm <- .repmeanfastBYX(GR = GR,
-                                   Xs = Xs,
-                                   W = W,
-                                   BY = BY,
-                                   by = by,
-                                   exclude = exclude,
-                                   aggregates = aggregates,
-                                   x = x,
-                                   mod = mod, method = method,
-                                   repindex = repindex)
+    estm <- .repmeanslowBYX(GR = GR,
+                            Xs = Xs,
+                            W = W,
+                            BY = BY,
+                            by = by,
+                            exclude = exclude,
+                            aggregates = aggregates,
+                            x = x,
+                            mod = mod, method = method,
+                            repwt = repwt)
 
 
     if(is.null(GR)){
@@ -97,16 +94,16 @@ repmeanfast <- function(x,
 
 
 
-  estm <- .repmeanfastBYPV(GR = GR,
-                          Xs = Xs,
-                          W = W,
-                          BY = BY,
-                          by = by,
-                          exclude = exclude,
-                          aggregates = aggregates,
-                          x = x,
-                          mod = mod, method = method,
-                          repindex = repindex)
+  estm <- .repmeanslowBYPV(GR = GR,
+                           Xs = Xs,
+                           W = W,
+                           BY = BY,
+                           by = by,
+                           exclude = exclude,
+                           aggregates = aggregates,
+                           x = x,
+                           mod = mod, method = method,
+                           repwt = repwt)
 
 
   if(is.null(GR)){
@@ -124,99 +121,8 @@ repmeanfast <- function(x,
 
 
 
-
-
-
-
-
-
-#' @export
-summary.repmean.complex <- function(object,...){
-
-  x <- object
-  de <- depth(x)
-  gr <- attr(x,"groups")
-
-  if(is.null(gr)){gr <- TRUE}
-
-
-  if(de==2&&gr){
-    xo <- do.call(rbind,lapply(x,function(i){
-
-      unlist(i[setdiff(names(i),c("meanpvs","meanreps","varpvs","varreps"))])
-
-
-    }))
-
-    xo <- cbind.data.frame(group = rownames(xo),xo)
-    class(xo) <- c("repmean.single","repmean",class(xo))
-    rownames(xo) <- NULL
-
-  }
-
-  if(de==1){
-    xo <- unlist(x[setdiff(names(x),c("meanpvs","meanreps","varpvs","varreps"))])
-    xo <- as.data.frame(t(xo))
-    class(xo) <- c("repmean.single","repmean",class(xo))
-    rownames(xo) <- NULL
-  }
-
-  if(de==3){
-
-    de <- depth(x)
-    gr <- attr(x,"groups")
-    de
-    gr
-
-    xo <- do.call(rbind,lapply(1:length(x),function(j){
-
-      xoi <- do.call(rbind,lapply(x[[j]],function(i){
-
-        unlist(i[setdiff(names(i),c("meanpvs","meanreps","varpvs","varreps"))])
-
-
-      }))
-
-      xoi <- cbind.data.frame(group = rownames(xoi),xoi)
-
-      # group = rownames(xo)
-
-      xoi <- cbind.data.frame(variable = names(x[j]),xoi)
-
-      xoi
-    }))
-
-    class(xo) <- c("repmean",class(xo))
-    rownames(xo) <- NULL
-
-
-  }
-
-  if(de==2&&!gr){
-
-    xo <- do.call(rbind,lapply(x,function(i){
-
-      unlist(i[setdiff(names(i),c("meanpvs","meanreps","varpvs","varreps"))])
-
-
-    }))
-
-    xo <- cbind.data.frame(variable = rownames(xo),xo)
-    class(xo) <- c("repmean",class(xo))
-    rownames(xo) <- NULL
-
-  }
-
-
-  attr(xo,"groups") <- attr(x,"groups")
-  attr(xo,"excluded") <- attr(x,"excluded")
-
-  xo
-}
-
-
-.repmeanfastX <- function(X, W, RWL, add0 = NULL,method,
-                                 simplify = TRUE, mod = -1){
+.repmeanslowX <- function(X, W, RW, XRW, XW, add0 = NULL,method,
+                          simplify = TRUE, mod = -1){
 
   mi = ncol(X)
 
@@ -228,15 +134,40 @@ summary.repmean.complex <- function(object,...){
                               se = NA))
 
 
-    out <- list(N = NA,
-                mean = NA,
-                meanpvs = rep(NA,ncol(X)),
-                se = NA,
-                meanreps = NA)
+    if(mod<0){
+      out <- list(N = NA,
+                  mean = NA,
+                  meanpvs = rep(NA,ncol(X)),
+                  se = NA,
+                  meanreps = NA)
+      if(mi==1){
+        out <- out[-3]
+      }
 
-    if(mi==1){
-      out <- out[-3]
+    }else{
+
+      out <- list(N = NA,
+                  mean = NA,
+                  meanpvs = rep(NA,ncol(X)),
+                  se = NA,
+                  meanreps = NA,
+                  sd = NA,
+                  sdse = NA,
+                  var = NA,
+                  varse = NA,
+                  varpvs = rep(NA,ncol(X)),
+                  varreps = NA)
+      if(mi==1){
+        out <- out[-c(3,10)]
+      }
+
+
+
     }
+
+
+
+
 
     return(out)
 
@@ -254,52 +185,37 @@ summary.repmean.complex <- function(object,...){
     }else{
       Xi <- X[,i]
     }
-    Wi <- W
 
 
-    RWL0 <- RWL[[1]]
-    RWL2 <- RWL[[2]]
+
     me <-  method
 
-    isn <- union(which(is.na(Xi)|is.na(Wi)),add0)
+    # isn <- union(which(is.na(Xi)|is.na(W)),add0)
+    #
+    #
+    #
+    #
+    # Xi[isn] <- 0
+    # RWi <- RW
+    # RWi[isn,] <- 0
+    # Wi <- W
+    # Wi[isn] <- 0
+    #
+    # XRW <- Xi*RWi
 
+    er <- as.vector(colSums(XRW[[i]])/colSums(RW))
+    e0 <- sum(XW[[i]])/sum(W)
 
-    LX <- length(Xi)-length(isn)
-
-    Xi[isn] <- 0
-    Wi[isn] <- 0
-
-    XW <- Xi*Wi
-    TS <- sum(XW)
-    TW <- sum(Wi)
-
-    wemean <- TS/TW
-
-
-
-    er <- sapply(1:length(RWL0),function(i){
-      (TS-sum(XW[RWL0[[i]]])+sum(XW[RWL2[[i]]]))/(TW-sum(Wi[RWL0[[i]]])+sum(Wi[RWL2[[i]]]))
-    })
-    e0 <- wemean
 
 
     if(mod>=0){
 
-
-
-      XWV <- Wi*(Xi-wemean)**2
-      TXWV <- sum(XWV)
-
-      er2 <- sapply(1:length(RWL0),function(i){
-        # er[i]
-        XWVi <- Wi*(Xi-er[i])**2
-        TXWVi <- sum(XWVi)
-        (TXWVi-sum(XWVi[RWL0[[i]]])+sum(XWVi[RWL2[[i]]]))/(TW-sum(Wi[RWL0[[i]]])+sum(Wi[RWL2[[i]]])-mod)
-      })
-      e02 <- TXWV/(TW-1)
+      XRW2 <- RW*(outer(Xi,er,FUN = "-"))**2
+      er2 <- colSums(XRW2)/(colSums(RW)-mod)
+      e02 <- sum(W*(Xi-e0)**2)/(sum(W)-mod)
 
       E02[i] <- e02
-      ER2[[i]] <- er2
+      ER2[[i]] <- as.vector(er2)
 
     }
 
@@ -320,12 +236,12 @@ summary.repmean.complex <- function(object,...){
 
   if(mod<0){
     if(simplify)
-      return(cbind.data.frame(N = LX,
+      return(cbind.data.frame(N = nrow(X),
                               mean = mean(E0,na.rm = TRUE),
                               se = SE))
 
 
-    out <- list(N = LX,
+    out <- list(N = nrow(X),
                 mean = mean(E0,na.rm = TRUE),
                 meanpvs = E0,
                 se = SE,
@@ -349,7 +265,7 @@ summary.repmean.complex <- function(object,...){
   SED <- repse(er = SD2, e0 = sqrt(E02), method = me)
 
   if(simplify)
-    return(cbind.data.frame(N = LX,
+    return(cbind.data.frame(N = nrow(X),
                             mean = mean(E0,na.rm = TRUE),
                             se = SE,
                             sd = mean(sqrt(E02),na.rm = TRUE),
@@ -359,7 +275,7 @@ summary.repmean.complex <- function(object,...){
 
 
 
-  out <- list(N = LX,
+  out <- list(N = nrow(X),
               mean = mean(E0,na.rm = TRUE),
               meanpvs = E0,
               se = SE,
@@ -382,22 +298,44 @@ summary.repmean.complex <- function(object,...){
 
 }
 
-.repmeanfastXG <- function(GR = NULL, uGR = NULL,
-                                  exclude = NULL, method,
-                                  aggregates = NULL,
-                                  X, W, RWL,
-                                  simplify = TRUE,
-                                  mod = -1){
+
+
+.repmeanslowXG <- function(GR = NULL, uGR = NULL,
+                           exclude = NULL, method,
+                           aggregates = NULL,
+                           X, W, RW,
+                           # XRW, XW,
+                           simplify = TRUE,
+                           mod = -1){
+
+
+  isn <- which(is.na(X[,1])|is.na(W))
+
+  X[isn,] <- 0
+  RW[isn,] <- 0
+  W[isn] <- 0
+
+  XRW <- vector("list",ncol(X))
+  XW <-  vector("list",ncol(X))
+  for(i in 1:ncol(X)){
+    XRW[[i]] <- X[,i]*RW
+    XW[[i]] <- X[,i]*W
+  }
+
+
+
+
 
   if(is.null(GR)){
 
-    rpf <- .repmeanfastX(X,
-                                W = W,
-                                RWL = RWL,
-                                add0 = NULL,
+    rpf <- .repmeanslowX(X,
+                         W = W,
+                         RW = RW,
+                         add0 = NULL,
+                         XRW = XRW, XW = XW,
                          method = method,
-                                simplify = simplify,
-                                mod = mod)
+                         simplify = simplify,
+                         mod = mod)
 
     cls <- ifelse(simplify,"repmean.single","repmean.complex")
 
@@ -418,16 +356,19 @@ summary.repmean.complex <- function(object,...){
     uGR <- sort(unique(GR))
   }
 
-  spl <- splitindex(repindex = RWL, group = GR)
+
   rpf <- vector("list",length(uGR))
   for(i in 1:length(uGR)){
 
     coui <- which(GR%in%uGR[i])
+    XRWi <- lapply(XRW,function(k) k[coui,])
+    XWi <- lapply(XW,function(k) k[coui])
 
-    rpf[[i]] <- .repmeanfastX(X = X[coui,,drop = FALSE],
-                                     W = W[coui], method = method,
-                                     RWL = spl[[as.character(uGR[i])]],
-                                     simplify = simplify, mod = mod)
+    rpf[[i]] <- .repmeanslowX(X = X[coui,,drop = FALSE],
+                              W = W[coui], method = method,
+                              RW = RW[coui,],
+                              XRW = XRWi,XW = XWi,
+                              simplify = simplify, mod = mod)
 
 
 
@@ -459,13 +400,21 @@ summary.repmean.complex <- function(object,...){
       rpf <- rbind(rpfi,rpf)
     }
     if("pooled"%in%aggregates){
-      add0 <- which(GR%in%exclude)
+      NGR <- (!GR%in%exclude)*1
 
-      rpfi <- .repmeanfastX(X,method = method,
-                                   W = W,
-                                   RWL = RWL,
-                                   add0 = add0,mod = mod,
-                                   simplify = simplify)
+
+
+
+      coui <- which(NGR%in%1)
+      XRWi <- lapply(XRW,function(k) k[coui,])
+      XWi <- lapply(XW,function(k) k[coui])
+
+      rpfi <- .repmeanslowX(X[coui,,drop = FALSE],method = method,
+                            W = W[coui],
+                            RW = RW[coui,],
+                            XRW = XRWi,XW = XWi,
+                            add0 = NULL,mod = mod,
+                            simplify = simplify)
       rpf <- rbind(rpfi,rpf)
     }
     rpf <- cbind.data.frame(group = c(upperfirst(aggregates),uGR),rpf)
@@ -487,16 +436,19 @@ summary.repmean.complex <- function(object,...){
 
     NGR <- (!GR%in%exclude)*1
 
-    spl <- splitindex(repindex = RWL, group = NGR)
+
 
 
     coui <- which(NGR%in%1)
+    XRWi <- lapply(XRW,function(k) k[coui,])
+    XWi <- lapply(XW,function(k) k[coui])
 
-    pool <- .repmeanfastX(X = X[coui,,drop = FALSE],
-                                 W = W[coui],
+    pool <- .repmeanslowX(X = X[coui,,drop = FALSE],
+                          W = W[coui],
                           method = method,
-                                 RWL = spl[[as.character(1)]],
-                                 simplify = FALSE, mod = mod)
+                          RW = RW[coui,],
+                          XRW = XRWi,XW = XWi,
+                          simplify = FALSE, mod = mod)
     rpf <- c(list(Pooled = pool),rpf)
   }
 
@@ -540,7 +492,7 @@ summary.repmean.complex <- function(object,...){
 
 
   class(rpf) <- c("repmean.complex","repmean",class(rpf))
-    if(is.null(GR)){
+  if(is.null(GR)){
     attributes(rpf)$groups <- FALSE
   }else{
     attributes(rpf)$groups <- TRUE
@@ -551,19 +503,35 @@ summary.repmean.complex <- function(object,...){
 
 }
 
-.repmeanfastXsG <- function(PV = FALSE, method,
-                                   GR = NULL, exclude = NULL, aggregates = NULL,
-                                   Xs,XsN, W, RWL,uGR = NULL,
-                                   simplify = TRUE, mod = -1){
+
+.repmeanslowXsG <- function(PV = FALSE, method,
+                            GR = NULL, exclude = NULL, aggregates = NULL,
+                            Xs,XsN, W, RW,uGR = NULL,
+                            simplify = TRUE, mod = -1){
 
   Xs <- as.matrix(Xs)
 
 
   if(ncol(Xs)==1|PV==TRUE){
-    rpf <- .repmeanfastXG(GR = GR, uGR = uGR, method = method,
-                                 exclude = exclude, aggregates = aggregates,
-                                 X = Xs, W = W, RWL = RWL,
-                                 simplify = simplify, mod = mod)
+
+
+
+    # isn <- union(which(is.na(Xs[,1])|is.na(W)),add0)
+    #
+    # Xs[isn,] <- 0
+    # Wi <- W
+    # Wi[isn] <- 0
+    # RWi <- RW
+    # RWi[isn,] <- 0
+    # XRWi <- Xs*RWi
+    # XWi <- Xs*Wi
+
+
+    rpf <- .repmeanslowXG(GR = GR, uGR = uGR, method = method,
+                          exclude = exclude, aggregates = aggregates,
+                          X = Xs, W = W, RW = RW,
+                          # XRW = XRWi, XW = Xwi,
+                          simplify = simplify, mod = mod)
 
     if(is.null(GR)){
       attributes(rpf)$groups <- FALSE
@@ -578,10 +546,24 @@ summary.repmean.complex <- function(object,...){
 
   rpf <- vector("list",ncol(Xs))
   for(i in 1:ncol(Xs)){
-    rpfi <- .repmeanfastXG(GR = GR, uGR = uGR, method = method,
-                                  exclude = exclude, aggregates = aggregates,
-                                  X = Xs[,i,drop = FALSE], W = W, RWL = RWL,
-                                  simplify = simplify, mod = mod)
+
+    # isn <- union(which(is.na(Xs[,i])|is.na(W)),add0)
+    #
+    # Xsi <- Xs[,i,drop = FALSE]
+    #
+    # Xsi[isn,] <- 0
+    # Wi <- W
+    # Wi[isn] <- 0
+    # RWi <- RW
+    # RWi[isn,] <- 0
+    # XRWi <- Xsi*RWi
+    # XWi <- Xsi*Wi
+    #
+    rpfi <- .repmeanslowXG(GR = GR, uGR = uGR, method = method,
+                           exclude = exclude, aggregates = aggregates,
+                           X = Xs[,i,drop = FALSE], W = W, RW = RW,
+                           # XRW = XRWi, XW = Xwi,
+                           simplify = simplify, mod = mod)
     if(simplify){
       rpfi <- cbind.data.frame(variable = XsN[i],rpfi)
     }
@@ -619,8 +601,9 @@ summary.repmean.complex <- function(object,...){
 
 }
 
-.repmeanfastBYX <- function(GR,Xs,W,by,BY,exclude = NULL, method,
-                                   aggregates = NULL,x,repindex,mod = -1){
+
+.repmeanslowBYX <- function(GR,Xs,W,by,BY,exclude = NULL, method,
+                            aggregates = NULL,x,repwt,mod = -1){
 
   ugr <- sort(unique(GR))
   uby <- sort(unique(BY))
@@ -628,32 +611,32 @@ summary.repmean.complex <- function(object,...){
   PV <- FALSE
   method <- method
 
-  estm <- .repmeanfastXsG(PV = PV,
-                                 GR = GR,
-                                 uGR = ugr, method = method,
-                                 exclude = exclude,
-                                 aggregates = setdiff(aggregates,"composite"),
-                                 Xs = Xs,
-                                 XsN = x,
-                                 W = W,
-                                 RWL = repindex,
-                                 simplify = simplify, mod = mod)
+  estm <- .repmeanslowXsG(PV = PV,
+                          GR = GR,
+                          uGR = ugr, method = method,
+                          exclude = exclude,
+                          aggregates = setdiff(aggregates,"composite"),
+                          Xs = Xs,
+                          XsN = x,
+                          W = W,
+                          RW = repwt,
+                          simplify = simplify, mod = mod)
 
-  indi <- splitindex(repindex = repindex, group = BY)
+
   estmi <- vector("list",length(uby))
   names(estmi) <- uby
 
   for(i in 1:length(uby)){
-    estmi[[i]] <- .repmeanfastXsG(PV = PV, method = method,
-                                         GR = GR[BY%in%uby[i]],
-                                         uGR = ugr,
-                                         exclude = exclude,
-                                         aggregates = setdiff(aggregates,"composite"),
-                                         Xs = Xs[BY%in%uby[i],,drop = FALSE],
-                                         XsN = x,
-                                         W = W[BY%in%uby[i]],
-                                         RWL = indi[[i]],
-                                         simplify = simplify, mod = mod)
+    estmi[[i]] <- .repmeanslowXsG(PV = PV, method = method,
+                                  GR = GR[BY%in%uby[i]],
+                                  uGR = ugr,
+                                  exclude = exclude,
+                                  aggregates = setdiff(aggregates,"composite"),
+                                  Xs = Xs[BY%in%uby[i],,drop = FALSE],
+                                  XsN = x,
+                                  W = W[BY%in%uby[i]],
+                                  RW = repwt[BY%in%uby[i],],
+                                  simplify = simplify, mod = mod)
   }
 
   if(is.list(estmi[[1]][[1]])){
@@ -795,8 +778,9 @@ summary.repmean.complex <- function(object,...){
   return(out)
 }
 
-.repmeanfastBYPV <- function(GR,Xs,W,by,BY,exclude = NULL, method,
-                             aggregates = NULL,x,repindex,mod = -1){
+
+.repmeanslowBYPV <- function(GR,Xs,W,by,BY,exclude = NULL, method,
+                             aggregates = NULL,x,repwt,mod = -1){
 
   ugr <- sort(unique(GR))
   uby <- sort(unique(BY))
@@ -804,7 +788,7 @@ summary.repmean.complex <- function(object,...){
   PV <- TRUE
   method <- method
 
-  estm <- .repmeanfastXsG(PV = PV,
+  estm <- .repmeanslowXsG(PV = PV,
                           GR = GR,
                           uGR = ugr, method = method,
                           exclude = exclude,
@@ -812,15 +796,15 @@ summary.repmean.complex <- function(object,...){
                           Xs = Xs,
                           XsN = x,
                           W = W,
-                          RWL = repindex,
+                          RW = repwt,
                           simplify = simplify, mod = mod)
 
-  indi <- splitindex(repindex = repindex, group = BY)
+
   estmi <- vector("list",length(uby))
   names(estmi) <- uby
 
   for(i in 1:length(uby)){
-    estmi[[i]] <- .repmeanfastXsG(PV = PV, method = method,
+    estmi[[i]] <- .repmeanslowXsG(PV = PV, method = method,
                                   GR = GR[BY%in%uby[i]],
                                   uGR = ugr,
                                   exclude = exclude,
@@ -828,7 +812,7 @@ summary.repmean.complex <- function(object,...){
                                   Xs = Xs[BY%in%uby[i],,drop = FALSE],
                                   XsN = x,
                                   W = W[BY%in%uby[i]],
-                                  RWL = indi[[i]],
+                                  RW = repwt[BY%in%uby[i],],
                                   simplify = simplify, mod = mod)
   }
 
@@ -968,12 +952,5 @@ summary.repmean.complex <- function(object,...){
   }
 
   return(out)
-}
-
-#' @export
-print.repmean.complex <- function(x,...){
-  attr(x,"groups") <- NULL
-  attr(x,"excluded") <- NULL
-  print(unclass(x))
 }
 

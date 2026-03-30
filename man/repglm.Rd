@@ -104,7 +104,7 @@ see \code{\link{repse}}.
 }
 \examples{
 # Less data for shorter example
-repdata2 <- repdata[1:1000,]
+repdata2 <- repdata[1:500,]
 
 # Creation of replicate weights
 RW <- repcreate(df = repdata2, # the data frame with all the information
