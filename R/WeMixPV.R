@@ -41,13 +41,13 @@ WeMixPV <- function(formula, data = NULL, weights = NULL,
 
     nfo <- lapply(1:nrow(pvs),function(i){
       out <- (do.call(substitute,list(formula,as.list(pvs[i,,drop = FALSE]))))
-      stats::as.formula(gsub("\"","",deparse(out)))
+      stats::as.formula(gsub("\"","",paste0(deparse(out),collapse = " ")))
     })
   }else{
     pvs <- expand.grid(pvs,stringsAsFactors = FALSE)
     nfo <- lapply(1:nrow(pvs),function(i){
       out <- (do.call(substitute,list(formula,c(pvs[i,]))))
-      stats::as.formula(gsub("\"","",deparse(out)))
+      stats::as.formula(gsub("\"","",paste0(deparse(out),collapse = " ")))
     })
   }
 
