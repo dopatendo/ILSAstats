@@ -221,6 +221,183 @@ should be used for estimating the degrees of freedom. Default is <code>TRUE</cod
     <p>a list.</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Null model - with PVs</span></span></span>
+<span class="r-in"><span><span class="co">## Named list, with element names matching formula variables</span></span></span>
+<span class="r-in"><span><span class="va">pvs</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>MATH <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Math"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu">lmerPV</span><span class="op">(</span>formula <span class="op">=</span> <span class="va">MATH</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span><span class="op">|</span><span class="va">GROUP</span><span class="op">)</span>, <span class="co"># Intercept varies across GROUP</span></span></span>
+<span class="r-in"><span>      pvs <span class="op">=</span> <span class="va">pvs</span>, <span class="co"># Named list</span></span></span>
+<span class="r-in"><span>      data <span class="op">=</span> <span class="va">repdata</span>, <span class="co"># Data frame</span></span></span>
+<span class="r-in"><span>      weights <span class="op">=</span> <span class="va">repdata</span><span class="op">$</span><span class="va">wt</span><span class="op">)</span> <span class="co"># Weights vector</span></span></span>
+<span class="r-in"><span><span class="va">m1</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 models were estimated.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------------- </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Multilevel results with PVs:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Call: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> lmerPV(formula = MATH ~ 1 + (1 | GROUP), data = repdata, weights = repdata$wt, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     pvs = pvs)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Random effects:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                    Variance</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> GROUP.(Intercept) 0.3498329</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residual          1.2185299</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fixed effects:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                Estimate Std. Error   t value       df Pr(&gt;|t|)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 0.004824544   0.341747 0.0141173 4982.124 0.988737</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Estimated models:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Math1 ~ 1 + (1 | GROUP)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Math2 ~ 1 + (1 | GROUP)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Math3 ~ 1 + (1 | GROUP)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Math4 ~ 1 + (1 | GROUP)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Math5 ~ 1 + (1 | GROUP)</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Fixed effects</span></span></span>
+<span class="r-in"><span><span class="va">m1</span><span class="op">$</span><span class="va">fixef</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                Estimate Std. Error   t value       df Pr(&gt;|t|)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 0.004824544   0.341747 0.0141173 4982.124 0.988737</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Random effects</span></span></span>
+<span class="r-in"><span><span class="va">m1</span><span class="op">$</span><span class="va">ranef</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                    Variance</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> GROUP.(Intercept) 0.3498329</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residual          1.2185299</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Models for each PV</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m1</span><span class="op">$</span><span class="va">models</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Length Class   Mode</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Math1 1      lmerMod S4  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Math2 1      lmerMod S4  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Math3 1      lmerMod S4  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Math4 1      lmerMod S4  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Math5 1      lmerMod S4  </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Multiple regression</span></span></span>
+<span class="r-in"><span><span class="co">## Named list, with element names matching formula variables</span></span></span>
+<span class="r-in"><span><span class="va">pvs</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>MATH <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Math"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu">lmerPV</span><span class="op">(</span>formula <span class="op">=</span> <span class="va">MATH</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">+</span> <span class="va">GENDER</span> <span class="op">+</span> <span class="va">SES</span> <span class="op">+</span> <span class="va">schoolSES</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span><span class="op">|</span><span class="va">GROUP</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>             pvs <span class="op">=</span> <span class="va">pvs</span>, <span class="co"># Named list</span></span></span>
+<span class="r-in"><span>             data <span class="op">=</span> <span class="va">repdata</span>, <span class="co"># Data frame</span></span></span>
+<span class="r-in"><span>             weights <span class="op">=</span> <span class="va">repdata</span><span class="op">$</span><span class="va">wt</span><span class="op">)</span> <span class="co"># Weights vector</span></span></span>
+<span class="r-in"><span><span class="va">m2</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 models were estimated.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------------- </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Multilevel results with PVs:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Call: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> lmerPV(formula = MATH ~ 1 + GENDER + SES + schoolSES + (1 | GROUP), </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     data = repdata, weights = repdata$wt, pvs = pvs)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Random effects:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                       Variance</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> GROUP.(Intercept) 0.0002756404</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residual          0.8381211936</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fixed effects:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                Estimate Std. Error    t value       df     Pr(&gt;|t|)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) -64.9990035 3.90253673 -16.655578 7.010247 6.773595e-07</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> GENDER       -0.8990175 0.07564016 -11.885452 4.651592 1.173057e-04</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SES           0.2458926 0.06342425   3.876950 4.152052 1.666901e-02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> schoolSES     1.0641781 0.12298663   8.652795 4.979792 3.476117e-04</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Estimated models:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Math1 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Math2 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Math3 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Math4 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Math5 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Multiple regression with grandmean centering</span></span></span>
+<span class="r-in"><span><span class="co">## Named list, with element names matching formula variables</span></span></span>
+<span class="r-in"><span><span class="va">pvs</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>MATH <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Math"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">m3</span> <span class="op">&lt;-</span> <span class="fu">lmerPV</span><span class="op">(</span>formula <span class="op">=</span> <span class="va">MATH</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">+</span> <span class="va">GENDER</span> <span class="op">+</span> <span class="va">SES</span> <span class="op">+</span> <span class="va">schoolSES</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span><span class="op">|</span><span class="va">GROUP</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>             pvs <span class="op">=</span> <span class="va">pvs</span>, <span class="co"># Named list</span></span></span>
+<span class="r-in"><span>             data <span class="op">=</span> <span class="va">repdata</span>, <span class="co"># Data frame</span></span></span>
+<span class="r-in"><span>             weights <span class="op">=</span> <span class="va">repdata</span><span class="op">$</span><span class="va">wt</span>,</span></span>
+<span class="r-in"><span>             grandmean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SES"</span>,<span class="st">"schoolSES"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">m3</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 models were estimated.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------------- </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Multilevel results with PVs:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Call: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> lmerPV(formula = MATH ~ 1 + GENDER + SES + schoolSES + (1 | GROUP), </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     data = repdata, weights = repdata$wt, pvs = pvs, grandmean = c("SES", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         "schoolSES"))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Random effects:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                       Variance</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> GROUP.(Intercept) 0.0002756404</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residual          0.8381211936</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fixed effects:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               Estimate Std. Error    t value       df     Pr(&gt;|t|)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  0.4589106 0.03739158  12.273100 6.660211 8.094989e-06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> GENDER      -0.8990175 0.07564016 -11.885452 4.651592 1.173057e-04</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SES          0.2458926 0.06342425   3.876950 4.152052 1.666901e-02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> schoolSES    1.0641781 0.12298663   8.652795 4.979792 3.476117e-04</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Estimated models:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Math1 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Math2 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Math3 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Math4 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Math5 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Multiple regression with groupmean centering</span></span></span>
+<span class="r-in"><span><span class="co">## Named list, with element names matching formula variables</span></span></span>
+<span class="r-in"><span><span class="va">pvs</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>MATH <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Math"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">m4</span> <span class="op">&lt;-</span> <span class="fu">lmerPV</span><span class="op">(</span>formula <span class="op">=</span> <span class="va">MATH</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">+</span> <span class="va">GENDER</span> <span class="op">+</span> <span class="va">SES</span> <span class="op">+</span> <span class="va">schoolSES</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span><span class="op">|</span><span class="va">GROUP</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>             pvs <span class="op">=</span> <span class="va">pvs</span>, <span class="co"># Named list</span></span></span>
+<span class="r-in"><span>             data <span class="op">=</span> <span class="va">repdata</span>, <span class="co"># Data frame</span></span></span>
+<span class="r-in"><span>             weights <span class="op">=</span> <span class="va">repdata</span><span class="op">$</span><span class="va">wt</span>,</span></span>
+<span class="r-in"><span>             grandmean <span class="op">=</span> <span class="st">"schoolSES"</span>,</span></span>
+<span class="r-in"><span>             groupmean <span class="op">=</span> <span class="st">"SES"</span>,</span></span>
+<span class="r-in"><span>             group <span class="op">=</span> <span class="va">repdata</span><span class="op">$</span><span class="va">GROUP</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">m4</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 models were estimated.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------------- </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Multilevel results with PVs:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Call: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> lmerPV(formula = MATH ~ 1 + GENDER + SES + schoolSES + (1 | GROUP), </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     data = repdata, weights = repdata$wt, pvs = pvs, grandmean = "schoolSES", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     groupmean = "SES", group = repdata$GROUP)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Random effects:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                     Variance</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> GROUP.(Intercept) 0.00028522</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residual          0.83812119</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fixed effects:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               Estimate Std. Error    t value       df     Pr(&gt;|t|)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  0.4589091 0.03743452  12.258983 6.690742 7.869635e-06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> GENDER      -0.8990154 0.07564056 -11.885362 4.651586 1.173108e-04</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SES          0.2458884 0.06342472   3.876855 4.152046 1.667043e-02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> schoolSES    1.3102965 0.07847520  16.696950 7.038119 6.399173e-07</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Estimated models:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Math1 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Math2 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Math3 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Math4 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Math5 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

@@ -179,3 +179,180 @@ lmerPV(
 ## Value
 
 a list.
+
+## Examples
+
+``` r
+# Null model - with PVs
+## Named list, with element names matching formula variables
+pvs = list(MATH = paste0("Math",1:5))
+
+
+m1 <- lmerPV(formula = MATH ~ 1 + (1|GROUP), # Intercept varies across GROUP
+      pvs = pvs, # Named list
+      data = repdata, # Data frame
+      weights = repdata$wt) # Weights vector
+m1
+#> 5 models were estimated.
+#> -------------------------------------------------------------------------------- 
+#> Multilevel results with PVs:
+#>  
+#> Call: 
+#> lmerPV(formula = MATH ~ 1 + (1 | GROUP), data = repdata, weights = repdata$wt, 
+#>     pvs = pvs)
+#> 
+#> Random effects:
+#>                    Variance
+#> GROUP.(Intercept) 0.3498329
+#> Residual          1.2185299
+#> 
+#> Fixed effects:
+#>                Estimate Std. Error   t value       df Pr(>|t|)
+#> (Intercept) 0.004824544   0.341747 0.0141173 4982.124 0.988737
+#> --------------------------------------------------------------------------------
+#> Estimated models:
+#> Math1 ~ 1 + (1 | GROUP)
+#> Math2 ~ 1 + (1 | GROUP)
+#> Math3 ~ 1 + (1 | GROUP)
+#> Math4 ~ 1 + (1 | GROUP)
+#> Math5 ~ 1 + (1 | GROUP)
+
+## Fixed effects
+m1$fixef
+#>                Estimate Std. Error   t value       df Pr(>|t|)
+#> (Intercept) 0.004824544   0.341747 0.0141173 4982.124 0.988737
+
+## Random effects
+m1$ranef
+#>                    Variance
+#> GROUP.(Intercept) 0.3498329
+#> Residual          1.2185299
+
+## Models for each PV
+summary(m1$models)
+#>       Length Class   Mode
+#> Math1 1      lmerMod S4  
+#> Math2 1      lmerMod S4  
+#> Math3 1      lmerMod S4  
+#> Math4 1      lmerMod S4  
+#> Math5 1      lmerMod S4  
+
+# Multiple regression
+## Named list, with element names matching formula variables
+pvs = list(MATH = paste0("Math",1:5))
+
+
+m2 <- lmerPV(formula = MATH ~ 1 + GENDER + SES + schoolSES + (1|GROUP),
+             pvs = pvs, # Named list
+             data = repdata, # Data frame
+             weights = repdata$wt) # Weights vector
+m2
+#> 5 models were estimated.
+#> -------------------------------------------------------------------------------- 
+#> Multilevel results with PVs:
+#>  
+#> Call: 
+#> lmerPV(formula = MATH ~ 1 + GENDER + SES + schoolSES + (1 | GROUP), 
+#>     data = repdata, weights = repdata$wt, pvs = pvs)
+#> 
+#> Random effects:
+#>                       Variance
+#> GROUP.(Intercept) 0.0002756404
+#> Residual          0.8381211936
+#> 
+#> Fixed effects:
+#>                Estimate Std. Error    t value       df     Pr(>|t|)
+#> (Intercept) -64.9990035 3.90253673 -16.655578 7.010247 6.773595e-07
+#> GENDER       -0.8990175 0.07564016 -11.885452 4.651592 1.173057e-04
+#> SES           0.2458926 0.06342425   3.876950 4.152052 1.666901e-02
+#> schoolSES     1.0641781 0.12298663   8.652795 4.979792 3.476117e-04
+#> --------------------------------------------------------------------------------
+#> Estimated models:
+#> Math1 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)
+#> Math2 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)
+#> Math3 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)
+#> Math4 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)
+#> Math5 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)
+
+# Multiple regression with grandmean centering
+## Named list, with element names matching formula variables
+pvs = list(MATH = paste0("Math",1:5))
+
+
+m3 <- lmerPV(formula = MATH ~ 1 + GENDER + SES + schoolSES + (1|GROUP),
+             pvs = pvs, # Named list
+             data = repdata, # Data frame
+             weights = repdata$wt,
+             grandmean = c("SES","schoolSES"))
+m3
+#> 5 models were estimated.
+#> -------------------------------------------------------------------------------- 
+#> Multilevel results with PVs:
+#>  
+#> Call: 
+#> lmerPV(formula = MATH ~ 1 + GENDER + SES + schoolSES + (1 | GROUP), 
+#>     data = repdata, weights = repdata$wt, pvs = pvs, grandmean = c("SES", 
+#>         "schoolSES"))
+#> 
+#> Random effects:
+#>                       Variance
+#> GROUP.(Intercept) 0.0002756404
+#> Residual          0.8381211936
+#> 
+#> Fixed effects:
+#>               Estimate Std. Error    t value       df     Pr(>|t|)
+#> (Intercept)  0.4589106 0.03739158  12.273100 6.660211 8.094989e-06
+#> GENDER      -0.8990175 0.07564016 -11.885452 4.651592 1.173057e-04
+#> SES          0.2458926 0.06342425   3.876950 4.152052 1.666901e-02
+#> schoolSES    1.0641781 0.12298663   8.652795 4.979792 3.476117e-04
+#> --------------------------------------------------------------------------------
+#> Estimated models:
+#> Math1 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)
+#> Math2 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)
+#> Math3 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)
+#> Math4 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)
+#> Math5 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)
+
+# Multiple regression with groupmean centering
+## Named list, with element names matching formula variables
+pvs = list(MATH = paste0("Math",1:5))
+
+
+m4 <- lmerPV(formula = MATH ~ 1 + GENDER + SES + schoolSES + (1|GROUP),
+             pvs = pvs, # Named list
+             data = repdata, # Data frame
+             weights = repdata$wt,
+             grandmean = "schoolSES",
+             groupmean = "SES",
+             group = repdata$GROUP)
+m4
+#> 5 models were estimated.
+#> -------------------------------------------------------------------------------- 
+#> Multilevel results with PVs:
+#>  
+#> Call: 
+#> lmerPV(formula = MATH ~ 1 + GENDER + SES + schoolSES + (1 | GROUP), 
+#>     data = repdata, weights = repdata$wt, pvs = pvs, grandmean = "schoolSES", 
+#>     groupmean = "SES", group = repdata$GROUP)
+#> 
+#> Random effects:
+#>                     Variance
+#> GROUP.(Intercept) 0.00028522
+#> Residual          0.83812119
+#> 
+#> Fixed effects:
+#>               Estimate Std. Error    t value       df     Pr(>|t|)
+#> (Intercept)  0.4589091 0.03743452  12.258983 6.690742 7.869635e-06
+#> GENDER      -0.8990154 0.07564056 -11.885362 4.651586 1.173108e-04
+#> SES          0.2458884 0.06342472   3.876855 4.152046 1.667043e-02
+#> schoolSES    1.3102965 0.07847520  16.696950 7.038119 6.399173e-07
+#> --------------------------------------------------------------------------------
+#> Estimated models:
+#> Math1 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)
+#> Math2 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)
+#> Math3 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)
+#> Math4 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)
+#> Math5 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)
+
+
+```

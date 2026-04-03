@@ -141,7 +141,7 @@ a list with the standard errors and the total weights models.
 
 ``` r
 # Less data for shorter example
-repdata2 <- repdata[1:500,]
+repdata2 <- repdata[1:200,]
 
 # Creation of replicate weights
 RW <- repcreate(df = repdata2, # the data frame with all the information
@@ -222,8 +222,8 @@ repglm(formula = GENDER ~ 1 + Math1,
 #> 
 #> Coefficients:
 #>             Estimate Std. Error t value Pr(>|t|)
-#> (Intercept)   0.5000     0.0172  29.129        0
-#> Math1        -0.2345     0.0145 -16.184        0
+#> (Intercept)   0.4690     0.0314  14.956        0
+#> Math1        -0.2325     0.0211 -11.036        0
 #> 
 #> -------------------------------------------------------------------------------- 
 #> Total weights' model:
@@ -234,16 +234,16 @@ repglm(formula = GENDER ~ 1 + Math1,
 #> 
 #> Coefficients:
 #>             Estimate Std. Error t value Pr(>|t|)    
-#> (Intercept)  0.50000    0.01942   25.74   <2e-16 ***
-#> Math1       -0.23452    0.01822  -12.87   <2e-16 ***
+#> (Intercept)  0.46905    0.03045  15.404  < 2e-16 ***
+#> Math1       -0.23246    0.02760  -8.423 7.42e-15 ***
 #> ---
 #> Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 #> 
-#> (Dispersion parameter for gaussian family taken to be 0.2834801)
+#> (Dispersion parameter for gaussian family taken to be 0.2776452)
 #> 
-#>     Null deviance: 188.16  on 499  degrees of freedom
-#> Residual deviance: 141.17  on 498  degrees of freedom
-#> AIC: 597.4
+#>     Null deviance: 74.670  on 199  degrees of freedom
+#> Residual deviance: 54.974  on 198  degrees of freedom
+#> AIC: 238.36
 #> 
 #> Number of Fisher Scoring iterations: 2
 #> 
@@ -317,8 +317,8 @@ repglm(formula = GENDER ~ 1 + Math1,
 #> 
 #> Coefficients:
 #>             Estimate Std. Error t value Pr(>|t|)
-#> (Intercept)   0.0046     0.0922   0.050    0.961
-#> Math1        -1.3091     0.1396  -9.378    0.000
+#> (Intercept)  -0.1602     0.1749  -0.916    0.361
+#> Math1        -1.3159     0.2167  -6.074    0.000
 #> 
 #> -------------------------------------------------------------------------------- 
 #> Total weights' model:
@@ -328,16 +328,16 @@ repglm(formula = GENDER ~ 1 + Math1,
 #>     df = repdata2, wt = "wt", repwt = RW, method = "ICILS")
 #> 
 #> Coefficients:
-#>              Estimate Std. Error t value Pr(>|t|)    
-#> (Intercept)  0.004565   0.103681   0.044    0.965    
-#> Math1       -1.309150   0.133845  -9.781   <2e-16 ***
+#>             Estimate Std. Error t value Pr(>|t|)    
+#> (Intercept)  -0.1602     0.1612  -0.994    0.322    
+#> Math1        -1.3159     0.2030  -6.483 6.99e-10 ***
 #> ---
 #> Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 #> 
-#> (Dispersion parameter for quasibinomial family taken to be 1.493772)
+#> (Dispersion parameter for quasibinomial family taken to be 1.400462)
 #> 
-#>     Null deviance: 1043.53  on 499  degrees of freedom
-#> Residual deviance:  823.07  on 498  degrees of freedom
+#>     Null deviance: 414.39  on 199  degrees of freedom
+#> Residual deviance: 321.44  on 198  degrees of freedom
 #> AIC: NA
 #> 
 #> Number of Fisher Scoring iterations: 4
@@ -411,9 +411,9 @@ repglm(formula = GENDER ~ 1 + Math1 + Reading1,
 #> 
 #> Coefficients:
 #>             Estimate Std. Error t value Pr(>|t|)
-#> (Intercept)   0.0338     0.1141   0.296    0.767
-#> Math1        -1.6906     0.1949  -8.673    0.000
-#> Reading1      1.0094     0.1528   6.605    0.000
+#> (Intercept)  -0.0600     0.1977  -0.303    0.762
+#> Math1        -1.7319     0.2872  -6.031    0.000
+#> Reading1      1.1746     0.2710   4.335    0.000
 #> 
 #> -------------------------------------------------------------------------------- 
 #> Total weights' model:
@@ -424,16 +424,16 @@ repglm(formula = GENDER ~ 1 + Math1 + Reading1,
 #> 
 #> Coefficients:
 #>             Estimate Std. Error t value Pr(>|t|)    
-#> (Intercept)  0.03381    0.11595   0.292    0.771    
-#> Math1       -1.69060    0.16592 -10.189  < 2e-16 ***
-#> Reading1     1.00937    0.13871   7.277 1.34e-12 ***
+#> (Intercept) -0.05998    0.18856  -0.318    0.751    
+#> Math1       -1.73192    0.26209  -6.608 3.56e-10 ***
+#> Reading1     1.17458    0.24219   4.850 2.50e-06 ***
 #> ---
 #> Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 #> 
-#> (Dispersion parameter for quasibinomial family taken to be 1.583703)
+#> (Dispersion parameter for quasibinomial family taken to be 1.552154)
 #> 
-#>     Null deviance: 1043.5  on 499  degrees of freedom
-#> Residual deviance:  716.8  on 497  degrees of freedom
+#>     Null deviance: 414.39  on 199  degrees of freedom
+#> Residual deviance: 272.85  on 197  degrees of freedom
 #> AIC: NA
 #> 
 #> Number of Fisher Scoring iterations: 5
@@ -615,9 +615,9 @@ repglm(formula = GENDER ~ 1 + Math + Reading1, # Math1 now is "Math"
 #> 
 #> Coefficients:
 #>             Estimate Std. Error t value Pr(>|t|)
-#> (Intercept)   0.0384     0.1151   0.333    0.739
-#> Math1        -1.7658     0.1969  -8.967    0.000
-#> Reading1      1.0935     0.1854   5.896    0.000
+#> (Intercept)  -0.0343     0.2097  -0.163     0.87
+#> Math1        -1.6702     0.2840  -5.882     0.00
+#> Reading1      1.1384     0.2653   4.290     0.00
 #> 
 #> -------------------------------------------------------------------------------- 
 #> Total weights' model for first plausible value combination:
@@ -628,16 +628,16 @@ repglm(formula = GENDER ~ 1 + Math + Reading1, # Math1 now is "Math"
 #> 
 #> Coefficients:
 #>             Estimate Std. Error t value Pr(>|t|)    
-#> (Intercept)  0.03381    0.11595   0.292    0.771    
-#> Math1       -1.69060    0.16592 -10.189  < 2e-16 ***
-#> Reading1     1.00937    0.13871   7.277 1.34e-12 ***
+#> (Intercept) -0.05998    0.18856  -0.318    0.751    
+#> Math1       -1.73192    0.26209  -6.608 3.56e-10 ***
+#> Reading1     1.17458    0.24219   4.850 2.50e-06 ***
 #> ---
 #> Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 #> 
-#> (Dispersion parameter for quasibinomial family taken to be 1.583703)
+#> (Dispersion parameter for quasibinomial family taken to be 1.552154)
 #> 
-#>     Null deviance: 1043.5  on 499  degrees of freedom
-#> Residual deviance:  716.8  on 497  degrees of freedom
+#>     Null deviance: 414.39  on 199  degrees of freedom
+#> Residual deviance: 272.85  on 197  degrees of freedom
 #> AIC: NA
 #> 
 #> Number of Fisher Scoring iterations: 5
@@ -823,9 +823,9 @@ repglm(formula = GENDER ~ 1 + Math + Reading, # Reading1 now is "Reading"
 #> 
 #> Coefficients:
 #>             Estimate Std. Error t value Pr(>|t|)
-#> (Intercept)   0.0848     0.1398   0.606    0.545
-#> Math1        -2.1205     0.5870  -3.612    0.000
-#> Reading1      1.6681     0.7211   2.313    0.021
+#> (Intercept)   0.1186     0.3635   0.326    0.745
+#> Math1        -2.1348     0.6569  -3.250    0.001
+#> Reading1      1.7444     0.7259   2.403    0.017
 #> 
 #> -------------------------------------------------------------------------------- 
 #> Total weights' model for first plausible value combination:
@@ -836,16 +836,16 @@ repglm(formula = GENDER ~ 1 + Math + Reading, # Reading1 now is "Reading"
 #> 
 #> Coefficients:
 #>             Estimate Std. Error t value Pr(>|t|)    
-#> (Intercept)  0.03381    0.11595   0.292    0.771    
-#> Math1       -1.69060    0.16592 -10.189  < 2e-16 ***
-#> Reading1     1.00937    0.13871   7.277 1.34e-12 ***
+#> (Intercept) -0.05998    0.18856  -0.318    0.751    
+#> Math1       -1.73192    0.26209  -6.608 3.56e-10 ***
+#> Reading1     1.17458    0.24219   4.850 2.50e-06 ***
 #> ---
 #> Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 #> 
-#> (Dispersion parameter for quasibinomial family taken to be 1.583703)
+#> (Dispersion parameter for quasibinomial family taken to be 1.552154)
 #> 
-#>     Null deviance: 1043.5  on 499  degrees of freedom
-#> Residual deviance:  716.8  on 497  degrees of freedom
+#>     Null deviance: 414.39  on 199  degrees of freedom
+#> Residual deviance: 272.85  on 197  degrees of freedom
 #> AIC: NA
 #> 
 #> Number of Fisher Scoring iterations: 5
@@ -1333,9 +1333,9 @@ repglm(formula = GENDER ~ 1 + Math + Reading, # Reading1 now is "Reading"
 #> 
 #> Coefficients:
 #>             Estimate Std. Error t value Pr(>|t|)
-#> (Intercept)   0.0888     0.1361   0.653    0.514
-#> Math1        -2.1552     0.4362  -4.941    0.000
-#> Reading1      1.7197     0.5725   3.004    0.003
+#> (Intercept)   0.1223     0.2917   0.419    0.675
+#> Math1        -2.1572     0.5851  -3.687    0.000
+#> Reading1      1.7873     0.6706   2.665    0.008
 #> 
 #> -------------------------------------------------------------------------------- 
 #> Total weights' model for first plausible value combination:
@@ -1347,16 +1347,16 @@ repglm(formula = GENDER ~ 1 + Math + Reading, # Reading1 now is "Reading"
 #> 
 #> Coefficients:
 #>             Estimate Std. Error t value Pr(>|t|)    
-#> (Intercept)  0.03381    0.11595   0.292    0.771    
-#> Math1       -1.69060    0.16592 -10.189  < 2e-16 ***
-#> Reading1     1.00937    0.13871   7.277 1.34e-12 ***
+#> (Intercept) -0.05998    0.18856  -0.318    0.751    
+#> Math1       -1.73192    0.26209  -6.608 3.56e-10 ***
+#> Reading1     1.17458    0.24219   4.850 2.50e-06 ***
 #> ---
 #> Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 #> 
-#> (Dispersion parameter for quasibinomial family taken to be 1.583703)
+#> (Dispersion parameter for quasibinomial family taken to be 1.552154)
 #> 
-#>     Null deviance: 1043.5  on 499  degrees of freedom
-#> Residual deviance:  716.8  on 497  degrees of freedom
+#>     Null deviance: 414.39  on 199  degrees of freedom
+#> Residual deviance: 272.85  on 197  degrees of freedom
 #> AIC: NA
 #> 
 #> Number of Fisher Scoring iterations: 5
@@ -1466,22 +1466,7 @@ repglm(formula = GENDER ~ 1 + Math1,
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> Estimating group 2 of 3.
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
@@ -1564,21 +1549,12 @@ repglm(formula = GENDER ~ 1 + Math1,
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> 204 models were estimated.
 #> -------------------------------------------------------------------------------- 
 #> Composite coefficients:
 #>             Estimate Std. Error t value
-#> (Intercept)   0.5023     0.0209  23.993
-#> Math1        -0.2783     0.0180 -15.427
+#> (Intercept)   0.4776     0.0326  14.654
+#> Math1        -0.2834     0.0230 -12.304
 #> -------------------------------------------------------------------------------- 
 #> 
 #> Call:
@@ -1587,9 +1563,9 @@ repglm(formula = GENDER ~ 1 + Math1,
 #> 
 #> Coefficients and standard errors by group:
 #>     (Intercept)  Math1        
-#> GR1 0.410 (0.04) -0.257 (0.02)
-#> GR3 0.633 (0.04) -0.281 (0.03)
-#> GR2 0.464 (0.03) -0.297 (0.04)
+#> GR1 0.354 (0.05) -0.275 (0.03)
+#> GR3 0.652 (0.07) -0.321 (0.04)
+#> GR2 0.427 (0.05) -0.255 (0.05)
 
 
 # Simple regression - change link function
@@ -1693,22 +1669,7 @@ repglm(formula = GENDER ~ 1 + Math1,
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> Estimating group 2 of 3.
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
@@ -1791,21 +1752,12 @@ repglm(formula = GENDER ~ 1 + Math1,
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> 204 models were estimated.
 #> -------------------------------------------------------------------------------- 
 #> Composite coefficients:
 #>             Estimate Std. Error t value
-#> (Intercept)  -0.0072     0.1214  -0.059
-#> Math1        -1.6468     0.1959  -8.406
+#> (Intercept)  -0.1015     0.2125  -0.478
+#> Math1        -1.7226     0.2717  -6.340
 #> -------------------------------------------------------------------------------- 
 #> 
 #> Call:
@@ -1814,9 +1766,9 @@ repglm(formula = GENDER ~ 1 + Math1,
 #> 
 #> Coefficients and standard errors by group:
 #>     (Intercept)   Math1        
-#> GR1 -0.558 (0.20) -1.542 (0.26)
-#> GR3  0.729 (0.25) -1.594 (0.27)
-#> GR2 -0.192 (0.17) -1.804 (0.46)
+#> GR1 -0.832 (0.29) -1.618 (0.39)
+#> GR3  0.893 (0.47) -2.080 (0.56)
+#> GR2 -0.365 (0.31) -1.470 (0.45)
 
 # Multiple regression
 repglm(formula = GENDER ~ 1 + Math1 + Reading1,
@@ -1919,22 +1871,7 @@ repglm(formula = GENDER ~ 1 + Math1 + Reading1,
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> Estimating group 2 of 3.
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
@@ -2017,22 +1954,13 @@ repglm(formula = GENDER ~ 1 + Math1 + Reading1,
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> 204 models were estimated.
 #> -------------------------------------------------------------------------------- 
 #> Composite coefficients:
 #>             Estimate Std. Error t value
-#> (Intercept)  -0.0390     0.1469  -0.266
-#> Math1        -1.6917     0.2041  -8.289
-#> Reading1      1.0154     0.1666   6.095
+#> (Intercept)  -0.0509     0.2563  -0.199
+#> Math1        -1.7695     0.2989  -5.920
+#> Reading1      1.2161     0.3101   3.922
 #> -------------------------------------------------------------------------------- 
 #> 
 #> Call:
@@ -2041,9 +1969,9 @@ repglm(formula = GENDER ~ 1 + Math1 + Reading1,
 #> 
 #> Coefficients and standard errors by group:
 #>     (Intercept)   Math1         Reading1    
-#> GR1  0.071 (0.27) -1.575 (0.27) 0.828 (0.28)
-#> GR3  0.034 (0.30) -1.705 (0.29) 1.244 (0.30)
-#> GR2 -0.222 (0.18) -1.795 (0.47) 0.974 (0.28)
+#> GR1  0.114 (0.37) -1.922 (0.50) 1.406 (0.46)
+#> GR3  0.113 (0.59) -2.074 (0.57) 1.462 (0.60)
+#> GR2 -0.379 (0.32) -1.313 (0.47) 0.780 (0.54)
 
 # Multiple regression - with PVs
 ## Named list, with element names matching formula variables
@@ -2336,52 +2264,7 @@ repglm(formula = GENDER ~ 1 + Math + Reading1, # Math1 now is "Math"
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> Estimating group 2 of 3.
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
@@ -2626,40 +2509,13 @@ repglm(formula = GENDER ~ 1 + Math + Reading1, # Math1 now is "Math"
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> 612 models were estimated.
 #> -------------------------------------------------------------------------------- 
 #> Composite coefficients:
 #>             Estimate Std. Error t value
-#> (Intercept)  -0.0181     0.1715  -0.105
-#> Math1        -1.7842     0.2329  -7.662
-#> Reading1      1.1512     0.2110   5.455
+#> (Intercept)  -0.0137     0.2776  -0.049
+#> Math1        -1.6748     0.3647  -4.592
+#> Reading1      1.2346     0.3224   3.829
 #> -------------------------------------------------------------------------------- 
 #> 
 #> Call:
@@ -2669,9 +2525,9 @@ repglm(formula = GENDER ~ 1 + Math + Reading1, # Math1 now is "Math"
 #> 
 #> Coefficients and standard errors by group:
 #>     (Intercept)   Math1         Reading1    
-#> GR1  0.173 (0.32) -1.541 (0.29) 0.877 (0.29)
-#> GR3  0.103 (0.33) -1.866 (0.32) 1.320 (0.34)
-#> GR2 -0.330 (0.23) -1.945 (0.55) 1.256 (0.45)
+#> GR1  0.309 (0.47) -1.776 (0.64) 1.416 (0.56)
+#> GR3  0.021 (0.59) -1.812 (0.67) 1.352 (0.58)
+#> GR2 -0.371 (0.36) -1.436 (0.57) 0.936 (0.54)
 
 # Multiple regression - with more than one related PV variable
 ## Named list, with element names matching formula variables
@@ -2968,52 +2824,7 @@ repglm(formula = GENDER ~ 1 + Math + Reading, # Reading1 now is "Reading"
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> Estimating group 2 of 3.
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
@@ -3258,40 +3069,13 @@ repglm(formula = GENDER ~ 1 + Math + Reading, # Reading1 now is "Reading"
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> 612 models were estimated.
 #> -------------------------------------------------------------------------------- 
 #> Composite coefficients:
 #>             Estimate Std. Error t value
-#> (Intercept)   0.0459     0.2183   0.210
-#> Math1        -2.1022     0.4260  -4.935
-#> Reading1      1.8638     0.6283   2.966
+#> (Intercept)   0.0906     0.4678   0.194
+#> Math1        -2.1550     0.9821  -2.194
+#> Reading1      2.1304     1.5459   1.378
 #> -------------------------------------------------------------------------------- 
 #> 
 #> Call:
@@ -3301,9 +3085,9 @@ repglm(formula = GENDER ~ 1 + Math + Reading, # Reading1 now is "Reading"
 #> 
 #> Coefficients and standard errors by group:
 #>     (Intercept)   Math1         Reading1    
-#> GR1  0.403 (0.45) -1.822 (0.59) 1.436 (0.74)
-#> GR3 -0.009 (0.39) -2.240 (0.90) 1.931 (1.04)
-#> GR2 -0.256 (0.26) -2.244 (0.69) 2.224 (1.38)
+#> GR1  0.596 (0.80) -2.126 (1.05) 1.872 (1.01)
+#> GR3  0.006 (0.59) -2.278 (0.81) 2.001 (1.13)
+#> GR2 -0.330 (0.98) -2.061 (2.63) 2.518 (4.38)
 
 # Multiple regression - with UNrelated PV variables
 ## Named list, with element names matching formula variables
@@ -4147,142 +3931,7 @@ repglm(formula = GENDER ~ 1 + Math + Reading, # Reading1 now is "Reading"
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> Estimating group 2 of 3.
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
@@ -5013,94 +4662,13 @@ repglm(formula = GENDER ~ 1 + Math + Reading, # Reading1 now is "Reading"
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
 #> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
-#> Warning: observations with zero weight not used for calculating dispersion
 #> 1836 models were estimated.
 #> -------------------------------------------------------------------------------- 
 #> Composite coefficients:
 #>             Estimate Std. Error t value
-#> (Intercept)   0.0485     0.2006   0.242
-#> Math1        -2.1172     0.3430  -6.172
-#> Reading1      1.9053     0.4872   3.911
+#> (Intercept)   0.1112     0.3706   0.300
+#> Math1        -2.1381     0.8096  -2.641
+#> Reading1      2.1387     1.1308   1.891
 #> -------------------------------------------------------------------------------- 
 #> 
 #> Call:
@@ -5110,7 +4678,7 @@ repglm(formula = GENDER ~ 1 + Math + Reading, # Reading1 now is "Reading"
 #> 
 #> Coefficients and standard errors by group:
 #>     (Intercept)   Math1         Reading1    
-#> GR1  0.410 (0.40) -1.889 (0.55) 1.528 (0.73)
-#> GR3 -0.006 (0.37) -2.193 (0.57) 1.932 (0.71)
-#> GR2 -0.258 (0.26) -2.270 (0.65) 2.256 (1.05)
+#> GR1  0.589 (0.63) -2.121 (0.89) 1.914 (0.92)
+#> GR3  0.034 (0.63) -2.334 (1.19) 2.034 (1.05)
+#> GR2 -0.289 (0.66) -1.960 (1.92) 2.468 (3.09)
 ```
