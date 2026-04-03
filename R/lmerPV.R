@@ -25,7 +25,7 @@
 #'
 #' @return a list.
 #'
-# @example inst/examples/lmerPV_example.R
+#' @example inst/examples/lmerPV_example.R
 #' @export
 #'
 

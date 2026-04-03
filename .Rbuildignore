@@ -10,3 +10,4 @@ README.Rmd
 ^pkgdown$
 ^README\.Rmd$
 ^\.github$
+^cran-comments\.md$

@@ -6,6 +6,6 @@ ILSAstats.Rproj
 .Rbuildignore
 .DS_Store
 ztools/
-
+cran-comments.md
 inst/doc
 docs
