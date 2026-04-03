@@ -14,6 +14,7 @@ lmerPV(
   groupmean = NULL,
   group = NULL,
   nullmodel = FALSE,
+  barnardrubin = TRUE,
   ...
 )
 }
@@ -77,6 +78,9 @@ countries.}
 
 \item{nullmodel}{a logical value indicating if the null model should also be estimated.}
 
+\item{barnardrubin}{a logical value indicating if Barnard & Rubin adjustment
+should be used for estimating the degrees of freedom. Default is \code{TRUE}.}
+
 \item{...}{
   Arguments passed on to \code{\link[lme4:lmer]{lme4::lmer}}
   \describe{
@@ -126,65 +130,4 @@ a list.
 }
 \description{
 Fits a linear mixed-effects model using \link[lme4]{lmer} and plausible values.
-}
-\examples{
-# Null model - with PVs
-## Named list, with element names matching formula variables
-pvs = list(MATH = paste0("Math",1:5))
-
-
-m1 <- lmerPV(formula = MATH ~ 1 + (1|GROUP), # Intercept varies across GROUP
-      pvs = pvs, # Named list
-      data = repdata, # Data frame
-      weights = repdata$wt) # Weights vector
-m1
-
-## Fixed effects
-m1$fixef
-
-## Random effects
-m1$ranef
-
-## Models for each PV
-summary(m1$models)
-
-# Multiple regression
-## Named list, with element names matching formula variables
-pvs = list(MATH = paste0("Math",1:5))
-
-
-m2 <- lmerPV(formula = MATH ~ 1 + GENDER + SES + schoolSES + (1|GROUP),
-             pvs = pvs, # Named list
-             data = repdata, # Data frame
-             weights = repdata$wt) # Weights vector
-m2
-
-# Multiple regression with grandmean centering
-## Named list, with element names matching formula variables
-pvs = list(MATH = paste0("Math",1:5))
-
-
-m3 <- lmerPV(formula = MATH ~ 1 + GENDER + SES + schoolSES + (1|GROUP),
-             pvs = pvs, # Named list
-             data = repdata, # Data frame
-             weights = repdata$wt,
-             grandmean = c("SES","schoolSES"))
-m3
-
-# Multiple regression with groupmean centering
-## Named list, with element names matching formula variables
-pvs = list(MATH = paste0("Math",1:5))
-
-
-m4 <- lmerPV(formula = MATH ~ 1 + GENDER + SES + schoolSES + (1|GROUP),
-             pvs = pvs, # Named list
-             data = repdata, # Data frame
-             weights = repdata$wt,
-             grandmean = "schoolSES",
-             groupmean = "SES",
-             group = repdata$GROUP)
-m4
-
-
-
 }

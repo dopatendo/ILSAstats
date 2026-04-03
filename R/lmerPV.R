@@ -5,6 +5,7 @@
 #' @inheritParams lme4::lmer
 #' @inheritParams replm
 #' @inheritParams center
+#' @inheritParams pvse
 #' @inheritDotParams lme4::lmer
 #' @param pvs a list indicating which variables from \code{formula}
 #' should be replaced by which plausible values variables. For more details
@@ -24,7 +25,7 @@
 #'
 #' @return a list.
 #'
-#' @example inst/examples/lmerPV_example.R
+# @example inst/examples/lmerPV_example.R
 #' @export
 #'
 
@@ -32,7 +33,9 @@
 lmerPV <- function(formula, data = NULL, weights = NULL,
                    pvs, relatedpvs = TRUE,
                    grandmean = NULL, groupmean = NULL, group = NULL,
-                   nullmodel = FALSE,...){
+                   nullmodel = FALSE,
+                   barnardrubin = TRUE,
+                   ...){
 
 
   # SUGGESTS
@@ -58,6 +61,7 @@ lmerPV <- function(formula, data = NULL, weights = NULL,
                  grandmean = grandmean,
                  groupmean = groupmean,
                  group = group,
+                 barnardrubin = barnardrubin,
                  WT = WT, CALL = match.call(), ...)
 
 
@@ -78,6 +82,7 @@ lmerPV <- function(formula, data = NULL, weights = NULL,
                 grandmean = grandmean,
                 groupmean = groupmean,
                 group = group,
+                barnardrubin = barnardrubin,
                 WT = WT, CALL = match.call(), ...)
   out <- c(out,nullmodel = list(NM))
   class(out) <- "lmerPV"
@@ -93,6 +98,7 @@ lmerPV <- function(formula, data = NULL, weights = NULL,
                     df = NULL, WT = NULL,
                     grandmean = NULL, groupmean = NULL, group = NULL,
                     CALL = NULL,
+                    barnardrubin = TRUE,
                     # TEST = FALSE,
                     # TESTtype = "CR1",
                     ...){
@@ -105,13 +111,13 @@ lmerPV <- function(formula, data = NULL, weights = NULL,
 
     nfo <- lapply(1:nrow(pvs),function(i){
       out <- (do.call(substitute,list(formula,as.list(pvs[i,,drop = FALSE]))))
-      stats::as.formula(gsub("\"","",deparse(out)))
+      stats::as.formula(gsub("\"","",paste0(deparse(out),collapse = " ")))
     })
   }else{
     pvs <- expand.grid(pvs,stringsAsFactors = FALSE)
     nfo <- lapply(1:nrow(pvs),function(i){
       out <- (do.call(substitute,list(formula,c(pvs[i,]))))
-      stats::as.formula(gsub("\"","",deparse(out)))
+      stats::as.formula(gsub("\"","",paste0(deparse(out),collapse = " ")))
     })
   }
 
@@ -131,7 +137,7 @@ lmerPV <- function(formula, data = NULL, weights = NULL,
     # if(TEST){
       # modi[[i]] <- lme4::lmer(formula = nfo[[i]], data = df, REML = FALSE)
     # }else{
-      modi[[i]] <- lme4::lmer(formula = nfo[[i]], data = ndf, weights = WT,...)
+      modi[[i]] <- suppressWarnings(lme4::lmer(formula = nfo[[i]], data = ndf, weights = WT,...))
       # modi[[i]] <- lmer(formula = nfo[[i]], data = df, weights = wt)
     # }
 
@@ -160,6 +166,9 @@ lmerPV <- function(formula, data = NULL, weights = NULL,
 
   coei <- do.call(rbind,coei)
 
+  kk <- length(coei)
+  nn <- nrow(modi[[1]]@frame)
+
   # for TEST
   # if(TEST){
   #   CR1 <- lapply(modi,function(i) sqrt(diag(clubSandwich::vcovCR(i,type = TESTtype))))
@@ -176,7 +185,7 @@ lmerPV <- function(formula, data = NULL, weights = NULL,
 
 
   coe <- do.call(rbind,lapply(coei,function(i){
-    sedf <- pvse(i[,2],i[,1],df = TRUE)
+    sedf <- pvse(i[,2],i[,1],df = TRUE,n=nn,k=kk,barnardrubin=barnardrubin)
     esti <- mean(i[,1],na.rm = TRUE)
     cbind.data.frame("Estimate" = esti,
                      "Std. Error" = sedf[1],
@@ -228,5 +237,8 @@ print.lmerPV <- function(x, ...){
 
   cat(paste0(rep("-",getOption("width")),collapse = ""),
       "Estimated models:",sapply(x$models,function(i) deparse(stats::formula(i))),sep = "\n")
+
+  # cat(paste0(rep("-",getOption("width")),collapse = ""),
+  #     "Estimated models:",sapply(x$models,function(i) deparse(stats::formula(paste(i, collapse = " ")))),sep = "\n")
 
 }

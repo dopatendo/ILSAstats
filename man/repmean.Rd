@@ -85,7 +85,7 @@ used at the same time. If \code{NULL} no aggregate will be estimated.}
 \item{simplify}{a logical value indicating if only the summary
 statistics should be printed. If \code{FALSE} estimations for
 all replicated will be provided and no aggregates will
-be estimated. Default is \code{TRUE}. If \code{repindex} is not used, estimation will be slower.
+be estimated. Default is \code{TRUE}.
 This argument will be ignored if \code{by} is used.}
 }
 \value{

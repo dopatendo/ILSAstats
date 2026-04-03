@@ -4,7 +4,15 @@
 \alias{WeMixPV}
 \title{Survey Weighted Mixed-Effects Models with Plausible Values}
 \usage{
-WeMixPV(formula, data = NULL, weights = NULL, pvs, relatedpvs = TRUE, ...)
+WeMixPV(
+  formula,
+  data = NULL,
+  weights = NULL,
+  pvs,
+  relatedpvs = TRUE,
+  barnardrubin = TRUE,
+  ...
+)
 }
 \arguments{
 \item{formula}{a formula object in the style of \code{lme4} that creates the model.}
@@ -24,6 +32,9 @@ where \eqn{n} is the number of plausible values for each plausible value variabl
 If \code{FALSE}, a total of \eqn{n_1 \times n_2 \times n_...}
 estimations will be done, where \eqn{n_i} is the number of plausible values
 in each plausible value variable.}
+
+\item{barnardrubin}{a logical value indicating if Barnard & Rubin adjustment
+should be used for estimating the degrees of freedom. Default is \code{TRUE}.}
 
 \item{...}{
   Arguments passed on to \code{\link[WeMix:mix]{WeMix::mix}}

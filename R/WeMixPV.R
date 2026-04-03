@@ -3,6 +3,7 @@
 #' Fits a linear mixed-effects model using \link[WeMix]{mix} and plausible values.
 #'
 #' @inheritParams WeMix::mix
+#' @inheritParams pvse
 #' @inheritDotParams WeMix::mix
 #' @param pvs a list indicating which variables from \code{formula}
 #' should be replaced by which plausible values variables. For more details
@@ -24,7 +25,8 @@
 
 
 WeMixPV <- function(formula, data = NULL, weights = NULL,
-                     pvs, relatedpvs = TRUE,...){
+                     pvs, relatedpvs = TRUE,
+                    barnardrubin = TRUE,...){
 
 
   # SUGGESTS
@@ -67,7 +69,7 @@ WeMixPV <- function(formula, data = NULL, weights = NULL,
 
   for(i in 1:length(modi)){
 
-    modi[[i]] <- (WeMix::mix(formula = nfo[[i]],data = ndf, weights = weights,...))
+    modi[[i]] <- suppressWarnings(WeMix::mix(formula = nfo[[i]],data = ndf, weights = weights,...))
 
     # modi[[i]] <- lme4::lmer(formula = nfo[[i]], data = ndf, weights = WT,...)
 
@@ -95,11 +97,13 @@ WeMixPV <- function(formula, data = NULL, weights = NULL,
     # rani[[i]] <- reni[is.na(reni$var2),];rm(reni)
   }
 
+  kk <- nrow(modi[[1]]$varDF)
+  nn <- max(modi[[1]]$varDF$ngrp)
 
   coei <- do.call(rbind,coei)
   coei <- split.data.frame(coei,f = rownames(coei),drop = FALSE)
   coe <- do.call(rbind,lapply(coei,function(i){
-    sedf <- pvse(i[,2],i[,1],df = TRUE)
+    sedf <- pvse(i[,2],i[,1],df = TRUE,n=nn,k=kk,barnardrubin=barnardrubin)
     esti <- mean(i[,1],na.rm = TRUE)
     cbind.data.frame("Estimate" = esti,
                      "Std. Error" = sedf[1],
@@ -117,7 +121,7 @@ WeMixPV <- function(formula, data = NULL, weights = NULL,
   rani <- do.call(rbind,rani)
   rani <- split.data.frame(rani,f = rownames(rani),drop = FALSE)
   ran <- do.call(rbind,lapply(rani,function(i){
-    sedf <- pvse(i[,2],i[,1],df = TRUE)
+    sedf <- pvse(i[,2],i[,1],df = TRUE,n=nn,k=kk,barnardrubin=barnardrubin)
     esti <- mean(i[,1],na.rm = TRUE)
     cbind.data.frame("Estimate" = esti,
                      "Std. Error" = sedf[1],

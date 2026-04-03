@@ -10,7 +10,7 @@ repse(er, e0, setup = NULL, method)
 
 repsecomp(se)
 
-pvse(PVse, PVe0, df = FALSE)
+pvse(PVse, PVe0, df = FALSE, n = NULL, k = NULL, barnardrubin = TRUE)
 }
 \arguments{
 \item{er}{a vector or a list containing any statistic of interest
@@ -53,6 +53,13 @@ plausible value.}
 \item{PVe0}{a numeric vector containing the point estimates of each plausible value.}
 
 \item{df}{a logical value indicating if degrees should be calculated.}
+
+\item{n}{a numeric value indicating the sample size.}
+
+\item{k}{a numeric value indicating the number of estimated parameters.}
+
+\item{barnardrubin}{a logical value indicating if Barnard & Rubin adjustment
+should be used for estimating the degrees of freedom. Default is \code{TRUE}.}
 }
 \value{
 the standard error.
