@@ -54,7 +54,15 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">WeMixPV</span><span class="op">(</span><span class="va">formula</span>, data <span class="op">=</span> <span class="cn">NULL</span>, weights <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">pvs</span>, relatedpvs <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">WeMixPV</span><span class="op">(</span></span>
+<span>  <span class="va">formula</span>,</span>
+<span>  data <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">pvs</span>,</span>
+<span>  relatedpvs <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  barnardrubin <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -87,6 +95,11 @@ where \(n\) is the number of plausible values for each plausible value variable.
 If <code>FALSE</code>, a total of \(n_1 \times n_2 \times n_...\)
 estimations will be done, where \(n_i\) is the number of plausible values
 in each plausible value variable.</p></dd>
+
+
+<dt id="arg-barnardrubin">barnardrubin<a class="anchor" aria-label="anchor" href="#arg-barnardrubin"></a></dt>
+<dd><p>a logical value indicating if Barnard &amp; Rubin adjustment
+should be used for estimating the degrees of freedom. Default is <code>TRUE</code>.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -173,12 +186,12 @@ and <code><a href="https://rdrr.io/r/stats/family.html" class="external-link">po
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Random effects:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    Estimate Std. Error   t value          df     Pr(&gt;|t|)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> GROUP.(Intercept) 0.2332214 0.11973218  1.947859 2282.198284 5.155428e-02</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Residual          0.8132685 0.02299559 35.366280    7.250355 2.186994e-09</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> GROUP.(Intercept) 0.2332214 0.11973218  1.947859 1545.403981 5.161268e-02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residual          0.8132685 0.02299559 35.366280    7.209681 2.386511e-09</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fixed effects:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                Estimate Std. Error   t value        df  Pr(&gt;|t|)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 0.004824544  0.3417468 0.0141173 181384504 0.9887364</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                Estimate Std. Error   t value       df Pr(&gt;|t|)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 0.004824544  0.3417468 0.0141173 4995.122 0.988737</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> --------------------------------------------------------------------------------</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated models:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Math1 ~ 1 + (1 | GROUP)</span>
@@ -189,14 +202,14 @@ and <code><a href="https://rdrr.io/r/stats/family.html" class="external-link">po
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Fixed effects</span></span></span>
 <span class="r-in"><span><span class="va">m1</span><span class="op">$</span><span class="va">fixef</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                Estimate Std. Error   t value        df  Pr(&gt;|t|)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 0.004824544  0.3417468 0.0141173 181384504 0.9887364</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                Estimate Std. Error   t value       df Pr(&gt;|t|)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 0.004824544  0.3417468 0.0141173 4995.122 0.988737</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Random effects</span></span></span>
 <span class="r-in"><span><span class="va">m1</span><span class="op">$</span><span class="va">ranef</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    Estimate Std. Error   t value          df     Pr(&gt;|t|)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> GROUP.(Intercept) 0.2332214 0.11973218  1.947859 2282.198284 5.155428e-02</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Residual          0.8132685 0.02299559 35.366280    7.250355 2.186994e-09</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> GROUP.(Intercept) 0.2332214 0.11973218  1.947859 1545.403981 5.161268e-02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residual          0.8132685 0.02299559 35.366280    7.209681 2.386511e-09</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Models for each PV</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m1</span><span class="op">$</span><span class="va">models</span><span class="op">)</span></span></span>
@@ -227,15 +240,15 @@ and <code><a href="https://rdrr.io/r/stats/family.html" class="external-link">po
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Random effects:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                       Estimate   Std. Error    t value         df     Pr(&gt;|t|)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> GROUP.(Intercept) 1.666843e-05 8.968157e-05  0.1858623 413.549345 8.526439e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Residual          5.591163e-01 3.337543e-02 16.7523312   5.787741 3.995963e-06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> GROUP.(Intercept) 1.666843e-05 8.968157e-05  0.1858623 378.775859 8.526522e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residual          5.591163e-01 3.337543e-02 16.7523312   5.748259 4.246507e-06</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fixed effects:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                Estimate Std. Error    t value       df     Pr(&gt;|t|)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) -64.9984631 3.52733990 -18.427048 4.705471 1.440966e-05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> GENDER       -0.8991677 0.08072093 -11.139215 6.108438 2.761341e-05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SES           0.2458968 0.06537683   3.761223 4.814884 1.408541e-02</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> schoolSES     1.0641649 0.11767005   9.043634 4.211655 6.498273e-04</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) -64.9984631 3.52733990 -18.427048 4.649334 1.589755e-05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> GENDER       -0.8991677 0.08072093 -11.139215 6.069540 2.885021e-05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SES           0.2458968 0.06537683   3.761223 4.763040 1.436835e-02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> schoolSES     1.0641649 0.11767005   9.043634 4.076627 7.581044e-04</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> --------------------------------------------------------------------------------</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated models:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Math1 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)</span>

@@ -58,7 +58,7 @@
 <span></span>
 <span><span class="fu">repsecomp</span><span class="op">(</span><span class="va">se</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">pvse</span><span class="op">(</span><span class="va">PVse</span>, <span class="va">PVe0</span>, df <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">pvse</span><span class="op">(</span><span class="va">PVse</span>, <span class="va">PVe0</span>, df <span class="op">=</span> <span class="cn">FALSE</span>, n <span class="op">=</span> <span class="cn">NULL</span>, k <span class="op">=</span> <span class="cn">NULL</span>, barnardrubin <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -117,6 +117,19 @@ plausible value.</p></dd>
 
 <dt id="arg-df">df<a class="anchor" aria-label="anchor" href="#arg-df"></a></dt>
 <dd><p>a logical value indicating if degrees should be calculated.</p></dd>
+
+
+<dt id="arg-n">n<a class="anchor" aria-label="anchor" href="#arg-n"></a></dt>
+<dd><p>a numeric value indicating the sample size.</p></dd>
+
+
+<dt id="arg-k">k<a class="anchor" aria-label="anchor" href="#arg-k"></a></dt>
+<dd><p>a numeric value indicating the number of estimated parameters.</p></dd>
+
+
+<dt id="arg-barnardrubin">barnardrubin<a class="anchor" aria-label="anchor" href="#arg-barnardrubin"></a></dt>
+<dd><p>a logical value indicating if Barnard &amp; Rubin adjustment
+should be used for estimating the degrees of freedom. Default is <code>TRUE</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">

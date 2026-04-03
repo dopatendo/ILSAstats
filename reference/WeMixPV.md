@@ -7,7 +7,15 @@ and plausible values.
 ## Usage
 
 ``` r
-WeMixPV(formula, data = NULL, weights = NULL, pvs, relatedpvs = TRUE, ...)
+WeMixPV(
+  formula,
+  data = NULL,
+  weights = NULL,
+  pvs,
+  relatedpvs = TRUE,
+  barnardrubin = TRUE,
+  ...
+)
 ```
 
 ## Arguments
@@ -39,6 +47,11 @@ WeMixPV(formula, data = NULL, weights = NULL, pvs, relatedpvs = TRUE, ...)
   total of \\n_1 \times n_2 \times n\_...\\ estimations will be done,
   where \\n_i\\ is the number of plausible values in each plausible
   value variable.
+
+- barnardrubin:
+
+  a logical value indicating if Barnard & Rubin adjustment should be
+  used for estimating the degrees of freedom. Default is `TRUE`.
 
 - ...:
 
@@ -152,12 +165,12 @@ m1
 #> 
 #> Random effects:
 #>                    Estimate Std. Error   t value          df     Pr(>|t|)
-#> GROUP.(Intercept) 0.2332214 0.11973218  1.947859 2282.198284 5.155428e-02
-#> Residual          0.8132685 0.02299559 35.366280    7.250355 2.186994e-09
+#> GROUP.(Intercept) 0.2332214 0.11973218  1.947859 1545.403981 5.161268e-02
+#> Residual          0.8132685 0.02299559 35.366280    7.209681 2.386511e-09
 #> 
 #> Fixed effects:
-#>                Estimate Std. Error   t value        df  Pr(>|t|)
-#> (Intercept) 0.004824544  0.3417468 0.0141173 181384504 0.9887364
+#>                Estimate Std. Error   t value       df Pr(>|t|)
+#> (Intercept) 0.004824544  0.3417468 0.0141173 4995.122 0.988737
 #> --------------------------------------------------------------------------------
 #> Estimated models:
 #> Math1 ~ 1 + (1 | GROUP)
@@ -168,14 +181,14 @@ m1
 
 ## Fixed effects
 m1$fixef
-#>                Estimate Std. Error   t value        df  Pr(>|t|)
-#> (Intercept) 0.004824544  0.3417468 0.0141173 181384504 0.9887364
+#>                Estimate Std. Error   t value       df Pr(>|t|)
+#> (Intercept) 0.004824544  0.3417468 0.0141173 4995.122 0.988737
 
 ## Random effects
 m1$ranef
 #>                    Estimate Std. Error   t value          df     Pr(>|t|)
-#> GROUP.(Intercept) 0.2332214 0.11973218  1.947859 2282.198284 5.155428e-02
-#> Residual          0.8132685 0.02299559 35.366280    7.250355 2.186994e-09
+#> GROUP.(Intercept) 0.2332214 0.11973218  1.947859 1545.403981 5.161268e-02
+#> Residual          0.8132685 0.02299559 35.366280    7.209681 2.386511e-09
 
 ## Models for each PV
 summary(m1$models)
@@ -206,15 +219,15 @@ m2
 #> 
 #> Random effects:
 #>                       Estimate   Std. Error    t value         df     Pr(>|t|)
-#> GROUP.(Intercept) 1.666843e-05 8.968157e-05  0.1858623 413.549345 8.526439e-01
-#> Residual          5.591163e-01 3.337543e-02 16.7523312   5.787741 3.995963e-06
+#> GROUP.(Intercept) 1.666843e-05 8.968157e-05  0.1858623 378.775859 8.526522e-01
+#> Residual          5.591163e-01 3.337543e-02 16.7523312   5.748259 4.246507e-06
 #> 
 #> Fixed effects:
 #>                Estimate Std. Error    t value       df     Pr(>|t|)
-#> (Intercept) -64.9984631 3.52733990 -18.427048 4.705471 1.440966e-05
-#> GENDER       -0.8991677 0.08072093 -11.139215 6.108438 2.761341e-05
-#> SES           0.2458968 0.06537683   3.761223 4.814884 1.408541e-02
-#> schoolSES     1.0641649 0.11767005   9.043634 4.211655 6.498273e-04
+#> (Intercept) -64.9984631 3.52733990 -18.427048 4.649334 1.589755e-05
+#> GENDER       -0.8991677 0.08072093 -11.139215 6.069540 2.885021e-05
+#> SES           0.2458968 0.06537683   3.761223 4.763040 1.436835e-02
+#> schoolSES     1.0641649 0.11767005   9.043634 4.076627 7.581044e-04
 #> --------------------------------------------------------------------------------
 #> Estimated models:
 #> Math1 ~ 1 + GENDER + SES + schoolSES + (1 | GROUP)

@@ -10,7 +10,7 @@ repse(er, e0, setup = NULL, method)
 
 repsecomp(se)
 
-pvse(PVse, PVe0, df = FALSE)
+pvse(PVse, PVe0, df = FALSE, n = NULL, k = NULL, barnardrubin = TRUE)
 ```
 
 ## Arguments
@@ -74,6 +74,19 @@ pvse(PVse, PVe0, df = FALSE)
 - df:
 
   a logical value indicating if degrees should be calculated.
+
+- n:
+
+  a numeric value indicating the sample size.
+
+- k:
+
+  a numeric value indicating the number of estimated parameters.
+
+- barnardrubin:
+
+  a logical value indicating if Barnard & Rubin adjustment should be
+  used for estimating the degrees of freedom. Default is `TRUE`.
 
 ## Value
 

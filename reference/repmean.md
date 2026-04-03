@@ -119,9 +119,8 @@ repmean(
 
   a logical value indicating if only the summary statistics should be
   printed. If `FALSE` estimations for all replicated will be provided
-  and no aggregates will be estimated. Default is `TRUE`. If `repindex`
-  is not used, estimation will be slower. This argument will be ignored
-  if `by` is used.
+  and no aggregates will be estimated. Default is `TRUE`. This argument
+  will be ignored if `by` is used.
 
 ## Value
 
