@@ -31,6 +31,7 @@ first we need to create the replicate weights. Using the included
 `repdata` data, and using the `"LANA"` method:
 
 ``` r
+
 RW <- repcreate(df = repdata,
                 wt = "wt",
                 jkzone = "jkzones",
@@ -44,6 +45,7 @@ example: one without groups, one with groups and without exclusions, and
 one with groups and exclusions (excluding group 2):
 
 ``` r
+
 # No groups
 STNG <- repsetup(repwt = RW, wt = "wt", df = repdata, method = "LANA")
 
@@ -62,6 +64,7 @@ For example, if we want to estimate the quantiles of variable `"SES"`,
 we can use either of the setups to get the overall or group results:
 
 ``` r
+
 # No groups
 repquant(x = "SES", setup = STNG, qtl = c(.25, .50, .75))
 ```
@@ -70,6 +73,7 @@ repquant(x = "SES", setup = STNG, qtl = c(.25, .50, .75))
     ## 1      SES 49.28631 0.01865 49.9748 0.01744 50.65044 0.02438
 
 ``` r
+
 # With groups
 repquant(x = "SES", setup = STGR, qtl = c(.25, .50, .75))
 ```
@@ -82,6 +86,7 @@ repquant(x = "SES", setup = STGR, qtl = c(.25, .50, .75))
     ## 5      SES       GR3 49.81225 0.03397 50.40699 0.01673 51.06328 0.03305
 
 ``` r
+
 # With groups and exclusions
 repquant(x = "SES", setup = STGE, qtl = c(.25, .50, .75))
 ```
@@ -106,6 +111,7 @@ separately). For example, for estimating the mean achievement in math
 for this sample we would use:
 
 ``` r
+
 # No groups
 repquant(x = paste0("Math",1:5), setup = STNG, qtl = c(.25, .50, .75))
 ```
@@ -116,6 +122,7 @@ repquant(x = paste0("Math",1:5), setup = STNG, qtl = c(.25, .50, .75))
     ## 1      PVs -0.68384 0.02715 0.00226 0.02279 0.69452 0.0256
 
 ``` r
+
 # With groups
 repquant(x = paste0("Math",1:5), setup = STGR, qtl = c(.25, .50, .75))
 ```

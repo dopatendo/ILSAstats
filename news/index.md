@@ -2,6 +2,8 @@
 
 ## ILSAstats 0.4.5
 
+CRAN release: 2026-04-03
+
 - Setup arguments can be overridden when calling a function.
 - Updated
   [`proflevels()`](https://dopatendo.github.io/ILSAstats/reference/proflevels.md)

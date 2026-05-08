@@ -92,6 +92,7 @@ a data frame or a list.
 ## Examples
 
 ``` r
+
 head(repdata)
 #>   GROUP ID GENDER      SES schoolSES item01 item02 item03 item04 item05 item06
 #> 1   GR1  1      0 49.46451  49.51990      4      4     NA      4     NA      3

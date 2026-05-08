@@ -9,6 +9,7 @@ with
 [`autoILSA()`](https://dopatendo.github.io/ILSAstats/reference/autoILSA.md):
 
 ``` r
+
 autoILSA()
 ```
 
@@ -74,6 +75,7 @@ We can use `timss99` data to calculate the official league table
 published in the TIMSS 1999 report using:
 
 ``` r
+
 # Only math
 leaguetable(df = timss99, study = "TIMSS", year = 1999, subject = "math")
 ```
@@ -84,6 +86,7 @@ leaguetable(df = timss99, study = "TIMSS", year = 1999, subject = "math")
     ## 3 TIMSS     G8 1999    math Taiwan 1039 590.4357 4.94637 580.7410 600.1304
 
 ``` r
+
 # Only math
 leaguetable(df = timss99, study = "TIMSS", year = 1999, subject = "science")
 ```
@@ -94,6 +97,7 @@ leaguetable(df = timss99, study = "TIMSS", year = 1999, subject = "science")
     ## 3 TIMSS     G8 1999 science Taiwan 1039 573.3537 5.09858 563.3606 583.3467
 
 ``` r
+
 # Both subjects
 leaguetable(df = timss99, study = "TIMSS", year = 1999)
 ```
@@ -113,6 +117,7 @@ to compare TIMSS 1999 to TIMSS 2023, therefore, we would need to use the
 method `"TIMSS"` instead of `"oldTIMSS"`:
 
 ``` r
+
 leaguetable(df = timss99, study = "TIMSS", year = 1999, method = "TIMSS")
 ```
 
@@ -130,6 +135,7 @@ We can calculate the difference between groups using
 [`repmeandif()`](https://dopatendo.github.io/ILSAstats/reference/repmeandif.md):
 
 ``` r
+
 leaguetable(df = timss99, study = "TIMSS", year = 1999)|>
   repmeandif()
 ```

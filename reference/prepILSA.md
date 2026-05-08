@@ -56,6 +56,7 @@ prepILSA(
 ## Examples
 
 ``` r
+
 data(timss99)
 
 head(timss99)

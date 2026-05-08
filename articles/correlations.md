@@ -43,6 +43,7 @@ first we need to create the replicate weights. Using the included
 `repdata` data, and using the `"LANA"` method:
 
 ``` r
+
 RW <- repcreate(df = repdata,
                 wt = "wt",
                 jkzone = "jkzones",
@@ -56,6 +57,7 @@ example: one without groups, one with groups and without exclusions, and
 one with groups and exclusions (excluding group 2):
 
 ``` r
+
 # No groups
 STNG <- repsetup(repwt = RW, wt = "wt", df = repdata, method = "LANA")
 
@@ -76,6 +78,7 @@ results (notice that if we do not specify the type of correlation it
 will default to `"pearson"`):
 
 ``` r
+
 # No groups
 reprho(x = c("SES","item01"), setup = STNG)
 ```
@@ -86,6 +89,7 @@ reprho(x = c("SES","item01"), setup = STNG)
     ## 1       SES    item01 -0.03101 0.01495 4483 -2.07395 0.03814
 
 ``` r
+
 # With groups
 reprho(x = c("item01","SES","item01"), setup = STGR, rho = "pearson")
 ```
@@ -108,6 +112,7 @@ reprho(x = c("item01","SES","item01"), setup = STGR, rho = "pearson")
     ## 15       SES    item01       GR3 -0.07026 0.02169 1485 -3.239700e+00 0.00122
 
 ``` r
+
 # With groups and exclusions
 reprho(x = c("SES","item01"), setup = STGE, rho = "pearson")
 ```
@@ -130,6 +135,7 @@ polychoric correlation can be obtained, for this we use the `rho`
 argument:
 
 ``` r
+
 # Pearson
 reprho(x = c("item02","item01"), setup = STGR, rho = "pearson")
 ```
@@ -142,6 +148,7 @@ reprho(x = c("item02","item01"), setup = STGR, rho = "pearson")
     ## 5    item02    item01       GR3 0.57464 0.02575 1349 22.31239      0
 
 ``` r
+
 # Spearman
 reprho(x = c("item02","item01"), setup = STGR, rho = "spearman")
 ```
@@ -154,6 +161,7 @@ reprho(x = c("item02","item01"), setup = STGR, rho = "spearman")
     ## 5    item02    item01       GR3 0.61574 0.01907 1349 32.29232      0
 
 ``` r
+
 # Polychoric
 reprho(x = c("item02","item01"), setup = STGR, rho = "polychoric")
 ```
@@ -174,6 +182,7 @@ exclude group 2, the pooled and the composite estimate changes.
 We can also estimate correlations between more than two variables:
 
 ``` r
+
 reprho(x = c("SES","item01","item02"), setup = STGR, rho = "pearson")
 ```
 
@@ -201,6 +210,7 @@ a plausible value variable we need to state the normal variables in `x`
 and plausible values variables in argument `pv`:
 
 ``` r
+
 # One variable
 reprho(x = c("SES"),
        pv = c(paste0("Math",1:5)),
@@ -215,6 +225,7 @@ reprho(x = c("SES"),
     ## 5       SES       PVs       GR3 0.24730 0.06808 1667 3.63272 0.00029
 
 ``` r
+
 # More than one variable
 reprho(x = c("SES","item01"),
        pv = c(paste0("Math",1:5)),
@@ -240,6 +251,7 @@ argument `pv` and `pv2`, when doing so `x` should be `NULL`. For
 example, to correlate math and reading achievement in `repdata`:
 
 ``` r
+
 reprho(pv = c(paste0("Math",1:5)),
        pv2 = c(paste0("Reading",1:5)),
        setup = STGR, rho = "pearson")
@@ -268,6 +280,7 @@ math and reading. For doing that, we can use the argument
 `relatedpvs=FALSE`:
 
 ``` r
+
 reprho(pv = c(paste0("Math",1:5)),
        pv2 = c(paste0("Reading",1:5)),
        relatedpvs = FALSE,
@@ -288,6 +301,7 @@ calculations if we need to, by default both estimates will be
 calculated.
 
 ``` r
+
 # Default
 reprho(pv = paste0("Math",1:5), 
        pv2 = c(paste0("Reading",1:5)), 
@@ -302,6 +316,7 @@ reprho(pv = paste0("Math",1:5),
     ## 5       GR3 -0.12351 0.05416 1667 -2.28063 0.02270
 
 ``` r
+
 # Only pooled
 reprho(pv = paste0("Math",1:5), 
        pv2 = c(paste0("Reading",1:5)), 
@@ -316,6 +331,7 @@ reprho(pv = paste0("Math",1:5),
     ## 4    GR3 -0.12351 0.05416 1667 -2.28063 0.02270
 
 ``` r
+
 # Only composite
 reprho(pv = paste0("Math",1:5), 
        pv2 = c(paste0("Reading",1:5)), 
@@ -330,6 +346,7 @@ reprho(pv = paste0("Math",1:5),
     ## 4       GR3 -0.12351 0.05416 1667 -2.28063 0.02270
 
 ``` r
+
 # No aggregates
 reprho(pv = paste0("Math",1:5), 
        pv2 = c(paste0("Reading",1:5)), 

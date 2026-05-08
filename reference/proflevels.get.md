@@ -40,6 +40,7 @@ a data frame or a list.
 ## Examples
 
 ``` r
+
 data(timss99)
 
 proflevels.get(timss99, subject = "math")

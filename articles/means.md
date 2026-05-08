@@ -41,6 +41,7 @@ first we need to create the replicate weights. Using the included
 `repdata` data, and using the `"LANA"` method:
 
 ``` r
+
 RW <- repcreate(df = repdata,
                  wt = "wt",
                  jkzone = "jkzones",
@@ -54,6 +55,7 @@ example: one without groups, one with groups and without exclusions, and
 one with groups and exclusions (excluding group 2):
 
 ``` r
+
 # No groups
 STNG <- repsetup(repwt = RW, wt = "wt", df = repdata, method = "LANA")
 
@@ -72,6 +74,7 @@ For example, if we want to estimate the mean of variable `"SES"`, we can
 use either of the setups to get the overall or group results:
 
 ``` r
+
 # No groups
 repmean(x = "SES", setup = STNG)
 ```
@@ -80,6 +83,7 @@ repmean(x = "SES", setup = STNG)
     ## 1 5000 49.96674 0.01442 1.00784 0.008 1.01574 0.01613
 
 ``` r
+
 # With groups
 repmean(x = "SES", setup = STGR)
 ```
@@ -92,6 +96,7 @@ repmean(x = "SES", setup = STGR)
     ## 5       GR3 1667 50.42334 0.02325 0.93878 0.01636 0.88130 0.03072
 
 ``` r
+
 # With groups and exclusions
 repmean(x = "SES", setup = STGE)
 ```
@@ -113,6 +118,7 @@ We can also estimate multiple variables at once, for example `"SES"` and
 `"Math1"`:
 
 ``` r
+
 # No groups
 repmean(x = c("SES","Math1"), setup = STNG)
 ```
@@ -122,6 +128,7 @@ repmean(x = c("SES","Math1"), setup = STNG)
     ## 2    Math1 5000  0.00191 0.01718 1.02336 0.00928 1.04726 0.01899
 
 ``` r
+
 # With groups
 repmean(x = c("SES","Math1"), setup = STGR)
 ```
@@ -147,6 +154,7 @@ separately). For example, for estimating the mean achievement in math
 for this sample we would use:
 
 ``` r
+
 # No groups
 repmean(x = paste0("Math",1:5), PV = TRUE, setup = STNG)
 ```
@@ -155,6 +163,7 @@ repmean(x = paste0("Math",1:5), PV = TRUE, setup = STNG)
     ## 1 5000 0.00524 0.01634 1.02282 0.01099 1.04619 0.02247
 
 ``` r
+
 # With groups
 repmean(x = paste0("Math",1:5), PV = TRUE, setup = STGR)
 ```
@@ -173,6 +182,7 @@ calculations if we need to, by default both estimates will be
 calculated.
 
 ``` r
+
 # Default
 repmean(x = paste0("Math",1:5), PV = TRUE, setup = STGR)
 ```
@@ -185,6 +195,7 @@ repmean(x = paste0("Math",1:5), PV = TRUE, setup = STGR)
     ## 5       GR3 1667  0.58917 0.03693 0.90989 0.02028 0.82799 0.03699
 
 ``` r
+
 # Only pooled
 repmean(x = paste0("Math",1:5), PV = TRUE, setup = STGR, aggregates = "pooled")
 ```
@@ -196,6 +207,7 @@ repmean(x = paste0("Math",1:5), PV = TRUE, setup = STGR, aggregates = "pooled")
     ## 4    GR3 1667  0.58917 0.03693 0.90989 0.02028 0.82799 0.03699
 
 ``` r
+
 # Only composite
 repmean(x = paste0("Math",1:5), PV = TRUE, setup = STGR, aggregates = "composite")
 ```
@@ -207,6 +219,7 @@ repmean(x = paste0("Math",1:5), PV = TRUE, setup = STGR, aggregates = "composite
     ## 4       GR3 1667  0.58917 0.03693 0.90989 0.02028 0.82799 0.03699
 
 ``` r
+
 # No aggregates
 repmean(x = paste0("Math",1:5), PV = TRUE, setup = STGR, aggregates = NULL)
 ```
@@ -223,6 +236,7 @@ argument `by`. For example, for estimating the mean achievement in math
 between `GENDER==0` and `GENDER==1`, we can:
 
 ``` r
+
 repmean(x = paste0("Math",1:5), PV = TRUE, setup = STNG,by = "GENDER")
 ```
 
@@ -249,6 +263,7 @@ means between all categories.
 Of course, we can also estimate this using groups:
 
 ``` r
+
 repmean(x = paste0("Math",1:5), PV = TRUE, setup = STGR, aggregates = NULL,
         by = "GENDER")
 ```
@@ -287,6 +302,7 @@ The only argument of this function will be an object produced by
 `repmean` (using or not using `by`):
 
 ``` r
+
 m1 <- repmean(x = paste0("Math",1:5), PV = TRUE, setup = STGR, aggregates = NULL,
         by = NULL)
 
@@ -295,6 +311,7 @@ m2 <- repmean(x = paste0("Math",1:5), PV = TRUE, setup = STGR, aggregates = NULL
 ```
 
 ``` r
+
 repmeandif(m1)
 ```
 
@@ -310,6 +327,7 @@ repmeandif(m1)
     ## 9    GR3    GR3  0.00000 0.05222   0.00000 3332      1
 
 ``` r
+
 repmeandif(m2)
 ```
 
@@ -359,6 +377,7 @@ we can use
 selecting a confidence level (by default it is 0.05):
 
 ``` r
+
 repmeanCI(m1, alpha = 0.05)
 ```
 
@@ -368,6 +387,7 @@ repmeanCI(m1, alpha = 0.05)
     ## 3   GR3 1667  0.58917 0.03693  0.51680  0.66155 0.90989 0.02028 0.82799 0.03699
 
 ``` r
+
 repmeanCI(m2, alpha = 0.05)
 ```
 
@@ -401,6 +421,7 @@ We can also not add the confidence intervals, just obtain them
 separately:
 
 ``` r
+
 repmeanCI(m1, alpha = 0.05, add = FALSE)
 ```
 

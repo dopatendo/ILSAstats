@@ -5,12 +5,14 @@
 You can install the stable version of `ILSAstats` directly from CRAN:
 
 ``` r
+
 install.packages("ILSAstats")
 ```
 
 Or, if you wish to install the development version of `ILSAstats`:
 
 ``` r
+
 remotes::install_github("dopatendo/ILSAstats")
 ```
 

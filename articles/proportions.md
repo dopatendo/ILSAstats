@@ -31,6 +31,7 @@ first we need to create the replicate weights. Using the included
 `repdata` data, and using the `"LANA"` method:
 
 ``` r
+
 RW <- repcreate(df = repdata,
                  wt = "wt",
                  jkzone = "jkzones",
@@ -44,6 +45,7 @@ example: one without groups, one with groups and without exclusions, and
 one with groups and exclusions (excluding group 2):
 
 ``` r
+
 # No groups
 STNG <- repsetup(repwt = RW, wt = "wt", df = repdata, method = "LANA")
 
@@ -63,6 +65,7 @@ variable `"GENDER"`, we can use either of the setups to get the overall
 or group results:
 
 ``` r
+
 # No groups
 repprop(x = "GENDER", setup = STNG)
 ```
@@ -76,6 +79,7 @@ repprop(x = "GENDER", setup = STNG)
     ## 1 2517 0.50465 0.00773 0.49535    0.00929      0.01546   0.6012
 
 ``` r
+
 # With groups
 repprop(x = "GENDER", setup = STGR)
 ```
@@ -97,6 +101,7 @@ repprop(x = "GENDER", setup = STGR)
     ## 5       GR3  849 0.50966 0.01465 0.49034    0.01932      0.02931  0.65928
 
 ``` r
+
 # With groups and exclusions
 repprop(x = "GENDER", setup = STGE)
 ```
@@ -131,6 +136,7 @@ single data frame using
 [`repprop.table()`](https://dopatendo.github.io/ILSAstats/reference/repprop.table.md):
 
 ``` r
+
 p1 <- repprop(x = "GENDER", setup = STGR)
 
 repprop.table(x = p1)
@@ -155,6 +161,7 @@ are separated by columns or by rows, and combined or not the proportion
 estimates with the standard errors:
 
 ``` r
+
 # Groups by rows, separate SE
 repprop.table(x = p1, type = "wide1")
 ```
@@ -176,6 +183,7 @@ repprop.table(x = p1, type = "wide1")
     ## 5       GR3 0.01465 0.01465
 
 ``` r
+
 # Groups by rows, non-separate SE
 repprop.table(x = p1, type = "wide1", separateSE = FALSE)
 ```
@@ -188,6 +196,7 @@ repprop.table(x = p1, type = "wide1", separateSE = FALSE)
     ## 5       GR3 0.49034 0.01465 0.50966 0.01465
 
 ``` r
+
 # Groups by columns, separate SE
 repprop.table(x = p1, type = "wide2")
 ```
@@ -203,6 +212,7 @@ repprop.table(x = p1, type = "wide2")
     ## 4        1 0.007729275 0.007738154 0.01297812 0.01248006 0.01465359
 
 ``` r
+
 # Groups by columns, non-separate SE
 repprop.table(x = p1, type = "wide2", separateSE = FALSE)
 ```
@@ -223,6 +233,7 @@ math we would use:
 mean achievement in math for this sample we would use:
 
 ``` r
+
 # No groups
 repprop(x = paste0("CatMath",1:5), setup = STNG)|>
 repprop.table(type = "wide2")
@@ -245,6 +256,7 @@ repprop.table(type = "wide2")
     ## 8        4 0.006739155
 
 ``` r
+
 # With groups
 repprop(x = paste0("CatMath",1:5), setup = STGR)|>
 repprop.table(type = "wide2")
@@ -273,6 +285,7 @@ calculations if we need to, by default both estimates will be
 calculated.
 
 ``` r
+
 # Default
 repprop(x = paste0("CatMath",1:5), setup = STGR)|>
 repprop.table(type = "wide2",separateSE = FALSE)
@@ -291,6 +304,7 @@ repprop.table(type = "wide2",separateSE = FALSE)
     ## 8        4        se 0.006739155 0.008037791 0.006531979 0.01193100 0.01991078
 
 ``` r
+
 # Only pooled
 repprop(x = paste0("CatMath",1:5), setup = STGR, aggregates = "pooled")|>
 repprop.table(type = "wide2",separateSE = FALSE)
@@ -309,6 +323,7 @@ repprop.table(type = "wide2",separateSE = FALSE)
     ## 8        4        se 0.006739155 0.006531979 0.01193100 0.01991078
 
 ``` r
+
 # Only composite
 repprop(x = paste0("CatMath",1:5), setup = STGR, aggregates = "composite")|>
 repprop.table(type = "wide2",separateSE = FALSE)
@@ -327,6 +342,7 @@ repprop.table(type = "wide2",separateSE = FALSE)
     ## 8        4        se 0.008037791 0.006531979 0.01193100 0.01991078
 
 ``` r
+
 # No aggregates
 repprop(x = paste0("CatMath",1:5), setup = STGR, aggregates = NULL)|>
 repprop.table(type = "wide2",separateSE = FALSE)

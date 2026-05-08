@@ -10,6 +10,7 @@ For example, using the data `timss99`, we can find the variables
 `"JKZONE"`, `"JKREP"`, and `"TOTWGT"`:
 
 ``` r
+
 colnames(repdata)
 ```
 
@@ -58,6 +59,7 @@ So, now knowing our options we can use `timss99` data and
 for creating the replicate weights:
 
 ``` r
+
 RW1 <- repcreate(df = timss99,
                 jkzone = "JKZONE",
                 jkrep = "JKREP",
@@ -69,18 +71,21 @@ We can see that this new object is a data frame with 75 columns
 (representing the 75 replications):
 
 ``` r
+
 class(RW1)
 ```
 
     ## [1] "data.frame"
 
 ``` r
+
 ncol(RW1)
 ```
 
     ## [1] 75
 
 ``` r
+
 head(colnames(RW1))
 ```
 
@@ -96,6 +101,7 @@ To check which ILSA information is included we can use
 `ILSAinfo$weights`:
 
 ``` r
+
 ILSAinfo$weights
 ```
 
@@ -149,12 +155,14 @@ So, for our TIMSS 1999 case, we would need to specify the name of the
 study, the cycle and the data:
 
 ``` r
+
 RW2 <- repcreateILSA(study = "TIMSS",year = 1999,df = timss99)
 ```
 
 This will produce the same results as `RW1`:
 
 ``` r
+
 identical(RW1,RW2)
 ```
 

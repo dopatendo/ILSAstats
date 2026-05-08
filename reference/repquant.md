@@ -97,6 +97,7 @@ a data frame or a list.
 ## Examples
 
 ``` r
+
 RWT <- repcreate(df = repdata, # the data frame with all the information
                  wt = "wt", # the total weights column name
                  jkzone = "jkzones", # the jkzones column name
