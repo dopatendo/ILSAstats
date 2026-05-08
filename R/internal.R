@@ -47,9 +47,22 @@ untidy <- function(x, mistoNAs = TRUE){
 
 .untidy <- function(x, mistoNAs = TRUE){
   out <- x
+  # out <- lapply(1:ncol(x),function(X){
+  #
+  #   as.vector(out[,X,drop = TRUE])
+  #
+  # })
   out <- lapply(1:ncol(x),function(X){
 
-    as.vector(out[,X,drop = TRUE])
+    ve <- out[,X,drop = TRUE]
+
+    if(inherits(ve,"factor"))
+      return(factor(as.vector(ve),levels = levels(ve)))
+
+
+    return(as.vector(ve))
+
+
 
   })
 
