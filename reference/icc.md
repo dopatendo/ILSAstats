@@ -63,15 +63,36 @@ icc(x, PV = FALSE, group, data, weights = NULL, ...)
       response on the left of a `~` operator and the terms, separated by
       `+` operators, on the right. Random-effects terms are
       distinguished by vertical bars (`|`) separating expressions for
-      design matrices from grouping factors. Two vertical bars (`||`)
-      can be used to specify multiple uncorrelated random effects for
-      the same grouping variable. (Because of the way it is implemented,
-      the `||`-syntax *works only for design matrices containing numeric
-      (continuous) predictors*; to fit models with independent
-      categorical effects, see
-      [`dummy`](https://rdrr.io/pkg/lme4/man/dummy.html) or the
-      `lmer_alt` function from the
-      [afex](https://CRAN.R-project.org/package=afex) package.)
+      design matrices from grouping factors. By default, non-scalar
+      random effects (where the design matrix has more than one column,
+      e.g. `(1+x|f)`) are fitted with *unstructured* (general positive
+      semidefinite) covariance matrices.
+
+      - Two vertical bars (`||`) can be used to specify multiple
+        uncorrelated random effects for the same grouping variable. With
+        default settings, the `||`-syntax *works only for design
+        matrices containing numeric (continuous) predictors*; to fit
+        models with independent categorical effects, use `diag(f|g)` or
+        set `options(lme4.doublevert.default = "diag_special")` (see
+        [`getDoublevertDefault`](https://rdrr.io/pkg/lme4/man/getDoublevertDefault.html)).
+
+      - Tags preceding a random effect term specify covariance
+        structure:
+
+        - `us` (default: `us(f|g)` is equivalent to `(f|g)`):
+          unstructured, positive semi-definite
+
+        - `diag`: diagonal (all correlations set to zero). Specify
+          `diag(f|g, hom = TRUE)` to fit a homogeneous diagonal
+          covariance matrix
+
+        - `cs`: compound symmetric (all pairwise correlations set
+          identical). Specify `cs(f|g, hom = TRUE)` for homogeneous
+          variances.
+
+        - `ar1`: autoregressive order 1. Note that AR1 models are
+          homogeneous by default; specify `ar1(f|g, hom = FALSE)` for
+          heterogeneous variances.
 
   `REML`
 
@@ -91,9 +112,14 @@ icc(x, PV = FALSE, group, data, weights = NULL, ...)
 
   `start`
 
-  :   a named [`list`](https://rdrr.io/r/base/list.html) of starting
-      values for the parameters in the model. For `lmer` this can be a
-      numeric vector or a list with one component named `"theta"`.
+  :   a numeric vector or a named
+      [list](https://rdrr.io/r/base/list.html) with one optional
+      component named `par` or `theta`, giving starting values for
+      covariance parameters. Numeric `start` is equivalent to
+      `list(par = start)`. Parameters corresponding to unstructured
+      covariance matrices are on the scale of the Cholesky factor of the
+      relative covariance matrix. By default, all relative covariance
+      matrices are identity matrices.
 
   `verbose`
 

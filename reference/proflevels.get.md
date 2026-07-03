@@ -16,16 +16,16 @@ proflevels.get(df, study = NULL, subject = NULL, combine = TRUE)
 
 - study:
 
-  an optional character vector indicating the ILSA name, for a list of
-  available ILSA, check
+  an optional string indicating the ILSA name, for a list of available
+  ILSA, check
   [`autoILSA`](https://dopatendo.github.io/ILSAstats/reference/autoILSA.md).
   If `NULL`, the ILSA name will be determined by the column names in the
   data frame.
 
 - subject:
 
-  an optional character vector indicating the subject for a list of
-  available ILSA, check
+  an optional string indicating the subject from a list of available
+  ILSA, check
   [`autoILSA`](https://dopatendo.github.io/ILSAstats/reference/autoILSA.md).
 
 - combine:

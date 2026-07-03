@@ -65,6 +65,7 @@ Arguments <code>method</code>, and <code>reps</code>, are extracted from
 <span>  study <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">year</span>,</span>
 <span>  subject <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  specification <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  method <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  reps <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"long"</span>, <span class="st">"wide1"</span>, <span class="st">"wide2"</span><span class="op">)</span>,</span>
@@ -83,7 +84,7 @@ Arguments <code>method</code>, and <code>reps</code>, are extracted from
 
 
 <dt id="arg-study">study<a class="anchor" aria-label="anchor" href="#arg-study"></a></dt>
-<dd><p>an optional character vector indicating the ILSA name, for a list of available
+<dd><p>an optional string indicating the ILSA name, for a list of available
 ILSA, check <code><a href="autoILSA.html">autoILSA</a></code>. If <code>NULL</code>, the ILSA name will be determined
 by the column names in the data frame.</p></dd>
 
@@ -94,8 +95,13 @@ cycles, check <code><a href="autoILSA.html">autoILSA</a></code>.</p></dd>
 
 
 <dt id="arg-subject">subject<a class="anchor" aria-label="anchor" href="#arg-subject"></a></dt>
-<dd><p>an optional character vector indicating the subject for a list of available
+<dd><p>an optional string indicating the subject from a list of available
 ILSA, check <code><a href="autoILSA.html">autoILSA</a></code>.</p></dd>
+
+
+<dt id="arg-specification">specification<a class="anchor" aria-label="anchor" href="#arg-specification"></a></dt>
+<dd><p>a character value indicating extra specification like grade
+(e.g., <code>"G8"</code> for TIMSS) or subject (e.g., <code>"Math"</code> for TIMSSADVANCED).</p></dd>
 
 
 <dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>

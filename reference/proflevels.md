@@ -13,6 +13,7 @@ proflevels(
   study = NULL,
   year,
   subject = NULL,
+  specification = NULL,
   method = NULL,
   reps = NULL,
   type = c("long", "wide1", "wide2"),
@@ -30,8 +31,8 @@ proflevels(
 
 - study:
 
-  an optional character vector indicating the ILSA name, for a list of
-  available ILSA, check
+  an optional string indicating the ILSA name, for a list of available
+  ILSA, check
   [`autoILSA`](https://dopatendo.github.io/ILSAstats/reference/autoILSA.md).
   If `NULL`, the ILSA name will be determined by the column names in the
   data frame.
@@ -44,9 +45,14 @@ proflevels(
 
 - subject:
 
-  an optional character vector indicating the subject for a list of
-  available ILSA, check
+  an optional string indicating the subject from a list of available
+  ILSA, check
   [`autoILSA`](https://dopatendo.github.io/ILSAstats/reference/autoILSA.md).
+
+- specification:
+
+  a character value indicating extra specification like grade (e.g.,
+  `"G8"` for TIMSS) or subject (e.g., `"Math"` for TIMSSADVANCED).
 
 - method:
 
