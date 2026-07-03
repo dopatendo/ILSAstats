@@ -9,6 +9,7 @@ proflevels(
   study = NULL,
   year,
   subject = NULL,
+  specification = NULL,
   method = NULL,
   reps = NULL,
   type = c("long", "wide1", "wide2"),
@@ -20,15 +21,18 @@ proflevels(
 \arguments{
 \item{df}{a data frame.}
 
-\item{study}{an optional character vector indicating the ILSA name, for a list of available
+\item{study}{an optional string indicating the ILSA name, for a list of available
 ILSA, check \code{\link{autoILSA}}. If \code{NULL}, the ILSA name will be determined
 by the column names in the data frame.}
 
 \item{year}{a numeric vector indicating the ILSA name, for a list of available
 cycles, check \code{\link{autoILSA}}.}
 
-\item{subject}{an optional character vector indicating the subject for a list of available
+\item{subject}{an optional string indicating the subject from a list of available
 ILSA, check \code{\link{autoILSA}}.}
+
+\item{specification}{a character value indicating extra specification like grade
+(e.g., \code{"G8"} for TIMSS) or subject (e.g., \code{"Math"} for TIMSSADVANCED).}
 
 \item{method}{a string indicating the name of the replication method.
 Available options are:

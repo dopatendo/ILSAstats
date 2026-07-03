@@ -15,7 +15,6 @@ Encoding: UTF-8
 LazyData: true
 LazyDataCompression: xz
 BuildResaveData: best
-RoxygenNote: 7.3.3
 Suggests: 
     wCorr,
     lme4,
@@ -27,3 +26,4 @@ Depends: R (>= 3.5.0)
 License: GPL (>= 3)
 VignetteBuilder: knitr
 URL: https://dopatendo.github.io/ILSAstats/
+Config/roxygen2/version: 8.0.0

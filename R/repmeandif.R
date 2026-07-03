@@ -52,7 +52,8 @@ repmeandif <- function(x){
 
   returnis(isrep.meansingle,x)
 
-  goco = "Composite"%in%unique(c(x$group1,x$group2))
+  # goco = "Composite"%in%unique(c(x$group1,x$group2))
+  goco = "Composite"%in%unique(x$group)
 
   # returnis(isrepmean,x)
 
@@ -81,8 +82,14 @@ repmeandif <- function(x){
     grs <- zou3
     grs <- grs[!grs$group%in%exc,]
     grs <- grs[!is.na(grs$mean),]
-    mult <- ((nrow(grs))**2-1)/(nrow(grs)**2)
-    comp <- sqrt(x[2,'se']**2+mult*grs[,'se']**2)
+    C <- nrow(grs)
+    se2 <- grs[,'se']**2
+    mult <- ((C-1)**2-1)/(C**2)
+
+    comp <- sqrt(sum(se2/C**2)+mult*se2)
+    # comp <- rep(1,C)
+
+    # comp <- sqrt(x[2,'se']**2+mult*grs[,'se']**2)
   }
 
 
@@ -139,27 +146,45 @@ repmeandif <- function(x){
 
 
   if(goco){
-    mdiftot <- mdif[mdif$group1!='Composite',]
-    mdifcom <- mdif[mdif$group1=='Composite',]
+    # mdiftot <- mdif[mdif$group1!='Composite',]
+    # mdifcom <- mdif[mdif$group1=='Composite',]
+
 
     # group 1
 
-    mcom <- mdifcom[mdifcom$group2%in%grs$group,]
+    G1 <- mdif$group1=='Composite'&mdif$group2!='Composite'
+    G1 <- G1&((!mdif$group1%in%exc)&(!mdif$group2%in%exc))
+    mdif[G1,"se"] <- comp
+    mdif[G1,"tvalue"] <- mdif[G1,"dif"]/comp
 
-    mcom$se <- comp
-    mcom$tvalue <- mcom$dif/comp
 
-    out <- rbind.data.frame(mcom,mdiftot)
+    # group 1
 
-    # group 2
+    G2 <- mdif$group2=='Composite'&mdif$group1!='Composite'
+    G2 <- G2&((!mdif$group1%in%exc)&(!mdif$group2%in%exc))
+    mdif[G2,"se"] <- comp
+    mdif[G2,"tvalue"] <- mdif[G2,"dif"]/comp
 
-    ## remove non comparable
+    out = mdif
 
-    out = out[!((!out$group1%in%grs$group)&out$group2=='Composite'),]
-
-    ## add group2
-    out[out$group2=='Composite',"se"] <- comp
-    out[out$group2=='Composite',"tvalue"] <- mcom$dif/comp
+    # # group 1
+    #
+    # mcom <- mdifcom[mdifcom$group2%in%grs$group,]
+    #
+    # mcom$se <- comp
+    # mcom$tvalue <- mcom$dif/comp
+    #
+    # out <- rbind.data.frame(mcom,mdiftot)
+    #
+    # # group 2
+    #
+    # ## remove non comparable
+    #
+    # out = out[!((!out$group1%in%grs$group)&out$group2=='Composite'),]
+    #
+    # ## add group2
+    # out[out$group2=='Composite',"se"] <- comp
+    # out[out$group2=='Composite',"tvalue"] <- mcom$dif/comp
   }else{
     out = mdif
   }

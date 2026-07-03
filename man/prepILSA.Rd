@@ -16,7 +16,7 @@ prepILSA(
 \arguments{
 \item{df}{a data frame.}
 
-\item{study}{an optional character vector indicating the ILSA name, for a list of available
+\item{study}{an optional string indicating the ILSA name, for a list of available
 ILSA, check \code{\link{autoILSA}}. If \code{NULL}, the ILSA name will be determined
 by the column names in the data frame.}
 
