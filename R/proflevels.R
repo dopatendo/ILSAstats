@@ -23,6 +23,7 @@
 
 proflevels <- function(df,
                        study = NULL, year, subject = NULL,
+                       specification = NULL,
                        method = NULL, reps = NULL,
                        type = c("long","wide1","wide2"),
                        separateSE = TRUE,
@@ -153,6 +154,36 @@ proflevels <- function(df,
   }else{
     cou <- unique(ili$country)
   }
+
+
+  ## 6 - specification ----
+  study2 <- specification
+
+
+
+
+
+  if(!is.null(study2)){
+
+    # specification = "-"
+    returnisNULL(ischaval,specification)
+    returnisNULL(isinvec,x = specification,choices = sort(unique(ili$study2)))
+
+    study2 <- toupper(study2)
+    ili <- ili[toupper(ili$study2)%in%study2,]
+
+  }else{
+
+    if(length(unique(ili$study2))>1){
+      # specification = NULL
+      returnisNULL(ischaval,specification)
+      returnis(isinvec,specification,c(ili$study2))
+      # specification <- unique(ili$study2)
+      # returnis(ischaval,specification)
+    }
+
+  }
+
 
 
   # Fixdata -----------------------------------------------------------------
