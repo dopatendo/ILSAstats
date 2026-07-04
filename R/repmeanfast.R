@@ -732,6 +732,8 @@ summary.repmean.complex <- function(object,...){
       attributes(outi)$excluded <- exclude
     }
 
+    attributes(out)$categories <- uby
+
 
     out[[i+1]] <- outi
 
@@ -966,6 +968,8 @@ summary.repmean.complex <- function(object,...){
     attributes(out)$groups <- TRUE
     attributes(out)$excluded <- exclude
   }
+
+  attributes(out)$categories <- uby
 
   return(out)
 }

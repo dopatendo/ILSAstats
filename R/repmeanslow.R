@@ -775,6 +775,8 @@ repmeanslow <- function(x,
     attributes(out)$excluded <- exclude
   }
 
+  attributes(out)$categories <- uby
+
   return(out)
 }
 
@@ -950,6 +952,8 @@ repmeanslow <- function(x,
     attributes(out)$groups <- TRUE
     attributes(out)$excluded <- exclude
   }
+
+  attributes(out)$categories <- uby
 
   return(out)
 }
