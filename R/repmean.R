@@ -635,6 +635,7 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt = NULL, repindex = NULL,
       attributes(outi)$excluded <- exclude
     }
 
+    attr(outi,"categories") <- bys
 
     outi
 
@@ -649,7 +650,7 @@ repmean <- function(x, PV = FALSE, setup = NULL, repwt = NULL, repindex = NULL,
     attributes(out)$excluded <- exclude
   }
 
-
+  attr(out,"categories") <- bys
 
   # class(out) <- c(class(out),"repmean")
   #
