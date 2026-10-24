@@ -1,5 +1,5 @@
 pandoc: 3.8.3
-pkgdown: 2.2.0
+pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   correlations: correlations.html
@@ -9,7 +9,7 @@ articles:
   quantiles: quantiles.html
   repweights: repweights.html
   setup: setup.html
-last_built: 2026-07-04T02:29Z
+last_built: 2026-10-24T20:22Z
 urls:
   reference: https://dopatendo.github.io/ILSAstats/reference
   article: https://dopatendo.github.io/ILSAstats/articles

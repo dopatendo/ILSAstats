@@ -1,5 +1,10 @@
 # Changelog
 
+## ILSAstats 0.4.6
+
+- Fixed incorrect linear regression coefficient standard error when 1 or
+  more replications did not have an estimate.
+
 ## ILSAstats 0.4.5
 
 CRAN release: 2026-04-03
