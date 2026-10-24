@@ -184,13 +184,13 @@ replm <- function(formula, pvs = NULL, relatedpvs = TRUE, quiet = FALSE,
 
       nfo <- lapply(1:nrow(pvs),function(i){
         out <- (do.call(substitute,list(formula,as.list(pvs[i,,drop = FALSE]))))
-        stats::as.formula(gsub("\"","",deparse(out)))
+        stats::as.formula(paste0(gsub("\"","",deparse(out)),collapse = " "))
       })
     }else{
       pvs <- expand.grid(pvs,stringsAsFactors = FALSE)
       nfo <- lapply(1:nrow(pvs),function(i){
         out <- (do.call(substitute,list(formula,c(pvs[i,]))))
-        stats::as.formula(gsub("\"","",deparse(out)))
+        stats::as.formula(paste0(gsub("\"","",deparse(out)),collapse = " "))
       })
     }
 
@@ -296,7 +296,52 @@ replm <- function(formula, pvs = NULL, relatedpvs = TRUE, quiet = FALSE,
       if(ncol(tc)==1){colnames(tc) <- "(Intercept)"}
 
       # Rep coef
-      rc <- lapply(estm,function(i) do.call(rbind,i[-1]))
+      # rc <- lapply(estm,function(i) do.call(rbind,i[-1]))
+
+      notok <- sapply(estm[[1]][-1],length)
+      notok <- sum((max(notok)-notok)>0)
+      rc <- lapply(estm,function(i){
+        ncn <- (rownames(coef(i[[1]])))
+
+        do.call(rbind,
+                lapply(i[-1],function(j){
+                  if(all(ncn%in%names(j)))
+                    return(j)
+
+
+                  sdi <- setdiff(ncn,names(j))
+                  j2 <- c(j,rep(NA,length(sdi)))
+                  names(j2) <- c(names(j),sdi)
+                  j2[ncn]
+
+                }))
+      })
+
+      if(notok>0){
+
+        if(is.null(UGR)|length(UGR)==1){
+          badgr <- ""
+        }else{
+
+          if("pooled"%in%aggregates){
+            if(k==1){
+              badgr <- "Pooled data: "
+            }else{
+              badgr <- paste0(UGR[k-1],": ")
+            }
+          }else{
+            badgr <- paste0(UGR[k],": ")
+          }
+
+
+        }
+
+
+
+        warning(paste0(badgr,notok," replication",
+                       ifelse(notok>1,"s do"," does"),
+                       " not have estimates for all variables."),call. = FALSE)
+      }
 
 
       # Standard errors ---------------------------------------------------------

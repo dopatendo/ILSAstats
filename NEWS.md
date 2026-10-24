@@ -1,3 +1,6 @@
+# ILSAstats 0.4.6
+- Fixed incorrect linear regression coefficient standard error when 1 or more replications did not have an estimate.
+
 # ILSAstats 0.4.5
 - Setup arguments can be overridden when calling a function.
 - Updated `proflevels()` for replicate weights by index.
